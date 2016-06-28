@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_background"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/layout"
+        layout="@layout/header_toolbar"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="49dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp">
+
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/message_title"
+                    android:textColor="@color/black_text" />
+
+
+                <EditText
+                    android:layout_weight="4"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:hint="@string/hint_message_title"
+                    android:textColor="@color/gray_text"
+                    android:phoneNumber="true"
+                    android:textSize="14sp"
+                    android:id="@+id/msg_title" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray_background" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="49dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp">
+
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/message_content"
+                    android:textColor="@color/black_text" />
+
+                <EditText
+                    android:layout_weight="4"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:hint="@string/hint_message_content"
+                    android:textColor="@color/gray_text"
+                    android:textSize="14sp"
+                    android:id="@+id/msg_content" />
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,109 @@
+package com.android.qrcode.Manage;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.base.BaseAppCompatActivity;
+import com.android.mylibrary.model.OwnerListBean;
+import com.android.mylibrary.model.SortModel;
+import com.android.qrcode.R;
+import com.android.utils.TextUtil;
+
+import butterknife.Bind;
+
+/**
+ * Created by liujunqin on 2016/6/14.
+ */
+public class OwnerDetailActivity extends BaseAppCompatActivity implements View.OnClickListener{
+
+
+    @Bind(R.id.toolbar)
+    Toolbar toolBar;
+    @Bind(R.id.toolbar_title)
+    TextView toolbar_title;
+    @Bind(R.id.add_img)
+    ImageView add_img;
+
+    @Bind(R.id.name)
+    TextView name;
+    @Bind(R.id.phone_num)
+    TextView phone_num;
+    @Bind(R.id.sex)
+    TextView sex;
+
+    private SortModel sortModel;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.owner_detail);
+
+    }
+
+    @Override
+    public void initView() {
+        toolBar.setTitle("");
+        toolbar_title.setText(R.string.add_owner_detail_str);
+        setSupportActionBar(toolBar);
+        toolBar.setNavigationIcon(R.mipmap.back);
+        add_img.setImageResource(R.mipmap.submit);
+        add_img.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void initData() {
+
+
+        sortModel =(SortModel) getIntent().getSerializableExtra("Model");
+        name.setText(sortModel.getName());
+        phone_num.setText("手机号码：   "+sortModel.getPhoneNum());
+
+        if("0".equals(sortModel.getSex())){
+
+            sex.setText("性   别：   "+"男");
+        }else{
+
+            sex.setText("性   别：   "+"女");
+        }
+    }
+
+    @Override
+    public void setListener() {
+
+        add_img.setOnClickListener(this);
+        toolBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                finish();
+            }
+        });
+
+    }
+
+
+    @Override
+    public void onClick(View view) {
+
+        switch (view.getId()){
+
+            //case R.id.add_img:
+
+
+            //    break;
+
+            default:
+                break;
+
+        }
+    }
+
+}

@@ -1,0 +1,118 @@
+<resources>
+    <string name="app_name">QrCode</string>
+
+    <!--toolbar常量声明-->
+    <string name="menu_search">search</string>
+    <string name="menu_notifications">添加成员</string>
+    <string name="menu_settings">切换集群</string>
+    <string name="menu_about_us">about_us</string>
+    <string name="home_page">home_page</string>
+
+    <string name="icon">icon</string>
+
+    <!--tab title-->
+    <string name="manage_title">管理</string>
+    <string name="card_title">房卡</string>
+    <string name="quick_title">快捷房卡</string>
+    <string name="account_title">用户</string>
+    <string name="setting_title">设置</string>
+
+
+    <!--Tenement-->
+    <string name="tenement_kind">类型</string>
+    <string name="tenement_address">地址</string>
+    <string name="tenement_link_people">联系人</string>
+    <string name="tenement_link_num">电话</string>
+    <string name="tenement_my_role">我的角色</string>
+    <string name="tenement_gate_set">门锁设置</string>
+    <string name="tenement_gate_key">门锁秘钥</string>
+    <string name="tenement_gate_start">启用时间周期</string>
+    <string name="tenement_gate_manage">管理时间周期</string>
+
+
+    <!--Manage-->
+    <string name="owner_manage_str">业主管理</string>
+    <string name="tenement_manage_str">物业管理</string>
+    <string name="car_manage_str">微卡管理</string>
+    <string name="owner_apply_manage_str">业主认证申请管理</string>
+    <string name="house_manage_str">楼栋管理</string>
+    <string name="add_owner_str">添加业主</string>
+    <string name="add_owner_phone_str">手机号码</string>
+    <string name="add_owner_name_str">"姓       名"</string>
+    <string name="add_owner_sex_str">"性       别"</string>
+    <string name="add_owner_hint_num_str">"请输入号码"</string>
+    <string name="add_owner_hint_name_str">"请输入姓名"</string>
+    <string name="add_owner_man_str">"男"</string>
+    <string name="add_owner_woman_str">"女"</string>
+    <string name="add_owner_detail_str">详细资料</string>
+    <string name="add_owner_open_str">开门权限</string>
+    <string name="search">搜索</string>
+    <string name="device_repair">设备报修</string>
+    <string name="complain">业主投诉</string>
+    <string name="message_push">信息公告推送</string>
+    <string name="message_title">消息标题</string>
+    <string name="message_content">消息内容</string>
+    <string name="hint_message_title">请输入消息标题</string>
+    <string name="hint_message_content">请输入消息内容</string>
+    <string name="card_certification">房卡认证</string>
+    <string name="card_certification_desc">"设置说明：\n
+        1.将授权卡对准门禁，如果设置成功，将听到“滴..滴 ”\n
+        2.将配置卡对准门禁，如果成功，将听到“滴”一声\n
+        3.你可以通过右上角授权与配置设置卡"</string>
+
+    <string name="apply_manage">认证管理</string>
+
+    <!--account-->
+    <string name="log_title">往来日志</string>
+
+    <!--set-->
+    <string name="psw_reset">密码修改</string>
+    <string name="user_name_reset">用户名修改</string>
+    <string name="feedback">意见反馈</string>
+    <string name="link_people">联系客服</string>
+    <string name="about">关于</string>
+    <string name="loginout">退出登录</string>
+    <string name="old_pwd">原始密码</string>
+    <string name="new_pwd">"新密码    "</string>
+    <string name="comfirm_pwd">确认密码</string>
+    <string name="submit">确认修改</string>
+    <string name="user_name">用户名</string>
+    <string name="idea">意见</string>
+    <string name="feed_back_submit">提交</string>
+
+
+    <!--QuickCard-->
+    <string name="house_desc">西滨小区1号楼房卡</string>
+    <!--card-->
+    <string name="house_card">房卡</string>
+
+
+
+    <!--SubManage-->
+    <string name="sub_tenement_manage_str">小区管理员管理</string>
+    <string name="sub_community_manage_str">小区管理</string>
+    <string name="sub_certificate_manage_str">认证管理</string>
+    <string name="sub_data_manage_str">数据统计</string>
+    <string name="sub_community_str">小区</string>
+    <string name="sub_add_tenement_str">添加成员</string>
+
+    <!--<string name="search">搜索：</string>-->
+    <string name="province">省份：</string>
+    <string name="region">地区：</string>
+    <string name="County">县区：</string>
+    <string name="street">街道：</string>
+    <string name="village">小区：</string>
+    <string name="building_no">栋号：</string>
+    <string name="unit">单元：</string>
+    <string name="room_number">房号：</string>
+    <string name="mobile_phone">手机：</string>
+    <string name="full_name">姓名：</string>
+    <string name="comfirm">确认</string>
+    <string name="add_community_str">添加小区</string>
+
+    <!--login-->
+    <string name="intput_psw">1234567890.,zxcvbnmasdfghjklqwertyuiopZXCVBNMASDFGHJKLQWERTYUIOP</string>
+    <string name="register_title">注册</string>
+    <string name="forget_pwd_title">忘记密码</string>
+    <string name="forget_pwd_title_next">下一步</string>
+</resources>

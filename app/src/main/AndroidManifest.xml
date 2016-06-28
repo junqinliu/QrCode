@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.android.qrcode" >
+
+    <!-- 访问Internet权限 -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme" >
+
+        <activity
+            android:name=".HomeActivity"
+            android:theme="@style/AppThemeToolbar"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".LoginActivity"
+            android:theme="@style/AppThemeToolbar">
+        </activity>
+
+        <activity
+            android:name=".RegisterActivity"
+            android:theme="@style/AppThemeToolbar">
+        </activity>
+
+        <activity
+            android:name=".PwdForgetActivity"
+            android:theme="@style/AppThemeToolbar">
+        </activity>
+        <activity
+            android:name=".PwdForgetNextActivity"
+            android:theme="@style/AppThemeToolbar">
+        </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppThemeToolbar"
+           >
+           <!-- <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>-->
+        </activity>
+        <activity
+            android:name=".SubMainActivity"
+            android:theme="@style/AppThemeToolbar"
+           >
+           <!-- <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>-->
+        </activity>
+
+           <activity
+               android:name=".Manage.HouseManageListActivity"
+               android:theme="@style/AppThemeToolbar">
+
+           </activity>
+           <activity
+               android:name=".Manage.OwnerManageListActivity"
+               android:theme="@style/AppThemeToolbar">
+
+           </activity>
+           <activity
+               android:name=".Manage.AddOwnerActivity"
+               android:theme="@style/AppThemeToolbar">
+
+           </activity>
+           <activity
+               android:name=".Manage.OwnerDetailActivity"
+               android:theme="@style/AppThemeToolbar">
+
+           </activity>
+           <activity
+               android:name=".Manage.TenementManageActivity"
+               android:theme="@style/AppThemeToolbar">
+
+           </activity>
+           <activity
+               android:name=".Manage.DeviceRepairActivity"
+               android:theme="@style/AppThemeToolbar">
+
+           </activity>
+           <activity
+               android:name=".Manage.OwnerComplainActivity"
+               android:theme="@style/AppThemeToolbar">
+
+           </activity>
+           <activity
+               android:name=".Manage.MessagePushActivity"
+               android:theme="@style/AppThemeToolbar">
+
+           </activity>
+           <activity
+               android:name=".Manage.CardManageActivity"
+               android:theme="@style/AppThemeToolbar">
+
+           </activity>
+           <activity
+               android:name=".Manage.CardQrCodeCertificatActivity"
+               android:theme="@style/AppThemeToolbar">
+
+           </activity>
+           <activity
+               android:name=".Manage.HouseManageActivity"
+               android:theme="@style/AppThemeToolbar">
+
+           </activity>
+           <activity
+               android:name=".Manage.OwnerApplyManageActivity"
+               android:theme="@style/AppThemeToolbar">
+
+           </activity>
+           <activity
+               android:name=".Account.LogActivity"
+               android:theme="@style/AppThemeToolbar">
+
+           </activity>
+           <activity
+               android:name=".Setting.PwdResetActivity"
+               android:theme="@style/AppThemeToolbar">
+
+           </activity>
+           <activity
+               android:name=".Setting.UserNameResetActivity"
+               android:theme="@style/AppThemeToolbar">
+
+           </activity>
+           <activity
+               android:name=".Setting.IdeaFeedBackActivity"
+               android:theme="@style/AppThemeToolbar">
+
+           </activity>
+           <activity
+               android:name=".Card.CardQrCodeActivity"
+               android:theme="@style/AppThemeToolbar">
+
+           </activity>
+
+           <activity
+               android:name=".SubManage.Manage.SubHouseManageListActivity"
+               android:theme="@style/AppThemeToolbar">
+
+           </activity>
+           <activity
+               android:name=".SubManage.Manage.SubOwnerManageListActivity"
+               android:theme="@style/AppThemeToolbar">
+
+           </activity>
+           <activity
+               android:name=".SubManage.Manage.SubCommunityManageActivity"
+               android:theme="@style/AppThemeToolbar">
+
+           </activity>
+           <activity
+               android:name=".SubManage.Manage.SubAddCommunityActivity"
+               android:theme="@style/AppThemeToolbar">
+
+           </activity>
+           <activity
+               android:name=".SubManage.Account.SubSettingActivity"
+               android:theme="@style/AppThemeToolbar">
+
+           </activity>
+
+
+
+    </application>
+
+</manifest>
