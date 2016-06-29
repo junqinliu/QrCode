@@ -40,5 +40,8 @@ dependencies {
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.flyco.banner:FlycoBanner_Lib:2.0.2@aar'
 
+    /*Gson*/
+    compile 'com.google.code.gson:gson:2.2.4'
+
 
 }
