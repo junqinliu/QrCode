@@ -5,7 +5,6 @@ import android.app.Application;
 
 import com.android.exception.CrashHandler;
 
-import org.xutils.BuildConfig;
 import org.xutils.x;
 
 public class AppContext extends Application {
@@ -26,7 +25,7 @@ public class AppContext extends Application {
 
 		//xutils3初始化
 		x.Ext.init(this);
-		x.Ext.setDebug(BuildConfig.DEBUG); // 开启debug会影响性能
+	//	x.Ext.setDebug(BuildConfig.DEBUG); // 开启debug会影响性能
 		
 	}
 	
