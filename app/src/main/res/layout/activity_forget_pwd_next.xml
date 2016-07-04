@@ -36,6 +36,8 @@
             android:layout_toRightOf="@+id/pic_account"
             android:background="@null"
             android:hint="请设置您的登录密码"
+            android:textColor="@color/black_text"
+            android:inputType="textPassword"
             android:digits="@string/intput_psw"
             android:paddingLeft="25dp"
             android:textSize="13sp" />

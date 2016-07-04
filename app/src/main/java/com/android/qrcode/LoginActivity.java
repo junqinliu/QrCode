@@ -14,7 +14,13 @@ import com.google.gson.Gson;
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
+
+import java.util.HashMap;
+
 import butterknife.Bind;
+import cn.smssdk.EventHandler;
+import cn.smssdk.SMSSDK;
+import cn.smssdk.gui.RegisterPage;
 
 public class LoginActivity extends BaseAppCompatActivity implements View.OnClickListener{
 
@@ -120,6 +126,22 @@ public class LoginActivity extends BaseAppCompatActivity implements View.OnClick
         //注册按钮
        case  R.id.tv_resiger:
 
+           /*RegisterPage registerPage = new RegisterPage();
+           registerPage.setRegisterCallback(new EventHandler() {
+               public void afterEvent(int event, int result, Object data) {
+                  // 解析注册结果
+                   if (result == SMSSDK.RESULT_COMPLETE) {
+                       @SuppressWarnings("unchecked")
+                       HashMap<String,Object> phoneMap = (HashMap<String, Object>) data;
+                       String country = (String) phoneMap.get("country");
+                       String phone = (String) phoneMap.get("phone");
+
+                      // 提交用户信息
+                       //registerUser(country, phone);
+                   }
+               }
+           });
+           registerPage.show(LoginActivity.this);*/
           Intent intent2 = new Intent(LoginActivity.this, RegisterActivity.class);
           startActivity(intent2);
 

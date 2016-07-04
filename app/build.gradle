@@ -19,6 +19,13 @@ android {
     }
 }
 
+repositories{
+    flatDir{
+        dirs 'libs' //就是你放aar的目录地址
+    }
+}
+
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
@@ -43,5 +50,7 @@ dependencies {
     /*Gson*/
     compile 'com.google.code.gson:gson:2.2.4'
 
-
+   /*SMMSDK*/
+    compile name:'SMSSDK-2.1.0',ext:'aar'
+    compile name:'SMSSDKGUI-2.1.0',ext:'aar'
 }
