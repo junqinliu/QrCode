@@ -31,4 +31,35 @@
             android:layout_height="?attr/actionBarSize"
             tools:tabIndicatorColor="@android:color/white" />
     </LinearLayout>
+
+
+
+    <LinearLayout
+
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/quick_img"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:src="@mipmap/car_manage"
+            />
+
+        <TextView
+            android:id="@+id/quick_tx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/quick_title"
+            android:textColor="@android:color/darker_gray" />
+    </LinearLayout>
+
+
 </RelativeLayout>

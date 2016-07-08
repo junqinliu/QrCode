@@ -25,8 +25,8 @@ public class SubAdPublishFragmet extends BaseFragment implements View.OnClickLis
     SimpleImageBanner advert;
     public SubAdPublishFragmet() {
         Bundle bundle = new Bundle();
-        bundle.putString("title", "广告");
-        bundle.putInt("icon", R.drawable.selector_main_tab_person_icon);
+        bundle.putString("title", "");
+        bundle.putInt("icon",0);
         this.setArguments(bundle);
     }
 

@@ -20,8 +20,9 @@ public class QuickCardFragment extends BaseFragment {
 
     public QuickCardFragment() {
         Bundle bundle = new Bundle();
-        bundle.putString("title", "快捷房卡");
-        bundle.putInt("icon", R.drawable.selector_main_tab_search_icon);
+        bundle.putString("title", "");
+        //R.drawable.selector_main_tab_search_icon
+        bundle.putInt("icon", 0);
         this.setArguments(bundle);
     }
     @Override

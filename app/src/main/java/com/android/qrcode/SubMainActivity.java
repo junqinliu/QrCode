@@ -51,6 +51,11 @@ public class SubMainActivity extends BaseAppCompatActivity implements
     @Bind(R.id.toolbar_title)
     TextView toolbar_title;
 
+    @Bind(R.id.quick_img)
+    ImageView quick_img;
+    @Bind(R.id.quick_tx)
+    TextView quick_tx;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,6 +117,7 @@ public class SubMainActivity extends BaseAppCompatActivity implements
         //tab与viewPage关联
         tabLayout.setupWithViewPager(viewPager);
         initTab();
+        quick_tx.setText(this.getResources().getString(R.string.ad_str));
     }
 
     @Override
@@ -147,7 +153,10 @@ public class SubMainActivity extends BaseAppCompatActivity implements
         Bundle bundle = fragment.getArguments();
         if (bundle != null) {
             int drawableId = bundle.getInt("icon");
-            tab.setIcon(getResources().getDrawable(drawableId));
+            if(drawableId != 0){
+
+                tab.setIcon(getResources().getDrawable(drawableId));
+            }
         }
     }
 
@@ -190,30 +199,33 @@ public class SubMainActivity extends BaseAppCompatActivity implements
         switch (tab.getPosition()){
 
             case 0:
-               // toolBar.setTitle(R.string.manage_title);
+
                 toolbar_title.setText(R.string.manage_title);
+                changeQuickIconAndTextColor();
                 flag = Page.MANAGE;
                 break;
             case 1:
-              //  toolBar.setTitle(R.string.card_title);
-                toolbar_title.setText(R.string.card_title);
+                quick_img.setImageDrawable(this.getResources().getDrawable(R.mipmap.owner_manage));
+                quick_tx.setTextColor(this.getResources().getColor(R.color.black_text));
+                toolbar_title.setText(R.string.ad_str);
                 flag = Page.CARD;
                 break;
             case 2:
-              //  toolBar.setTitle(R.string.quick_title);
-                toolbar_title.setText(R.string.quick_title);
+
+                toolbar_title.setText(R.string.user_str);
+                changeQuickIconAndTextColor();
                 flag = Page.QUICKCARD;
                 break;
-            case 3:
-              //  toolBar.setTitle(R.string.account_title);
+           /* case 3:
+
                 toolbar_title.setText(R.string.account_title);
                 flag = Page.ACCOUNT;
                 break;
             case 4:
-              //  toolBar.setTitle(R.string.setting_title);
+
                 toolbar_title.setText(R.string.setting_title);
                 flag = Page.SETTING;
-                break;
+                break;*/
             default:
                 break;
 
@@ -300,5 +312,13 @@ public class SubMainActivity extends BaseAppCompatActivity implements
             menu.findItem(R.id.action_notification).setVisible(false);
             menu.findItem(R.id.action_settings).setVisible(false);
         }
+    }
+
+
+    public void changeQuickIconAndTextColor(){
+
+        quick_img.setImageDrawable(this.getResources().getDrawable(R.mipmap.car_manage));
+        quick_tx.setTextColor(this.getResources().getColor(R.color.gray_text));
+
     }
 }

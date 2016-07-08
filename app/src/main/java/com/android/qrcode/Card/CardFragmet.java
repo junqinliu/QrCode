@@ -95,7 +95,7 @@ public class CardFragmet extends BaseFragment implements  SwipeRefreshLayout.OnR
     }
 
     @Override
-    public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+      public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         // 倒数第二个item为当前屏最后可见时，加载更多
         if ((firstVisibleItem + visibleItemCount + 1 >= totalItemCount) && !loadingMore) {
             loadingMore = true;
