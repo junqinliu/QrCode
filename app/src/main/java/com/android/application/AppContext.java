@@ -5,7 +5,6 @@ import android.app.Application;
 
 import com.android.exception.CrashHandler;
 
-import org.xutils.x;
 
 import cn.smssdk.SMSSDK;
 
@@ -26,7 +25,7 @@ public class AppContext extends Application {
 		crashHandler.init(getApplicationContext());
 
 		//xutils3初始化
-		x.Ext.init(this);
+		//x.Ext.init(this);
 	//	x.Ext.setDebug(BuildConfig.DEBUG); // 开启debug会影响性能
 
 		//SMMSDK初始化
