@@ -200,11 +200,13 @@ public class MainActivity extends BaseAppCompatActivity implements
             case 0:
                 changeQuickIconAndTextColor();
                 toolbar_title.setText(R.string.manage_title);
+                add_img.setVisibility(View.GONE);
                 flag = Page.MANAGE;
                 break;
             case 1:
                 changeQuickIconAndTextColor();
                 toolbar_title.setText(R.string.card_title);
+                add_img.setVisibility(View.GONE);
                 flag = Page.CARD;
                 break;
             case 2:
@@ -220,11 +222,13 @@ public class MainActivity extends BaseAppCompatActivity implements
             case 3:
                 changeQuickIconAndTextColor();
                 toolbar_title.setText(R.string.account_title);
+                add_img.setVisibility(View.GONE);
                 flag = Page.ACCOUNT;
                 break;
             case 4:
                 changeQuickIconAndTextColor();
                 toolbar_title.setText(R.string.setting_title);
+                add_img.setVisibility(View.GONE);
                 flag = Page.SETTING;
                 break;
             default:
