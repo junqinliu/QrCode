@@ -39,13 +39,22 @@
         android:layout_marginRight="10dp"
         android:background="@drawable/shape_stroke_gray"
         android:minLines="5" />-->
-
     <Button
         android:id="@+id/button2"
-        style="@style/Cell_Warranty_Btn"
-        android:layout_width="wrap_content"
+        style="@style/Cell_Warranty_Btn_1"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/bg_finsh"
         android:text="@string/submit" />
+    <!--<Button-->
+        <!--android:id="@+id/button2"-->
+        <!--style="@style/Cell_Warranty_Btn"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="20dp"-->
+        <!--android:text="@string/submit" />-->
 
 </LinearLayout>

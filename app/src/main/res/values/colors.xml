@@ -13,9 +13,12 @@
     <color name="black_text">#000000</color>
     <!--灰色的背景颜色-->
     <color name="gray_background">#F2F2F2</color>
+    <!--浅蓝色色分割线-->
+    <color name="green_background">#00CD00</color>
     <!--灰色分割线-->
     <color name="gray_line">#cccccc</color>
-
+    <!--浅蓝色色分割线-->
+    <color name="blue_line">#c8ffff</color>
 
     <!--汉字排序-->
     <color name="whites">#ffffff</color>

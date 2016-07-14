@@ -93,6 +93,12 @@
         <item name="android:background">@drawable/shape_stroke_radius_gray</item>
         <item name="android:layout_marginTop">20dp</item>
     </style>
+    <style name="Cell_Warranty_Btn_1">
+        <item name="android:textColor">@color/black_text</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:layout_marginTop">20dp</item>
+    </style>
     <style name="Cell_Warranty_Linear">
         <item name="android:layout_marginLeft">10dp</item>
         <item name="android:paddingBottom">5dp</item>

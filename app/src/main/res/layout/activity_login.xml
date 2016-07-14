@@ -19,7 +19,8 @@
             android:id="@+id/head_pic"
             android:layout_width="100dp"
             android:layout_height="80dp"
-            android:src="@mipmap/login_head_pic" />
+            android:background="#7A378B"
+            android:src="@mipmap/applog" />
     </LinearLayout>
 
 

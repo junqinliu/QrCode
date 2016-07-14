@@ -37,7 +37,7 @@
     <string name="owner_apply_manage_str">业主认证申请管理</string>
     <string name="house_manage_str">楼栋管理</string>
     <string name="add_owner_str">添加业主</string>
-    <string name="add_owner_phone_str">手机号码</string>
+    <string name="add_owner_phone_str">"手机号码:"</string>
     <string name="add_owner_name_str">"姓       名"</string>
     <string name="add_owner_sex_str">"性       别"</string>
     <string name="add_owner_hint_num_str">"请输入号码"</string>

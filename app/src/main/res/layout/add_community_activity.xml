@@ -256,6 +256,7 @@
                 android:layout_marginBottom="10dp"
                 android:text="@string/comfirm"
                 android:textColor="@color/black_text"
+                android:background="@drawable/bg_finsh"
                 android:textSize="16sp" />
 
 
