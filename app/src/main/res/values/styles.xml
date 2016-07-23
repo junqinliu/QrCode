@@ -120,4 +120,10 @@
         <item name="android:textSize">15sp</item>
     </style>
 
+
+    <style name="selectPicPopupAnimation" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/popup_anim_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/popup_anim_bottom_out</item>
+    </style>
+
     </resources>

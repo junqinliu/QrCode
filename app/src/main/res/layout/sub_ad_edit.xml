@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/layout"
+        layout="@layout/header_toolbar"/>
+
+    <LinearLayout
+         android:layout_below="@+id/layout"
+        android:layout_above="@+id/submit_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:orientation="horizontal">
+
+        <!--<TextView
+            style="@style/Cell_Warranty_Linear_Left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/user_name" />
+
+        <EditText
+            style="@style/Cell_Warranty_Linear_Edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />-->
+
+        <ListView
+            android:id="@+id/edittsukkomi_grid"
+            android:layout_marginTop="1dp"
+            android:background="#00000000"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:spacing="5dp">
+        </ListView>
+
+
+    </LinearLayout>
+
+
+
+    <Button
+        android:id="@+id/submit_btn"
+        style="@style/Cell_Warranty_Btn_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/bg_finsh"
+        android:layout_alignParentBottom="true"
+        android:text="@string/submit_publish" />
+
+
+</RelativeLayout>

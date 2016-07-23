@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">QrCode</string>
+    <string name="app_name">微卡管理端</string>
 
     <!--toolbar常量声明-->
     <string name="menu_search">search</string>
@@ -96,6 +96,8 @@
     <string name="sub_community_str">小区</string>
     <string name="sub_add_tenement_str">添加成员</string>
     <string name="ad_str">广告</string>
+    <string name="ad_edit_str">广告编辑</string>
+    <string name="submit_publish">发布</string>
 
     <!--<string name="search">搜索：</string>-->
     <string name="province">省份：</string>

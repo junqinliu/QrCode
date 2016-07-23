@@ -211,13 +211,14 @@ public class SubMainActivity extends BaseAppCompatActivity implements
 
                 toolbar_title.setText(R.string.manage_title);
                 changeQuickIconAndTextColor();
+                add_img.setVisibility(View.GONE);
                 flag = Page.MANAGE;
                 break;
             case 1:
                 quick_img.setImageDrawable(this.getResources().getDrawable(R.mipmap.owner_manage));
                 quick_tx.setTextColor(this.getResources().getColor(R.color.black_text));
                 toolbar_title.setText(R.string.ad_str);
-                add_img.setVisibility(View.VISIBLE);
+                add_img.setVisibility(View.GONE);
                 add_img.setOnClickListener(this);
                 flag = Page.CARD;
                 break;
@@ -225,6 +226,7 @@ public class SubMainActivity extends BaseAppCompatActivity implements
 
                 toolbar_title.setText(R.string.user_str);
                 changeQuickIconAndTextColor();
+                add_img.setVisibility(View.GONE);
                 flag = Page.QUICKCARD;
                 break;
            /* case 3:
@@ -268,7 +270,7 @@ public class SubMainActivity extends BaseAppCompatActivity implements
         switch (flag){
 
             case MANAGE:
-                isShowMenu(true,menu);
+                isShowMenu(false,menu);
                 break;
             case CARD:
                 isShowMenu(false,menu);

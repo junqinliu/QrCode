@@ -33,7 +33,7 @@
     <application
         android:name="com.android.application.AppContext"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/applog11"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
@@ -223,12 +223,22 @@
 
            </activity>
            <activity
+               android:name=".SubManage.Manage.SubAddOwnerActivity"
+               android:theme="@style/AppThemeToolbar">
+
+           </activity>
+           <activity
                android:name=".SubManage.Manage.SubAddCommunityActivity"
                android:theme="@style/AppThemeToolbar">
 
            </activity>
            <activity
                android:name=".SubManage.Account.SubSettingActivity"
+               android:theme="@style/AppThemeToolbar">
+
+           </activity>
+           <activity
+               android:name=".SubManage.AdPublish.AdEditActivity"
                android:theme="@style/AppThemeToolbar">
 
            </activity>

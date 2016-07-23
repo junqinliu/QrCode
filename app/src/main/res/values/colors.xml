@@ -28,4 +28,6 @@
     <color name="bg_sort_color">#EDEDED</color>
     <color name="bg_name_color">#E7735D</color>
 
+    <color name="gray_light_bg">#edededed</color>
+
 </resources>

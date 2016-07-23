@@ -25,9 +25,6 @@ public class AppContext extends Application {
 		// 注册crashHandler
 		crashHandler.init(getApplicationContext());
 
-
-
-
 		//SMMSDK初始化
 		SMSSDK.initSDK(this, "146d57ebbef52", "8a6b993fb9b85a0998a51729374ea4c1");
 		//社会化分享初始化
