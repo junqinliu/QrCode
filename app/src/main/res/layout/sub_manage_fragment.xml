@@ -22,7 +22,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_alignParentLeft="true"
-            android:src="@mipmap/owner_manage">
+            android:src="@mipmap/yezhuguanli">
 
         </ImageView>
 
@@ -62,7 +62,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_alignParentLeft="true"
-            android:src="@mipmap/tenement_manage">
+            android:src="@mipmap/wuyeguanli1">
 
         </ImageView>
 
@@ -103,7 +103,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_alignParentLeft="true"
-            android:src="@mipmap/owner_apply_manage">
+            android:src="@mipmap/yezhurenzheng1">
 
         </ImageView>
 
@@ -144,7 +144,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_alignParentLeft="true"
-            android:src="@mipmap/house_manage">
+            android:src="@mipmap/shujutongji">
 
         </ImageView>
 

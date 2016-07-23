@@ -24,7 +24,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_alignParentLeft="true"
-            android:src="@mipmap/device_repair">
+            android:src="@mipmap/shebeibaoxiu">
 
         </ImageView>
 
@@ -64,7 +64,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_alignParentLeft="true"
-            android:src="@mipmap/complain">
+            android:src="@mipmap/yezhutoushu">
 
         </ImageView>
 
@@ -103,7 +103,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_alignParentLeft="true"
-            android:src="@mipmap/message_push">
+            android:src="@mipmap/xinxigonggao">
 
         </ImageView>
 

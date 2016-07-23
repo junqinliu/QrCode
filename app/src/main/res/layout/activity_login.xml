@@ -18,9 +18,8 @@
         <ImageView
             android:id="@+id/head_pic"
             android:layout_width="100dp"
-            android:layout_height="80dp"
-            android:background="#7A378B"
-            android:src="@mipmap/applog" />
+            android:layout_height="100dp"
+            android:src="@mipmap/applog1" />
     </LinearLayout>
 
 

@@ -24,7 +24,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_alignParentLeft="true"
-            android:src="@mipmap/pwd_reset">
+            android:src="@mipmap/mimaxiugai">
 
         </ImageView>
 
@@ -64,7 +64,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_alignParentLeft="true"
-            android:src="@mipmap/username_reset">
+            android:src="@mipmap/yonghumingxiugai">
 
         </ImageView>
 
@@ -103,7 +103,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_alignParentLeft="true"
-            android:src="@mipmap/feedback">
+            android:src="@mipmap/yijianfangkui">
 
         </ImageView>
 
@@ -144,7 +144,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_alignParentLeft="true"
-            android:src="@mipmap/link_pepple">
+            android:src="@mipmap/lianxikefu">
 
         </ImageView>
 
@@ -185,7 +185,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_alignParentLeft="true"
-            android:src="@mipmap/about">
+            android:src="@mipmap/guanyu">
 
         </ImageView>
 
@@ -226,7 +226,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_alignParentLeft="true"
-            android:src="@mipmap/about">
+            android:src="@mipmap/tuichudenglu">
 
         </ImageView>
 
