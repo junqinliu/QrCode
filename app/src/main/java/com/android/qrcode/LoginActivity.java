@@ -2,15 +2,20 @@ package com.android.qrcode;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.android.base.BaseAppCompatActivity;
 import com.android.constant.Constants;
 import com.android.mylibrary.model.Login;
+import com.android.mylibrary.model.UserInfoBean;
 import com.android.utils.HttpUtil;
+import com.android.utils.SharedPreferenceUtil;
+import com.android.utils.TextUtil;
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -19,9 +24,13 @@ import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 
 import butterknife.Bind;
+import cz.msebera.android.httpclient.entity.ByteArrayEntity;
+import cz.msebera.android.httpclient.message.BasicHeader;
+import cz.msebera.android.httpclient.protocol.HTTP;
 
 public class LoginActivity extends BaseAppCompatActivity implements View.OnClickListener {
 
@@ -77,67 +86,7 @@ public class LoginActivity extends BaseAppCompatActivity implements View.OnClick
             //登录按钮
             case R.id.btn_login:
 
-                RequestParams params = new RequestParams();
-                params.put("phone", "15522503900");
-                params.put("password", "liujq");
-
-                HttpUtil.post("http://120.76.202.60:8080/microcard/v0.1/user/login", params, new AsyncHttpResponseHandler() {
-                    @Override
-                    public void onStart() {
-                        super.onStart();
-
-
-                    }
-
-
-                    @Override
-                    public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
-
-                        if (responseBody != null) {
-                            try {
-                                String str = new String(responseBody);
-                                JSONObject jsonObject = new JSONObject(str);
-                                if (jsonObject != null) {
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                    }
-
-                    @Override
-                    public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody, Throwable error) {
-
-                        if (responseBody != null) {
-
-
-                            String str = new String(responseBody);
-                            System.out.print(str);
-                        }
-                    }
-
-
-                    @Override
-                    public void onFinish() {
-                        super.onFinish();
-                        //closeLoadDialog();
-                    }
-
-
-                });
-
-
-                Intent intent1;
-                if ("1".equals(ed_account.getText().toString())) {
-
-                    intent1 = new Intent(LoginActivity.this, MainActivity.class);
-                } else {
-
-                    intent1 = new Intent(LoginActivity.this, SubMainActivity.class);
-                }
-
-                startActivity(intent1);
+                Login();
 
                 break;
 
@@ -163,4 +112,128 @@ public class LoginActivity extends BaseAppCompatActivity implements View.OnClick
 
         }
     }
+
+    /**
+     * 登录接口
+     */
+    private void Login(){
+
+
+        if(TextUtil.isEmpty(ed_account.getText().toString())){
+
+            showToast("请输入手机号码");
+
+            return;
+        }
+        if(TextUtil.isEmpty(ed_password.getText().toString())){
+
+            showToast("请输入密码");
+
+            return;
+        }
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("phone",ed_account.getText().toString());
+            jsonObject.put("password",ed_password.getText().toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        ByteArrayEntity entity = null;
+        try {
+            entity = new ByteArrayEntity(jsonObject.toString().getBytes("UTF-8"));
+            entity.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        HttpUtil.post(LoginActivity.this,Constants.HOST + Constants.Login, entity,"application/json", new AsyncHttpResponseHandler() {
+            @Override
+            public void onStart() {
+                super.onStart();
+
+
+            }
+
+
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
+
+                if (responseBody != null) {
+                    try {
+                        String str = new String(responseBody);
+                        JSONObject jsonObject = new JSONObject(str);
+                        if (jsonObject != null) {
+
+                            if(jsonObject.getBoolean("success")){
+
+                                UserInfoBean userInfoBean = JSON.parseObject(jsonObject.getJSONObject("data").toString(),UserInfoBean.class);
+                                String  userInfoBeanStr = JSON.toJSONString(userInfoBean);
+                                SharedPreferenceUtil.getInstance(LoginActivity.this).putData("UserInfo", userInfoBeanStr);
+
+                                //Intent intent1 = new Intent(LoginActivity.this, CardMainActivity.class);
+                                Intent intent1;
+
+                                if ("ADMIN".equals(userInfoBean.getAuthority())) {//二级管理员
+                                    intent1 = new Intent(LoginActivity.this, SubMainActivity.class);
+                                    startActivity(intent1);
+                                } else if ("PROPERTY".equals(userInfoBean.getAuthority())){
+                                    intent1 = new Intent(LoginActivity.this, MainActivity.class);
+                                    startActivity(intent1);
+                                } else {
+                                    showToast("请输入正确账号！");
+                                }
+
+
+
+
+                            }else{
+
+                                showToast("请求接口失败，请联系管理员");
+                            }
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody, Throwable error) {
+               /* store = JSON.parseObject(jsonObj.getJSONObject("store").toString(),Store.class);*/
+                /*list = JSON.parseArray(jsonObj.getJSONArray("data").toString(),OrderListBean.class);*/
+
+                if(responseBody != null){
+                    try {
+                        String str1 = new String(responseBody);
+                        JSONObject jsonObject1 = new JSONObject(str1);
+                        showToast(jsonObject1.getString("msg"));
+
+                    }catch (JSONException e){
+                        e.printStackTrace();
+                    }
+                }
+
+
+
+
+            }
+
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+
+            }
+
+
+        });
+
+
+    }
+
+
+
 }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.android.base.BaseFragment;
 import com.android.qrcode.Account.LogActivity;
@@ -17,8 +18,8 @@ import butterknife.Bind;
 public class SubAccountFragmet extends BaseFragment implements View.OnClickListener{
 
     @Bind(R.id.sub_set_activity)
-    LinearLayout sub_set_activity;
-
+    RelativeLayout sub_set_activity;
+//
     public SubAccountFragmet() {
         Bundle bundle = new Bundle();
         bundle.putString("title", "用户");

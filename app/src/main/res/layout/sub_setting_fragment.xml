@@ -239,14 +239,12 @@
             android:text="@string/loginout"/>
 
         <ImageView
-
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/manage_margin_right"
             android:src="@mipmap/right">
-
         </ImageView>
 
     </RelativeLayout>
