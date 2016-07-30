@@ -13,4 +13,10 @@ public class Constants {
      * 登录
      */
     public static final String Login = "/v0.1/user/login";
+    /**
+     * 楼栋列表
+     */
+    public static final String build = "/v0.1/place/build";
+
+    /*==================================================================================*/
 }
