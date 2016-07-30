@@ -15,8 +15,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.android.adapter.MainActivityAdapter;
 import com.android.base.BaseAppCompatActivity;
+import com.android.mylibrary.model.UserInfoBean;
 import com.android.qrcode.Account.AccountFragmet;
 import com.android.qrcode.Card.CardFragmet;
 import com.android.qrcode.Manage.ManageFragmet;
@@ -25,7 +27,9 @@ import com.android.qrcode.Setting.SettingFragmet;
 import com.android.qrcode.SubManage.Account.SubAccountFragmet;
 import com.android.qrcode.SubManage.AdPublish.SubAdPublishFragmet;
 import com.android.qrcode.SubManage.Manage.SubManageFragmet;
+import com.android.utils.HttpUtil;
 import com.android.utils.Page;
+import com.android.utils.SharedPreferenceUtil;
 import com.android.utils.Utils;
 
 import java.lang.reflect.Method;
@@ -62,6 +66,8 @@ public class SubMainActivity extends BaseAppCompatActivity implements
     @Bind(R.id.add_img)
     ImageView add_img;
 
+    private UserInfoBean userInfoBean = new UserInfoBean();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +82,16 @@ public class SubMainActivity extends BaseAppCompatActivity implements
         toolBar.setTitle("");
         toolbar_title.setText(R.string.manage_title);
         setSupportActionBar(toolBar);
+
+        userInfoBean = JSON.parseObject(SharedPreferenceUtil.getInstance(this).getSharedPreferences().getString("UserInfo", ""), UserInfoBean.class);
+
+        //配置请求接口全局token 和 userid
+        if (userInfoBean != null) {
+
+            HttpUtil.getClient().addHeader("Token", userInfoBean.getToken());
+            HttpUtil.getClient().addHeader("Userid", userInfoBean.getUserid());
+
+        }
 
         toolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
