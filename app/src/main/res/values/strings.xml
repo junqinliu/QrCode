@@ -46,6 +46,7 @@
     <string name="add_owner_woman_str">"女"</string>
     <string name="add_owner_detail_str">详细资料</string>
     <string name="add_owner_open_str">开门权限</string>
+    <string name="comfirm_str">确定</string>
     <string name="search">搜索</string>
     <string name="device_repair">设备报修</string>
     <string name="complain">业主投诉</string>

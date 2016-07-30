@@ -14,6 +14,7 @@ import com.android.constant.Constants;
 import com.android.mylibrary.model.Login;
 import com.android.mylibrary.model.UserInfoBean;
 import com.android.utils.HttpUtil;
+import com.android.utils.NetUtil;
 import com.android.utils.SharedPreferenceUtil;
 import com.android.utils.TextUtil;
 import com.google.gson.Gson;
@@ -151,7 +152,11 @@ public class LoginActivity extends BaseAppCompatActivity implements View.OnClick
             @Override
             public void onStart() {
                 super.onStart();
+                if(!NetUtil.checkNetInfo(LoginActivity.this)){
 
+                    showToast("当前网络不可用,请检查网络");
+                    return;
+                }
 
             }
 

@@ -1,29 +1,28 @@
 package com.android.qrcode.Manage;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.android.adapter.OpenDoorLimitAdapter;
 import com.android.base.BaseAppCompatActivity;
-import com.android.mylibrary.model.OwnerListBean;
+import com.android.mylibrary.model.OpenDoorLimit;
 import com.android.mylibrary.model.SortModel;
 import com.android.qrcode.R;
-import com.android.utils.TextUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 
 /**
- * Created by liujunqin on 2016/6/14.
+ * Created by liujunqin on 2016/7/23.
  */
-public class OwnerDetailActivity extends BaseAppCompatActivity implements View.OnClickListener{
+public class OpenDoorLimitActivity extends BaseAppCompatActivity implements View.OnClickListener{
 
 
     @Bind(R.id.toolbar)
@@ -32,29 +31,22 @@ public class OwnerDetailActivity extends BaseAppCompatActivity implements View.O
     TextView toolbar_title;
     @Bind(R.id.add_img)
     ImageView add_img;
-
-    @Bind(R.id.name)
-    TextView name;
-    @Bind(R.id.phone_num)
-    TextView phone_num;
-    @Bind(R.id.sex)
-    TextView sex;
-    @Bind(R.id.owner_apply_manage_layout)
-    RelativeLayout owner_apply_manage_layout;
-
-    private SortModel sortModel;
+@Bind(R.id.open_door_listview)
+    ListView open_door_listview;
+    OpenDoorLimitAdapter openDoorLimitAdapter;
+    List<OpenDoorLimit> openDoorLimitList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.owner_detail);
+        setContentView(R.layout.open_door_limit);
 
     }
 
     @Override
     public void initView() {
         toolBar.setTitle("");
-        toolbar_title.setText(R.string.add_owner_detail_str);
+        toolbar_title.setText(R.string.add_owner_open_str);
         setSupportActionBar(toolBar);
         toolBar.setNavigationIcon(R.mipmap.back);
         add_img.setImageResource(R.mipmap.submit);
@@ -63,19 +55,12 @@ public class OwnerDetailActivity extends BaseAppCompatActivity implements View.O
 
     @Override
     public void initData() {
-
-
-        sortModel =(SortModel) getIntent().getSerializableExtra("Model");
-        name.setText(sortModel.getName());
-        phone_num.setText("手机号码：   "+sortModel.getPhoneNum());
-
-        if("0".equals(sortModel.getSex())){
-
-            sex.setText("性   别：   "+"男");
-        }else{
-
-            sex.setText("性   别：   "+"女");
-        }
+        openDoorLimitList.add(new OpenDoorLimit("1号门","00001"));
+        openDoorLimitList.add(new OpenDoorLimit("2号门","00002"));
+        openDoorLimitList.add(new OpenDoorLimit("3号门","00003"));
+        openDoorLimitList.add(new OpenDoorLimit("4号门","00004"));
+        openDoorLimitAdapter = new OpenDoorLimitAdapter(this,openDoorLimitList);
+        open_door_listview.setAdapter(openDoorLimitAdapter);
     }
 
     @Override
@@ -89,7 +74,7 @@ public class OwnerDetailActivity extends BaseAppCompatActivity implements View.O
                 finish();
             }
         });
-        owner_apply_manage_layout.setOnClickListener(this);
+
 
     }
 
@@ -99,11 +84,11 @@ public class OwnerDetailActivity extends BaseAppCompatActivity implements View.O
 
         switch (view.getId()){
 
-            //开门权限
-            case R.id.owner_apply_manage_layout:
 
-                startActivity(new Intent(this,OpenDoorLimitActivity.class));
-                break;
+          /*  case R.id.owner_apply_manage_layout:
+
+
+                break;*/
 
             default:
                 break;

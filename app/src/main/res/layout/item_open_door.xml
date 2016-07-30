@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_stroke_gray_bottom"
+    android:orientation="horizontal"
+    android:paddingBottom="5dp"
+    android:paddingLeft="10dp"
+    android:paddingTop="5dp">
+
+
+    <TextView
+        style="@style/Send_card_invitee"
+        android:id="@+id/open_door_desc"
+        android:layout_alignParentLeft="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+
+    <CheckBox
+        android:id="@+id/open_door_cb"
+        android:layout_width="wrap_content"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/radio_selector"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>
