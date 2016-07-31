@@ -75,14 +75,17 @@ public class  ManageFragmet extends BaseFragment implements View.OnClickListener
             case R.id.car_manage_layout:
                 startActivity(new Intent(getActivity(),CardManageActivity.class));
                 break;
-            //业主申请认证管理
-            case R.id.owner_apply_manage_layout:
-                startActivity(new Intent(getActivity(),OwnerApplyManageActivity.class));
-                break;
+
             //楼栋管理
             case R.id.house_manage_layout:
                 startActivity(new Intent(getActivity(),HouseManageActivity.class));
                 break;
+
+            //业主申请认证管理
+            case R.id.owner_apply_manage_layout:
+                startActivity(new Intent(getActivity(),OwnerApplyManageActivity.class));
+                break;
+
             default:
                 break;
 

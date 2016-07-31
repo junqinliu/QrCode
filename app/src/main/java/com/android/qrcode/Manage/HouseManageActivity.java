@@ -1,11 +1,13 @@
 package com.android.qrcode.Manage;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
@@ -32,7 +34,7 @@ import cz.msebera.android.httpclient.Header;
  * Created by liujunqin on 2016/6/13.
  */
 public class HouseManageActivity extends BaseAppCompatActivity implements  SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener,
-        AdapterView.OnItemClickListener{
+        AdapterView.OnItemClickListener,View.OnClickListener{
 
     @Bind(R.id.toolbar)
     Toolbar toolBar;
@@ -52,7 +54,8 @@ public class HouseManageActivity extends BaseAppCompatActivity implements  Swipe
     private boolean loadingMore = false;
     int pageNumber = 0;
     int pageSize = 10;
-
+    @Bind(R.id.add_img)
+    ImageView add_img;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +70,7 @@ public class HouseManageActivity extends BaseAppCompatActivity implements  Swipe
         toolbar_title.setText(R.string.house_manage_str);
         setSupportActionBar(toolBar);
         toolBar.setNavigationIcon(R.mipmap.back);
+        add_img.setVisibility(View.VISIBLE);
 
     }
 
@@ -75,7 +79,7 @@ public class HouseManageActivity extends BaseAppCompatActivity implements  Swipe
 
         cardManageAdapter = new BlockManageAdapter(this, buildBeanList,new MyCommonInterface());
         houseListView.setAdapter(cardManageAdapter);
-        getBuildList();
+
 
     }
 
@@ -85,7 +89,7 @@ public class HouseManageActivity extends BaseAppCompatActivity implements  Swipe
         houseSwipeRefresh.setOnRefreshListener(this);
         houseListView.setOnScrollListener(this);
         houseListView.setOnItemClickListener(this);
-
+        add_img.setOnClickListener(this);
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,6 +99,14 @@ public class HouseManageActivity extends BaseAppCompatActivity implements  Swipe
         });
 
         }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        pageNumber = 0;
+        buildBeanList.clear();
+        getBuildList();
+    }
 
     @Override
     public void onRefresh() {
@@ -125,17 +137,33 @@ public class HouseManageActivity extends BaseAppCompatActivity implements  Swipe
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+        showToast("=======================");
        // startActivity(new Intent(this,CardQrCodeCertificatActivity.class));
 
     }
 
+    @Override
+    public void onClick(View view) {
+
+        switch (view.getId()){
+            //添加楼栋
+            case R.id.add_img:
+
+              startActivity(new Intent(this,AddBuildActivity.class));
+                break;
+            default:
+                break;
+        }
+
+    }
 
 
-   class MyCommonInterface implements CommonInterface{
+    class MyCommonInterface implements CommonInterface{
        @Override
-       public void delete(String id) {
+       public void delete(String id,int i) {
 
            //删除
+           deleteBuild(id,i);
 
        }
    };
@@ -249,10 +277,59 @@ public class HouseManageActivity extends BaseAppCompatActivity implements  Swipe
     /**
      * 删除楼栋
      */
-    private  void  deleteBuild(String buildid){
+    private  void  deleteBuild(String buildid, final int i){
 
 
+        HttpUtil.delete(Constants.HOST + Constants.DeleteBuild + "/" +buildid, new AsyncHttpResponseHandler() {
+            @Override
+            public void onStart() {
+                super.onStart();
+                if (!NetUtil.checkNetInfo(HouseManageActivity.this)) {
 
+                    showToast("当前网络不可用,请检查网络");
+                    return;
+                }
+            }
+
+
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
+                if (responseBody != null) {
+                    try {
+                        String str = new String(responseBody);
+                        JSONObject jsonObject = new JSONObject(str);
+                        if (jsonObject != null) {
+                            if (jsonObject.getBoolean("success")) {
+                                showToast("已删除");
+                                buildBeanList.remove(i);
+                                cardManageAdapter.notifyDataSetChanged();
+                            } else {
+                                showToast("请求接口失败，请联系管理员");
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody, Throwable error) {
+
+                if (responseBody != null) {
+                    try {
+                        String str1 = new String(responseBody);
+                        JSONObject jsonObject1 = new JSONObject(str1);
+                        showToast(jsonObject1.getString("msg"));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+
+        });
 
     }
 

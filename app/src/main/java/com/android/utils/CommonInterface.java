@@ -5,5 +5,5 @@ package com.android.utils;
  */
 public interface CommonInterface {
 
-    public void delete(String id);
+    public void delete(String id,int i);
 }

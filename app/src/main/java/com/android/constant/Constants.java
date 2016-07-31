@@ -54,6 +54,15 @@ public class Constants {
      */
     public static final String DeleteBuild = "/v0.1/place/build";
 
+    /**
+     * 添加楼栋
+     */
+    public static final String AddBuild = "/v0.1/place/build";
+
+    /**
+     * 待审核列表
+     */
+    public static final String isROOT = "/v0.1/user/audit";
     /*==================================================================================*/
     /**
      * 小区列表
