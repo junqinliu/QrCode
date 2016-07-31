@@ -10,17 +10,28 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.android.adapter.DeviceRepairAdapter;
 import com.android.adapter.HouseAdapter;
 import com.android.base.BaseAppCompatActivity;
+import com.android.constant.Constants;
+import com.android.mylibrary.model.BuildBean;
 import com.android.mylibrary.model.CardInfoBean;
 import com.android.mylibrary.model.MessageInfoBean;
 import com.android.qrcode.R;
+import com.android.utils.HttpUtil;
+import com.android.utils.NetUtil;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by liujunqin on 2016/6/13.
@@ -42,7 +53,10 @@ public class DeviceRepairActivity extends BaseAppCompatActivity implements  Swip
 
     DeviceRepairAdapter deviceRepairAdapter;
     private List<MessageInfoBean> messageInfoBeanList = new ArrayList<>();
+    private List<MessageInfoBean> messageInfoBeanListTemp = new ArrayList<>();
     private boolean loadingMore = false;
+    int pageNumber = 0;
+    int pageSize = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,17 +77,10 @@ public class DeviceRepairActivity extends BaseAppCompatActivity implements  Swip
     @Override
     public void initData() {
 
-        int i = 0;
-        do {
-
-            messageInfoBeanList.add(new MessageInfoBean("刘俊","15522503900","2016/06/15","小区1号楼门禁损坏，请找人来维修"
-            ));
-            i++;
-
-        } while (i < 3);
 
         deviceRepairAdapter = new DeviceRepairAdapter(this, messageInfoBeanList);
         houseListView.setAdapter(deviceRepairAdapter);
+        getdata();
 
     }
 
@@ -98,6 +105,9 @@ public class DeviceRepairActivity extends BaseAppCompatActivity implements  Swip
     public void onRefresh() {
 
         //TODO request data from server
+        pageNumber = 0;
+        messageInfoBeanList.clear();
+        getdata();
         houseSwipeRefresh.setRefreshing(false);
 
     }
@@ -110,14 +120,110 @@ public class DeviceRepairActivity extends BaseAppCompatActivity implements  Swip
     @Override
     public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         // 倒数第二个item为当前屏最后可见时，加载更多
-        if ((firstVisibleItem + visibleItemCount + 1 >= totalItemCount) && !loadingMore) {
-            loadingMore = true;
+        if ((firstVisibleItem + visibleItemCount + 1 >= totalItemCount) && loadingMore) {
+           // loadingMore = true;
             //TODO 加载数据
+            getdata();
         }
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        startActivity(new Intent(this,OwnerManageListActivity.class));
+
+    }
+
+
+    private void getdata(){
+
+
+        RequestParams params = new RequestParams();
+        params.put("pageSize", pageSize);
+        params.put("pageNumber", pageNumber);
+        params.put("propertytype","REPAIR");
+
+        HttpUtil.get(Constants.HOST + Constants.PropertyList, params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onStart() {
+                super.onStart();
+                if (!NetUtil.checkNetInfo(DeviceRepairActivity.this)) {
+
+                    showToast("当前网络不可用,请检查网络");
+                    return;
+
+                }
+            }
+
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+                if (responseBody != null) {
+                    try {
+                        String str = new String(responseBody);
+                        JSONObject jsonObject = new JSONObject(str);
+                        if (jsonObject != null) {
+
+                            if (jsonObject.getBoolean("success")) {
+
+                                pageNumber = pageNumber + 1;
+                                messageInfoBeanListTemp.clear();
+                                JSONObject gg = new JSONObject(jsonObject.getString("data"));
+
+                                messageInfoBeanListTemp = JSON.parseArray(gg.getJSONArray("items").toString(), MessageInfoBean.class);
+                                if (messageInfoBeanListTemp != null && messageInfoBeanListTemp.size() > 0) {
+
+                                    messageInfoBeanList.addAll(messageInfoBeanListTemp);
+                                    deviceRepairAdapter.notifyDataSetChanged();
+                                    if (messageInfoBeanList.size() == 10) {
+                                        loadingMore = true;
+                                    } else {
+                                        loadingMore = false;
+                                    }
+
+                                } else {
+
+                                    showToast("暂无设备维修");
+                                }
+
+                            } else {
+
+                                showToast("请求接口失败，请联系管理员");
+                            }
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+                if (responseBody != null) {
+                    try {
+                        String str1 = new String(responseBody);
+                        JSONObject jsonObject1 = new JSONObject(str1);
+                        showToast(jsonObject1.getString("msg"));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+
+            }
+
+
+        });
+
+
     }
 }

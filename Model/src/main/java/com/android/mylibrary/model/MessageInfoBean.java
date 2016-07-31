@@ -6,38 +6,36 @@ package com.android.mylibrary.model;
 public class MessageInfoBean {
 
     //业主名字
-    private  String name;
+    private String username;
     //业主手机号
-    private  String phoneNum;
+    private String userphone;
     //提交时间
     private String time;
     //提交信息
-    private String message;
+    private String title;
+    //id
+    private String userid;
 
-    public MessageInfoBean() {
+    private String propertytype;
+
+    private String propertyphone;
+    private String propertyaddress;
+
+
+    public String getUsername() {
+        return username;
     }
 
-    public MessageInfoBean(String name, String phoneNum, String time, String message) {
-        this.name = name;
-        this.phoneNum = phoneNum;
-        this.time = time;
-        this.message = message;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getName() {
-        return name;
+    public String getUserphone() {
+        return userphone;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhoneNum() {
-        return phoneNum;
-    }
-
-    public void setPhoneNum(String phoneNum) {
-        this.phoneNum = phoneNum;
+    public void setUserphone(String userphone) {
+        this.userphone = userphone;
     }
 
     public String getTime() {
@@ -48,11 +46,43 @@ public class MessageInfoBean {
         this.time = time;
     }
 
-    public String getMessage() {
-        return message;
+    public String getTitle() {
+        return title;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
+    }
+
+    public String getPropertytype() {
+        return propertytype;
+    }
+
+    public void setPropertytype(String propertytype) {
+        this.propertytype = propertytype;
+    }
+
+    public String getPropertyphone() {
+        return propertyphone;
+    }
+
+    public void setPropertyphone(String propertyphone) {
+        this.propertyphone = propertyphone;
+    }
+
+    public String getPropertyaddress() {
+        return propertyaddress;
+    }
+
+    public void setPropertyaddress(String propertyaddress) {
+        this.propertyaddress = propertyaddress;
     }
 }

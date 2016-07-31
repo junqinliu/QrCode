@@ -6,8 +6,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.android.mylibrary.model.CardInfoBean;
-import com.android.mylibrary.model.MessageInfoBean;
+import com.android.mylibrary.model.BuildBean;
 import com.android.qrcode.R;
 
 import java.util.List;
@@ -20,12 +19,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 /**
  * Created by liujunqin on 2016/5/12.
  */
-public class DeviceRepairAdapter extends BaseAdapter {
+public class MainHouseAdapter extends BaseAdapter {
 
     Context context;
-    List<MessageInfoBean> list;
+    List<BuildBean> list;
 
-    public DeviceRepairAdapter(Context context, List<MessageInfoBean> list) {
+    public MainHouseAdapter(Context context, List<BuildBean> list) {
         this.context = context;
         this.list = list;
     }
@@ -50,30 +49,25 @@ public class DeviceRepairAdapter extends BaseAdapter {
     public View getView(int i, View convertView, ViewGroup viewGroup) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = View.inflate(context, R.layout.item_device_repair, null);
+            convertView = View.inflate(context, R.layout.item_card, null);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.messge_detail.setText(list.get(i).getTitle());
-        holder.name.setText(list.get(i).getUsername());
-        holder.submit_time.setText("时间："+list.get(i).getTime());
-        holder.link_num.setText("业主电话："+list.get(i).getUserphone());
+        //Glide.with(context).load(list.get(i).getMemberPhoto()).into(holder.messagePic);
+        holder.messagePic.setImageResource(R.mipmap.owner_manage);
+        holder.messageTitle.setText(list.get(i).getName());
 
         return convertView;
     }
 
     static class ViewHolder {
 
-        @Bind(R.id.messge_detail)
-        TextView messge_detail;
-        @Bind(R.id.name)
-        TextView name;
-        @Bind(R.id.submit_time)
-        TextView submit_time;
-        @Bind(R.id.link_num)
-        TextView link_num;
+        @Bind(R.id.messagePic)
+        CircleImageView messagePic;
+        @Bind(R.id.messageTitle)
+        TextView messageTitle;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

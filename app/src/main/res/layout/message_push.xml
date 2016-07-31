@@ -71,9 +71,22 @@
             </LinearLayout>
 
 
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Cell_Warranty_Btn_1"
+                android:layout_margin="20dp"
+                android:padding="10dp"
+                android:text="@string/publish_str"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_finsh"
+                android:id="@+id/publish_btn" />
+
 
 
         </LinearLayout>
+
+
 
 
 </LinearLayout>

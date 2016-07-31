@@ -1,6 +1,5 @@
 package com.android.qrcode.Manage;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
@@ -9,16 +8,25 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.android.adapter.CardManageAdapter;
+import com.alibaba.fastjson.JSON;
+import com.android.adapter.BlockManageAdapter;
 import com.android.base.BaseAppCompatActivity;
-import com.android.mylibrary.model.CardInfoBean;
+import com.android.constant.Constants;
+import com.android.mylibrary.model.BuildBean;
+import com.android.mylibrary.model.UserInfoBean;
 import com.android.qrcode.R;
-
+import com.android.utils.CommonInterface;
+import com.android.utils.HttpUtil;
+import com.android.utils.NetUtil;
+import com.android.utils.SharedPreferenceUtil;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+import org.json.JSONException;
+import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.Bind;
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by liujunqin on 2016/6/13.
@@ -38,9 +46,13 @@ public class HouseManageActivity extends BaseAppCompatActivity implements  Swipe
     @Bind(R.id.toolbar_title)
     TextView toolbar_title;
 
-    CardManageAdapter cardManageAdapter;
-    private List<CardInfoBean> carinfoBeansList = new ArrayList<>();
+    BlockManageAdapter cardManageAdapter;
+    private List<BuildBean> buildBeanList = new ArrayList<>();
+    private List<BuildBean> buildBeanListTemp = new ArrayList<>();
     private boolean loadingMore = false;
+    int pageNumber = 0;
+    int pageSize = 10;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,17 +73,9 @@ public class HouseManageActivity extends BaseAppCompatActivity implements  Swipe
     @Override
     public void initData() {
 
-        int i = 0;
-        do {
-
-            carinfoBeansList.add(new CardInfoBean(i+"号楼房卡","http://avatar.csdn.net/1/1/E/1_fengyuzhengfan.jpg"
-            ));
-            i++;
-
-        } while (i < 3);
-
-        cardManageAdapter = new CardManageAdapter(this, carinfoBeansList);
+        cardManageAdapter = new BlockManageAdapter(this, buildBeanList,new MyCommonInterface());
         houseListView.setAdapter(cardManageAdapter);
+        getBuildList();
 
     }
 
@@ -86,7 +90,7 @@ public class HouseManageActivity extends BaseAppCompatActivity implements  Swipe
             @Override
             public void onClick(View view) {
 
-              finish();
+                finish();
             }
         });
 
@@ -96,6 +100,9 @@ public class HouseManageActivity extends BaseAppCompatActivity implements  Swipe
     public void onRefresh() {
 
         //TODO request data from server
+        pageNumber = 0;
+        buildBeanList.clear();
+        getBuildList();
         houseSwipeRefresh.setRefreshing(false);
 
     }
@@ -108,9 +115,10 @@ public class HouseManageActivity extends BaseAppCompatActivity implements  Swipe
     @Override
     public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         // 倒数第二个item为当前屏最后可见时，加载更多
-        if ((firstVisibleItem + visibleItemCount + 1 >= totalItemCount) && !loadingMore) {
-            loadingMore = true;
+        if ((firstVisibleItem + visibleItemCount + 1 >= totalItemCount) && loadingMore) {
+            //loadingMore = true;
             //TODO 加载数据
+            getBuildList();
         }
     }
 
@@ -120,4 +128,132 @@ public class HouseManageActivity extends BaseAppCompatActivity implements  Swipe
        // startActivity(new Intent(this,CardQrCodeCertificatActivity.class));
 
     }
+
+
+
+   class MyCommonInterface implements CommonInterface{
+       @Override
+       public void delete(String id) {
+
+           //删除
+
+       }
+   };
+
+
+
+
+    /**
+     * 获取楼栋列表
+     */
+    private void getBuildList() {
+
+        UserInfoBean userInfoBean = JSON.parseObject(SharedPreferenceUtil.getInstance(this).getSharedPreferences().getString("UserInfo", ""), UserInfoBean.class);
+        String houseid = "";
+
+        if (userInfoBean != null) {
+
+            houseid = userInfoBean.getHouseid();
+        }
+
+        RequestParams params = new RequestParams();
+        params.put("pageSize", pageSize);
+        params.put("pageNumber", pageNumber);
+
+        HttpUtil.get(Constants.HOST + Constants.build + "/" + houseid, params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onStart() {
+                super.onStart();
+                if (!NetUtil.checkNetInfo(HouseManageActivity.this)) {
+
+                    showToast("当前网络不可用,请检查网络");
+                    return;
+
+                }
+            }
+
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+                if (responseBody != null) {
+                    try {
+                        String str = new String(responseBody);
+                        JSONObject jsonObject = new JSONObject(str);
+                        if (jsonObject != null) {
+
+                            if (jsonObject.getBoolean("success")) {
+
+                                pageNumber = pageNumber + 1;
+                                buildBeanListTemp.clear();
+                                JSONObject gg = new JSONObject(jsonObject.getString("data"));
+
+                                buildBeanListTemp = JSON.parseArray(gg.getJSONArray("items").toString(), BuildBean.class);
+                                if (buildBeanListTemp != null && buildBeanListTemp.size() > 0) {
+
+                                    buildBeanList.addAll(buildBeanListTemp);
+                                    cardManageAdapter.notifyDataSetChanged();
+                                    if (buildBeanList.size() == 10) {
+                                        loadingMore = true;
+                                    } else {
+                                        loadingMore = false;
+                                    }
+
+                                } else {
+
+                                    showToast("该小区目前还没有维护楼栋");
+                                }
+
+                            } else {
+
+                                showToast("请求接口失败，请联系管理员");
+                            }
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+                if (responseBody != null) {
+                    try {
+                        String str1 = new String(responseBody);
+                        JSONObject jsonObject1 = new JSONObject(str1);
+                        showToast(jsonObject1.getString("msg"));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+
+            }
+
+
+        });
+
+    }
+
+
+    /**
+     * 删除楼栋
+     */
+    private  void  deleteBuild(String buildid){
+
+
+
+
+    }
+
 }

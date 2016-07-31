@@ -10,6 +10,10 @@ public class UserInfoBean {
     private  String userid;
     private  String aduitstatus;//状态（枚举通过、拒绝、审核中） PASS/REFUSE/AUDITING
     private  String authority;//ADMIN/PROPERTY/OWNER/USER   权限（枚举管理员、物业、业主、成员）
+    private String houseid;
+    private String housename;
+
+
     public String getToken() {
         return token;
     }
@@ -48,5 +52,21 @@ public class UserInfoBean {
 
     public void setAduitstatus(String aduitstatus) {
         this.aduitstatus = aduitstatus;
+    }
+
+    public String getHouseid() {
+        return houseid;
+    }
+
+    public void setHouseid(String houseid) {
+        this.houseid = houseid;
+    }
+
+    public String getHousename() {
+        return housename;
+    }
+
+    public void setHousename(String housename) {
+        this.housename = housename;
     }
 }
