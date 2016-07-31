@@ -19,6 +19,7 @@ import com.android.qrcode.R;
 import com.android.utils.HttpUtil;
 import com.android.utils.NetUtil;
 import com.android.utils.TextUtil;
+import com.android.utils.ValidateUtil;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -129,6 +130,9 @@ public class SubAddOwnerActivity extends BaseAppCompatActivity implements View.O
 
                     showToast("请完善信息");
                     return;
+                }
+                if(!ValidateUtil.isMobile(phone_num_txt.getText().toString())){
+                    showToast("请填写正确的手机号");
                 }
 
                 createManage();

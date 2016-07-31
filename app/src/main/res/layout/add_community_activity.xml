@@ -76,11 +76,13 @@
                         android:textSize="16sp" />
 
                     <EditText
+                        android:id="@+id/provice"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"
                         android:layout_weight="8"
                         android:background="@drawable/shape_stroke_radius_gray"
+                        android:focusable="false"
                         android:padding="5dp"
                         android:textColor="@color/gray_text"
                         android:textSize="15sp" />
@@ -103,16 +105,18 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
-                        android:text="@string/region"
+                        android:text="@string/city"
                         android:textColor="@color/black_text"
                         android:textSize="16sp" />
 
                     <EditText
+                        android:id="@+id/city"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"
                         android:layout_weight="8"
                         android:background="@drawable/shape_stroke_radius_gray"
+                        android:focusable="false"
                         android:padding="5dp"
                         android:textColor="@color/gray_text"
                         android:textSize="15sp" />
@@ -139,6 +143,40 @@
                         android:textSize="16sp" />
 
                     <EditText
+                        android:id="@+id/zone"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="8"
+                        android:background="@drawable/shape_stroke_radius_gray"
+                        android:focusable="false"
+                        android:padding="5dp"
+                        android:textColor="@color/gray_text"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/gray_line" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="@string/street"
+                        android:textColor="@color/black_text"
+                        android:textSize="16sp" />
+
+                    <EditText
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"
@@ -165,11 +203,12 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
-                        android:text="@string/street"
+                        android:text="@string/village"
                         android:textColor="@color/black_text"
                         android:textSize="16sp" />
 
                     <EditText
+                        android:id="@+id/village"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"
@@ -188,7 +227,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@drawable/shape_stroke_radius_gray"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -205,6 +245,7 @@
                         android:textSize="16sp" />
 
                     <EditText
+                        android:id="@+id/phone"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"
@@ -236,6 +277,7 @@
                         android:textSize="16sp" />
 
                     <EditText
+                        android:id="@+id/name"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="10dp"
@@ -249,14 +291,15 @@
             </LinearLayout>
 
             <Button
+                android:id="@+id/comfirm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
+                android:background="@drawable/bg_finsh"
                 android:text="@string/comfirm"
                 android:textColor="@color/black_text"
-                android:background="@drawable/bg_finsh"
                 android:textSize="16sp" />
 
 

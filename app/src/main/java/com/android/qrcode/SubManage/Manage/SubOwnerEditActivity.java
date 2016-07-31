@@ -50,7 +50,7 @@ public class SubOwnerEditActivity extends BaseAppCompatActivity implements View.
     @Override
     public void initView() {
         toolBar.setTitle("");
-        toolbar_title.setText(R.string.sub_add_tenement_str);
+        toolbar_title.setText(R.string.sub_modify_remarks);
         setSupportActionBar(toolBar);
         toolBar.setNavigationIcon(R.mipmap.back);
     }

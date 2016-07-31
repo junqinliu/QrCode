@@ -126,4 +126,9 @@
         <item name="android:windowExitAnimation">@anim/popup_anim_bottom_out</item>
     </style>
 
+    <style name="Send_card_invitee1">
+        <item name="android:textColor">@color/gray_text</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
     </resources>

@@ -97,12 +97,14 @@
     <string name="sub_data_manage_str">数据统计</string>
     <string name="sub_community_str">小区</string>
     <string name="sub_add_tenement_str">添加成员</string>
+    <string name="sub_modify_remarks">修改备注</string>
     <string name="ad_str">广告</string>
     <string name="ad_edit_str">广告编辑</string>
     <string name="submit_publish">发布</string>
 
     <!--<string name="search">搜索：</string>-->
     <string name="province">省份：</string>
+    <string name="city">地市</string>
     <string name="region">地区：</string>
     <string name="County">县区：</string>
     <string name="street">街道：</string>
@@ -121,4 +123,10 @@
     <string name="register_title">注册</string>
     <string name="forget_pwd_title">忘记密码</string>
     <string name="forget_pwd_title_next">下一步</string>
+
+    <!--选择城市-->
+    <string name="province_title">请选择省份</string>
+    <string name="city_title">请选择城市</string>
+    <string name="zone_title">请选择县/区</string>
+
 </resources>
