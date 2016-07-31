@@ -57,7 +57,7 @@ public class CardManageAdapter extends BaseAdapter {
         }
         //Glide.with(context).load(list.get(i).getMemberPhoto()).into(holder.messagePic);
         holder.messagePic.setVisibility(View.GONE);
-        holder.messageTitle.setText(list.get(i).getCardNum());
+        holder.messageTitle.setText(list.get(i).getName());
 
         return convertView;
     }

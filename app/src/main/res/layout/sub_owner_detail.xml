@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_background"
+    android:orientation="vertical">
+
+
+    <include
+        android:id="@+id/layout"
+        layout="@layout/header_toolbar" />
+
+    <RelativeLayout
+        android:id="@+id/owner_manage_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/manage_layout_height"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/manage_padding_left">
+
+        <ImageView
+            android:id="@+id/owner_img"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_gravity="center"
+            android:src="@mipmap/touxiang">
+
+        </ImageView>
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/manage_margin_left"
+            android:layout_toRightOf="@+id/owner_img"
+            android:gravity="center"
+            android:text="@string/add_owner_name_str" />
+
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="16dp"
+        android:background="@color/blue_line" />
+
+    <RelativeLayout
+        android:id="@+id/tenement_manage_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/manage_layout_height"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/manage_padding_left">
+
+        <ImageView
+            android:id="@+id/tenement_img"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_gravity="center"
+            android:src="@mipmap/tenement_manage"
+            android:visibility="gone">
+
+        </ImageView>
+
+        <TextView
+            android:id="@+id/phone_num"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/manage_margin_left"
+            android:layout_toRightOf="@+id/tenement_img"
+            android:gravity="center"
+            android:text="@string/add_owner_phone_str" />
+
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="16dp"
+        android:background="@color/blue_line" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/manage_layout_height"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/manage_padding_left">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_gravity="center"
+            android:src="@mipmap/car_manage"
+            android:visibility="gone">
+
+        </ImageView>
+
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/manage_margin_left"
+            android:gravity="center"
+            android:text="@string/add_owner_name_str" />
+
+
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="16dp"
+        android:background="@color/blue_line" />
+
+    <RelativeLayout
+        android:id="@+id/car_manage_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/manage_layout_height"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/manage_padding_left">
+
+        <ImageView
+            android:id="@+id/car_img"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_gravity="center"
+            android:src="@mipmap/car_manage"
+            android:visibility="gone">
+
+        </ImageView>
+
+        <TextView
+            android:id="@+id/sex"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/manage_margin_left"
+            android:layout_toRightOf="@+id/car_img"
+            android:gravity="center"
+            android:text="@string/add_owner_sex_str" />
+
+
+    </RelativeLayout>
+
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="16dp"
+        android:background="@color/blue_line" />
+
+
+</LinearLayout>

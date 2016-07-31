@@ -10,7 +10,7 @@
         layout="@layout/header_toolbar"/>
     <android.support.v7.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         app:cardBackgroundColor="@color/gray_background"
         app:cardCornerRadius="4dp">
 
@@ -117,13 +117,24 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/gray_text"
-                        android:text="@string/add_owner_woman_str" />
+                        android:text="@string/add_owner_woman_str"
+                        android:checked="false" />
 
 
                 </RadioGroup>
 
             </LinearLayout>
 
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Cell_Warranty_Btn_1"
+                android:layout_margin="20dp"
+                android:padding="10dp"
+                android:text="@string/submit"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_finsh"
+                android:id="@+id/button3" />
 
         </LinearLayout>
     </android.support.v7.widget.CardView>

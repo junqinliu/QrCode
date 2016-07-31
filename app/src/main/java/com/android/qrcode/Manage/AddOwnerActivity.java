@@ -114,8 +114,8 @@ public class AddOwnerActivity extends BaseAppCompatActivity implements View.OnCl
                 }
                 OwnerListBean sortModel = new OwnerListBean();
                 sortModel.setName(name_txt.getText().toString());
-                sortModel.setPhoneNum(phone_num_txt.getText().toString());
-                sortModel.setSex(sex);
+                sortModel.setPhone(phone_num_txt.getText().toString());
+                sortModel.setSex(1);
 
                 Intent  intent = new Intent();
                 intent.putExtra("OwnerListBean",sortModel);

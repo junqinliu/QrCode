@@ -41,6 +41,7 @@
     <string name="add_owner_name_str">"姓       名"</string>
     <string name="add_owner_sex_str">"性       别"</string>
     <string name="add_owner_hint_num_str">"请输入号码"</string>
+    <string name="user_name">用户姓名</string>
     <string name="add_owner_hint_name_str">"请输入姓名"</string>
     <string name="add_owner_man_str">"男"</string>
     <string name="add_owner_woman_str">"女"</string>
@@ -77,7 +78,7 @@
     <string name="new_pwd">"新密码    "</string>
     <string name="comfirm_pwd">确认密码</string>
     <string name="submit">确认修改</string>
-    <string name="user_name">用户名</string>
+    <string name="sub_owner_user_name">用户姓名</string>
     <string name="idea">意见</string>
     <string name="feed_back_submit">提交</string>
 

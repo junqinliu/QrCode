@@ -5,34 +5,63 @@ package com.android.mylibrary.model;
  */
 public class CardInfoBean {
 
-    /**
-     * 卡的房间号
-     */
-    private String cardNum;
 
     /**
-     * 卡的图标
+     * areacode : 350102
+     * description : 金福新村
+     * houseid : 1
+     * name : 金福新村
      */
-    private String carPhotoUrl;
 
-    public CardInfoBean(String cardNum, String carPhotoUrl) {
-        this.cardNum = cardNum;
-        this.carPhotoUrl = carPhotoUrl;
+    private String areacode;
+    private String description;
+    private int houseid;
+    private String name;
+
+    public CardInfoBean() {
     }
 
-    public String getCardNum() {
-        return cardNum;
+    public CardInfoBean(String areacode, String description, int houseid, String name) {
+        this.areacode = areacode;
+        this.description = description;
+        this.houseid = houseid;
+        this.name = name;
     }
 
-    public void setCardNum(String cardNum) {
-        this.cardNum = cardNum;
+    public CardInfoBean(String name, String description) {
+        this.name = name;
+        this.description = description;
     }
 
-    public String getCarPhotoUrl() {
-        return carPhotoUrl;
+    public String getAreacode() {
+        return areacode;
     }
 
-    public void setCarPhotoUrl(String carPhotoUrl) {
-        this.carPhotoUrl = carPhotoUrl;
+    public void setAreacode(String areacode) {
+        this.areacode = areacode;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getHouseid() {
+        return houseid;
+    }
+
+    public void setHouseid(int houseid) {
+        this.houseid = houseid;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

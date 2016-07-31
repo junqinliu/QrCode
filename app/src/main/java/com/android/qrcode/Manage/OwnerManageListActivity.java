@@ -85,11 +85,11 @@ public class OwnerManageListActivity extends BaseAppCompatActivity implements Vi
         sideBar.setTextView(dialog);
 
         OwnerListBean = new ArrayList<>();
-        OwnerListBean.add(new OwnerListBean("李海","15522503900","0"));
-        OwnerListBean.add(new OwnerListBean("啊龙","15522503900","0"));
-        OwnerListBean.add(new OwnerListBean("何绍","15522503900","0"));
-        OwnerListBean.add(new OwnerListBean("志伟","15522503900","0"));
-        OwnerListBean.add(new OwnerListBean("晓桃","15522503900","0"));
+        OwnerListBean.add(new OwnerListBean("李海","15522503900",0));
+        OwnerListBean.add(new OwnerListBean("啊龙","15522503900",1));
+        OwnerListBean.add(new OwnerListBean("何绍","15522503900",0));
+        OwnerListBean.add(new OwnerListBean("志伟","15522503900",0));
+        OwnerListBean.add(new OwnerListBean("晓桃","15522503900",0));
 
         SourceDateList = filledData(OwnerListBean);
         // 根据a-z进行排序源数据
@@ -186,8 +186,8 @@ public class OwnerManageListActivity extends BaseAppCompatActivity implements Vi
         for (int i = 0; i < OwnerListBean.size(); i++) {
             SortModel sortModel = new SortModel();
             sortModel.setName(OwnerListBean.get(i).getName());
-            sortModel.setPhoneNum(OwnerListBean.get(i).getPhoneNum());
-            sortModel.setSex(OwnerListBean.get(i).getSex());
+            sortModel.setPhoneNum(OwnerListBean.get(i).getPhone());
+            sortModel.setSex(OwnerListBean.get(i).getSex()+ "");
             // 汉字转换成拼音
             String pinyin = characterParser.getSelling(OwnerListBean.get(i).getName());
             String sortString = pinyin.substring(0, 1).toUpperCase();

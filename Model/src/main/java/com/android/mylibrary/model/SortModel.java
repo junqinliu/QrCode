@@ -3,6 +3,8 @@ package com.android.mylibrary.model;
 import java.io.Serializable;
 
 public class SortModel implements Serializable {
+
+	private int userid;
 	//显示的数�?
 	private String name;
 	//显示数据拼音的首字母
@@ -11,7 +13,15 @@ public class SortModel implements Serializable {
 	private String phoneNum;
 	//性别  0表示男 1表示女
 	private String sex;
-	
+
+	public int getUserid() {
+		return userid;
+	}
+
+	public void setUserid(int userid) {
+		this.userid = userid;
+	}
+
 	public String getName() {
 		return name;
 	}

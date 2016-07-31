@@ -2,7 +2,6 @@ package com.android.qrcode;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,22 +10,17 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.android.base.BaseAppCompatActivity;
 import com.android.constant.Constants;
-import com.android.mylibrary.model.Login;
 import com.android.mylibrary.model.UserInfoBean;
 import com.android.utils.HttpUtil;
 import com.android.utils.NetUtil;
 import com.android.utils.SharedPreferenceUtil;
 import com.android.utils.TextUtil;
-import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
 
-import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
 
 import butterknife.Bind;
 import cz.msebera.android.httpclient.entity.ByteArrayEntity;

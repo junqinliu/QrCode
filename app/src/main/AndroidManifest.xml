@@ -247,8 +247,11 @@
                android:theme="@style/AppThemeToolbar">
 
            </activity>
+           <activity
+               android:name=".SubManage.Manage.SubOwnerEditActivity"
+               android:theme="@style/AppThemeToolbar">
 
-
+           </activity>
 
     </application>
 

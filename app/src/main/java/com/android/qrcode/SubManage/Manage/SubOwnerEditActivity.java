@@ -1,26 +1,17 @@
 package com.android.qrcode.SubManage.Manage;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.base.BaseAppCompatActivity;
 import com.android.constant.Constants;
-import com.android.mylibrary.model.OwnerListBean;
 import com.android.qrcode.R;
 import com.android.utils.HttpUtil;
 import com.android.utils.NetUtil;
-import com.android.utils.TextUtil;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,7 +19,6 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 
 import butterknife.Bind;
-import butterknife.OnClick;
 import cz.msebera.android.httpclient.entity.ByteArrayEntity;
 import cz.msebera.android.httpclient.message.BasicHeader;
 import cz.msebera.android.httpclient.protocol.HTTP;
@@ -36,7 +26,7 @@ import cz.msebera.android.httpclient.protocol.HTTP;
 /**
  * Created by liujunqin on 2016/6/14.
  */
-public class SubAddOwnerActivity extends BaseAppCompatActivity implements View.OnClickListener {
+public class SubOwnerEditActivity extends BaseAppCompatActivity implements View.OnClickListener {
 
 
     @Bind(R.id.toolbar)
@@ -45,30 +35,15 @@ public class SubAddOwnerActivity extends BaseAppCompatActivity implements View.O
     @Bind(R.id.toolbar_title)
     TextView toolbar_title;
 
-    @Bind(R.id.radioGroup)
-    RadioGroup radioGroup;
-    @Bind(R.id.radio_man)
-    RadioButton radio_man;
-    @Bind(R.id.radio_woman)
-    RadioButton radio_woman;
+    @Bind(R.id.sure)
+    Button sure;
 
-    @Bind(R.id.add_img)
-    ImageView add_img;
-    @Bind(R.id.name_txt)
-    EditText name_txt;
-    @Bind(R.id.phone_num_txt)
-    EditText phone_num_txt;
-
-    @Bind(R.id.button3)
-    Button button3;
-    private int sex = 0;
-
-    int houseid = 0;
+    int houseid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_owner);
+        setContentView(R.layout.sub_owner_edit);
 
     }
 
@@ -78,8 +53,6 @@ public class SubAddOwnerActivity extends BaseAppCompatActivity implements View.O
         toolbar_title.setText(R.string.sub_add_tenement_str);
         setSupportActionBar(toolBar);
         toolBar.setNavigationIcon(R.mipmap.back);
-//        add_img.setImageResource(R.mipmap.submit);
-//        add_img.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -89,23 +62,6 @@ public class SubAddOwnerActivity extends BaseAppCompatActivity implements View.O
 
     @Override
     public void setListener() {
-
-        add_img.setOnClickListener(this);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                // TODO Auto-generated method stub
-                if (checkedId == R.id.radio_man) {
-                    sex = 0;
-                    Toast.makeText(SubAddOwnerActivity.this, "男", Toast.LENGTH_LONG).show();
-                } else {
-                    sex = 1;
-                    Toast.makeText(SubAddOwnerActivity.this, "女", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-
 
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,38 +74,13 @@ public class SubAddOwnerActivity extends BaseAppCompatActivity implements View.O
     }
 
 
-    @OnClick(R.id.button3)
-    public void onClick(View view) {
-
-        switch (view.getId()) {
-            //提交按钮
-            case R.id.button3:
-
-                if (TextUtil.isEmpty(name_txt.getText().toString()) || TextUtil.isEmpty(phone_num_txt.getText().toString())) {
-
-                    showToast("请完善信息");
-                    return;
-                }
-
-                createManage();
-
-                break;
-            case R.id.add_img:
-//                startActivity(new Intent(this,SubOwnerEditActivity.class));
-
-                break;
-            default:
-                break;
-
-        }
-    }
-
     private void createManage() {
+        //TODO 修改用户名的接口没有提供，需要提供
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("phone", phone_num_txt.getText().toString().trim());
-            jsonObject.put("name", name_txt.getText().toString().trim());
-            jsonObject.put("sex", sex);
+//            jsonObject.put("phone", phone_num_txt.getText().toString().trim());
+//            jsonObject.put("name", name_txt.getText().toString().trim());
+//            jsonObject.put("sex", sex);
             jsonObject.put("houseid", houseid);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -162,11 +93,11 @@ public class SubAddOwnerActivity extends BaseAppCompatActivity implements View.O
             e.printStackTrace();
         }
 
-        HttpUtil.post(SubAddOwnerActivity.this,Constants.HOST + Constants.managers,entity,"application/json", new AsyncHttpResponseHandler() {
+        HttpUtil.post(SubOwnerEditActivity.this, Constants.HOST + Constants.managers, entity, "application/json", new AsyncHttpResponseHandler() {
             @Override
             public void onStart() {
                 super.onStart();
-                if (!NetUtil.checkNetInfo(SubAddOwnerActivity.this)) {
+                if (!NetUtil.checkNetInfo(SubOwnerEditActivity.this)) {
 
                     showToast("当前网络不可用,请检查网络");
                     return;
@@ -182,18 +113,8 @@ public class SubAddOwnerActivity extends BaseAppCompatActivity implements View.O
                         JSONObject jsonObject = new JSONObject(str);
                         if (jsonObject != null) {
                             if (jsonObject.getBoolean("success")) {
-                                //TODO 返回true 却没有添加至数据库中。
-                                OwnerListBean sortModel = new OwnerListBean();
-                                sortModel.setName(name_txt.getText().toString());
-                                sortModel.setPhone(phone_num_txt.getText().toString());
-                                sortModel.setSex(sex);
-                                sortModel.setHouseid(houseid);
-
-                                Intent intent = new Intent();
-                                intent.putExtra("OwnerListBean", sortModel);
-                                setResult(2, intent);
-                                finish();
                                 showToast("添加成功");
+                                finish();
                             } else {
                                 showToast("请求接口失败，请联系管理员");
                             }
@@ -221,5 +142,10 @@ public class SubAddOwnerActivity extends BaseAppCompatActivity implements View.O
 
 
         });
+    }
+
+    @Override
+    public void onClick(View v) {
+        showToast("修改接口未提供，需要完善");
     }
 }

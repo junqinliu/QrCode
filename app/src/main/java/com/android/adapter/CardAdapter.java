@@ -58,7 +58,7 @@ public class CardAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         //Glide.with(context).load(list.get(i).getMemberPhoto()).into(holder.messagePic);
-        holder.messageTitle.setText(list.get(i).getCardNum());
+        holder.messageTitle.setText(list.get(i).getName());
 
         return convertView;
     }

@@ -131,6 +131,23 @@ public class HttpUtil {
 
 	}
 
+	/********************
+	 * delete请求
+	 *******************************/
+	public static void delete(String urlString, RequestParams params, AsyncHttpResponseHandler res)   //url里面带参�?
+	{
+
+		client.delete(urlString,params,res);
+
+	}
+
+	public static void delete(String urlString,  AsyncHttpResponseHandler res)   //url里面带参�?
+	{
+
+		client.delete(urlString,res);
+
+	}
+
 
 	public static AsyncHttpClient getClient()
 	{

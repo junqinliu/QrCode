@@ -16,6 +16,8 @@ import com.android.base.BaseAppCompatActivity;
 import com.android.mylibrary.model.OwnerListBean;
 import com.android.mylibrary.model.SortModel;
 import com.android.qrcode.R;
+import com.android.qrcode.SubManage.Manage.SubAddOwnerActivity;
+import com.android.qrcode.SubManage.Manage.SubOwnerEditActivity;
 import com.android.utils.TextUtil;
 
 import butterknife.Bind;
@@ -37,17 +39,17 @@ public class OwnerDetailActivity extends BaseAppCompatActivity implements View.O
     TextView name;
     @Bind(R.id.phone_num)
     TextView phone_num;
+    @Bind(R.id.username)
+    TextView username;
     @Bind(R.id.sex)
     TextView sex;
-    @Bind(R.id.owner_apply_manage_layout)
-    RelativeLayout owner_apply_manage_layout;
 
     private SortModel sortModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.owner_detail);
+        setContentView(R.layout.sub_owner_detail);
 
     }
 
@@ -69,6 +71,8 @@ public class OwnerDetailActivity extends BaseAppCompatActivity implements View.O
         name.setText(sortModel.getName());
         phone_num.setText("手机号码：   "+sortModel.getPhoneNum());
 
+        username.setText("姓名：   "+sortModel.getPhoneNum());
+
         if("0".equals(sortModel.getSex())){
 
             sex.setText("性   别：   "+"男");
@@ -89,7 +93,6 @@ public class OwnerDetailActivity extends BaseAppCompatActivity implements View.O
                 finish();
             }
         });
-        owner_apply_manage_layout.setOnClickListener(this);
 
     }
 
@@ -99,11 +102,13 @@ public class OwnerDetailActivity extends BaseAppCompatActivity implements View.O
 
         switch (view.getId()){
 
-            //开门权限
-            case R.id.owner_apply_manage_layout:
+            case R.id.add_img:
+                Intent intent = new Intent(new Intent(this, SubOwnerEditActivity.class));
+                intent.putExtra("houseid",sortModel.getUserid());
+                startActivity(intent);
 
-                startActivity(new Intent(this,OpenDoorLimitActivity.class));
                 break;
+
 
             default:
                 break;
