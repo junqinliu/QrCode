@@ -55,9 +55,9 @@ public class OwnerApplyManageAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.apply_user_name.setText("用户"+list.get(i).getUserName()+"请求认证");
-        holder.house_num.setText("所在楼栋："+list.get(i).getHouseNum());
-        holder.submit_time.setText("时间："+list.get(i).getApplyTime());
+        holder.apply_user_name.setText("用户"+list.get(i).getUsername()+"请求认证");
+        holder.house_num.setText("所在楼栋："+list.get(i).getHousename());
+        holder.submit_time.setText("时间："+list.get(i).getTime());
 
 
         return convertView;

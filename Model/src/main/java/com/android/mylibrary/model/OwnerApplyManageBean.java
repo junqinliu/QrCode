@@ -5,55 +5,58 @@ package com.android.mylibrary.model;
  */
 public class OwnerApplyManageBean {
 
-    //用户
-    private String userName;
+    private String username;
+    private String time;
+    private String houseid;
+    private String housename;
+    private String userid;
+    private String userphone;
 
-    //所在楼层
-    private String houseNum;
-
-    //申请时间
-    private  String applyTime;
-
-    //审核状态
-    private  String status;
-
-
-    public OwnerApplyManageBean(String userName, String houseNum, String applyTime, String status) {
-        this.userName = userName;
-        this.houseNum = houseNum;
-        this.applyTime = applyTime;
-        this.status = status;
+    public String getUsername() {
+        return username;
     }
 
-    public String getUserName() {
-        return userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public String getTime() {
+        return time;
     }
 
-    public String getHouseNum() {
-        return houseNum;
+    public void setTime(String time) {
+        this.time = time;
     }
 
-    public void setHouseNum(String houseNum) {
-        this.houseNum = houseNum;
+    public String getHouseid() {
+        return houseid;
     }
 
-    public String getApplyTime() {
-        return applyTime;
+    public void setHouseid(String houseid) {
+        this.houseid = houseid;
     }
 
-    public void setApplyTime(String applyTime) {
-        this.applyTime = applyTime;
+    public String getHousename() {
+        return housename;
     }
 
-    public String getStatus() {
-        return status;
+    public void setHousename(String housename) {
+        this.housename = housename;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
+    }
+
+    public String getUserphone() {
+        return userphone;
+    }
+
+    public void setUserphone(String userphone) {
+        this.userphone = userphone;
     }
 }
