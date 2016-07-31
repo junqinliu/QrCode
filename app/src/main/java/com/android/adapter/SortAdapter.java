@@ -9,12 +9,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.android.mylibrary.model.SortModel;
 import com.android.qrcode.R;
 import com.android.utils.ImageTextView;
+import com.android.utils.OndeleteListener;
+
+import butterknife.Bind;
 
 /**
  * @Description:用来处理集合中数据的显示与排序
@@ -23,10 +28,12 @@ import com.android.utils.ImageTextView;
 public class SortAdapter extends BaseAdapter implements SectionIndexer{
 	private List<SortModel> list = null;
 	private Context mContext;
-	
-	public SortAdapter(Context mContext, List<SortModel> list) {
+	OndeleteListener listener;
+
+	public SortAdapter(Context mContext, List<SortModel> list,OndeleteListener listener) {
 		this.mContext = mContext;
 		this.list = list;
+		this.listener = listener;
 	}
 	
 	/**
@@ -59,6 +66,7 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer{
 			viewHolder.tvTitle = (TextView) view.findViewById(R.id.title);
 			viewHolder.tvLetter = (TextView) view.findViewById(R.id.catalog);
 			viewHolder.icon = (ImageTextView) view.findViewById(R.id.icon);
+			viewHolder.deleteButton = (RelativeLayout) view.findViewById(R.id.delete_button);
 			view.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) view.getTag();
@@ -78,6 +86,12 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer{
 		viewHolder.tvTitle.setText(this.list.get(position).getName());
 		viewHolder.icon.setText(this.list.get(position).getName());
 		viewHolder.icon.setIconText(mContext,this.list.get(position).getName());
+		viewHolder.deleteButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				listener.onDelete(list.get(position).getUserid());
+			}
+		});
 		return view;
 
 	}
@@ -88,7 +102,7 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer{
 		TextView tvLetter;
 		TextView tvTitle;
 		ImageTextView icon;
-		
+		RelativeLayout deleteButton;
 	}
 
 

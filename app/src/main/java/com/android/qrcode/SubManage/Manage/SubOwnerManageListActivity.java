@@ -28,6 +28,7 @@ import com.android.utils.CharacterParser;
 import com.android.utils.ClearEditText;
 import com.android.utils.HttpUtil;
 import com.android.utils.NetUtil;
+import com.android.utils.OndeleteListener;
 import com.android.utils.PinyinComparator;
 import com.android.utils.SideBar;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -45,7 +46,7 @@ import butterknife.Bind;
 /**
  * Created by liujunqin on 2016/6/13.
  */
-public class SubOwnerManageListActivity extends BaseAppCompatActivity implements View.OnClickListener {
+public class SubOwnerManageListActivity extends BaseAppCompatActivity implements View.OnClickListener ,OndeleteListener {
 
 
     @Bind(R.id.toolbar)
@@ -103,7 +104,7 @@ public class SubOwnerManageListActivity extends BaseAppCompatActivity implements
         SourceDateList = filledData(OwnerListBean);
         // 根据a-z进行排序源数据
         Collections.sort(SourceDateList, pinyinComparator);
-        adapter = new SortAdapter(this, SourceDateList);
+        adapter = new SortAdapter(this, SourceDateList,this);
         sortListView.setAdapter(adapter);
 
         houseid = getIntent().getIntExtra("houseid", 0);
@@ -192,6 +193,16 @@ public class SubOwnerManageListActivity extends BaseAppCompatActivity implements
                 finish();
             }
         });
+    }
+
+    @Override
+    public void onDelete(int userid) {
+        for (SortModel model : SourceDateList ) {
+            if(model.getUserid() == userid){
+                deleteMember(model);
+                break;
+            }
+        }
     }
 
     // 退出提示框按钮监听

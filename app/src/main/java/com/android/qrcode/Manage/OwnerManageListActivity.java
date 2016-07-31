@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.adapter.SortAdapter;
 import com.android.base.BaseAppCompatActivity;
 import com.android.mylibrary.model.OwnerListBean;
@@ -21,6 +22,7 @@ import com.android.mylibrary.model.SortModel;
 import com.android.qrcode.R;
 import com.android.utils.CharacterParser;
 import com.android.utils.ClearEditText;
+import com.android.utils.OndeleteListener;
 import com.android.utils.PinyinComparator;
 import com.android.utils.SideBar;
 
@@ -33,7 +35,7 @@ import butterknife.Bind;
 /**
  * Created by liujunqin on 2016/6/13.
  */
-public class OwnerManageListActivity extends BaseAppCompatActivity implements View.OnClickListener{
+public class OwnerManageListActivity extends BaseAppCompatActivity implements View.OnClickListener, OndeleteListener {
 
 
     @Bind(R.id.toolbar)
@@ -85,16 +87,16 @@ public class OwnerManageListActivity extends BaseAppCompatActivity implements Vi
         sideBar.setTextView(dialog);
 
         OwnerListBean = new ArrayList<>();
-        OwnerListBean.add(new OwnerListBean("李海","15522503900",0));
-        OwnerListBean.add(new OwnerListBean("啊龙","15522503900",1));
-        OwnerListBean.add(new OwnerListBean("何绍","15522503900",0));
-        OwnerListBean.add(new OwnerListBean("志伟","15522503900",0));
-        OwnerListBean.add(new OwnerListBean("晓桃","15522503900",0));
+        OwnerListBean.add(new OwnerListBean("李海", "15522503900", 0));
+        OwnerListBean.add(new OwnerListBean("啊龙", "15522503900", 1));
+        OwnerListBean.add(new OwnerListBean("何绍", "15522503900", 0));
+        OwnerListBean.add(new OwnerListBean("志伟", "15522503900", 0));
+        OwnerListBean.add(new OwnerListBean("晓桃", "15522503900", 0));
 
         SourceDateList = filledData(OwnerListBean);
         // 根据a-z进行排序源数据
         Collections.sort(SourceDateList, pinyinComparator);
-        adapter = new SortAdapter(this, SourceDateList);
+        adapter = new SortAdapter(this, SourceDateList, this);
         sortListView.setAdapter(adapter);
 
     }
@@ -128,8 +130,8 @@ public class OwnerManageListActivity extends BaseAppCompatActivity implements Vi
                         ((SortModel) adapter.getItem(position)).getName(),
                         Toast.LENGTH_SHORT).show();*/
 
-                Intent intent = new Intent(OwnerManageListActivity.this,OwnerDetailActivity.class);
-                intent.putExtra("Model",(SortModel) adapter.getItem(position));
+                Intent intent = new Intent(OwnerManageListActivity.this, OwnerDetailActivity.class);
+                intent.putExtra("Model", (SortModel) adapter.getItem(position));
                 startActivity(intent);
 
             }
@@ -180,14 +182,14 @@ public class OwnerManageListActivity extends BaseAppCompatActivity implements Vi
      * @param OwnerListBean
      * @return
      */
-    private List<SortModel> filledData( List<OwnerListBean> OwnerListBean) {
+    private List<SortModel> filledData(List<OwnerListBean> OwnerListBean) {
         List<SortModel> mSortList = new ArrayList<SortModel>();
 
         for (int i = 0; i < OwnerListBean.size(); i++) {
             SortModel sortModel = new SortModel();
             sortModel.setName(OwnerListBean.get(i).getName());
             sortModel.setPhoneNum(OwnerListBean.get(i).getPhone());
-            sortModel.setSex(OwnerListBean.get(i).getSex()+ "");
+            sortModel.setSex(OwnerListBean.get(i).getSex() + "");
             // 汉字转换成拼音
             String pinyin = characterParser.getSelling(OwnerListBean.get(i).getName());
             String sortString = pinyin.substring(0, 1).toUpperCase();
@@ -236,12 +238,12 @@ public class OwnerManageListActivity extends BaseAppCompatActivity implements Vi
     @Override
     public void onClick(View view) {
 
-        switch (view.getId()){
+        switch (view.getId()) {
 
             case R.id.add_img:
 
-                Intent intent = new Intent(OwnerManageListActivity.this,AddOwnerActivity.class);
-                startActivityForResult(intent,1);
+                Intent intent = new Intent(OwnerManageListActivity.this, AddOwnerActivity.class);
+                startActivityForResult(intent, 1);
 
                 break;
             default:
@@ -254,16 +256,21 @@ public class OwnerManageListActivity extends BaseAppCompatActivity implements Vi
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == 1){
+        if (requestCode == 1) {
 
-            if (resultCode == 2){
+            if (resultCode == 2) {
 
                 OwnerListBean ownerListBean = (OwnerListBean) data.getSerializableExtra("OwnerListBean");
                 OwnerListBean.add(ownerListBean);
-                SourceDateList =  filledData(OwnerListBean);
+                SourceDateList = filledData(OwnerListBean);
                 Collections.sort(SourceDateList, pinyinComparator);
                 adapter.updateListView(SourceDateList);
             }
         }
+    }
+
+    @Override
+    public void onDelete(int houseid) {
+        //TODO //穿过来用户id,
     }
 }
