@@ -54,6 +54,11 @@ public class Constants {
      */
     public static final String DeleteBuild = "/v0.1/place/build";
 
+    /**
+     * t添加楼栋
+     */
+    public static final String AddBuild = "/v0.1/place/build";
+
     /*==================================================================================*/
     /**
      * 小区列表

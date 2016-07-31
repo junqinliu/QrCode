@@ -176,6 +176,11 @@
 
         </activity>
         <activity
+            android:name=".Manage.AddBuildActivity"
+            android:theme="@style/AppThemeToolbar">
+
+        </activity>
+        <activity
             android:name=".Manage.OwnerApplyManageActivity"
             android:theme="@style/AppThemeToolbar">
 

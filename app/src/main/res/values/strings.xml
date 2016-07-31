@@ -53,9 +53,13 @@
     <string name="complain">业主投诉</string>
     <string name="message_push">信息公告推送</string>
     <string name="message_title">消息标题</string>
+    <string name="add_title">添加楼栋</string>
     <string name="message_content">消息内容</string>
     <string name="hint_message_title">请输入消息标题</string>
     <string name="hint_message_content">请输入消息内容</string>
+    <string name="build_name">楼栋名称</string>
+    <string name="hint_build_name">请输入楼栋名称</string>
+    <string name="is_public_door">是否小区公共门</string>
     <string name="card_certification">房卡认证</string>
     <string name="card_certification_desc">"设置说明：\n
         1.将授权卡对准门禁，如果设置成功，将听到“滴..滴 ”\n

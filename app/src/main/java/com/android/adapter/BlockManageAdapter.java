@@ -71,7 +71,7 @@ public class BlockManageAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
 
-                    lister.delete(list.get(i).getBuildid());
+                    lister.delete(list.get(i).getBuildid(),i);
 
                 }
             });
