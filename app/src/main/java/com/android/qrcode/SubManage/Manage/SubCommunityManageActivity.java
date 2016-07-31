@@ -9,6 +9,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -18,15 +19,18 @@ import com.android.adapter.HouseAdapter;
 import com.android.base.BaseAppCompatActivity;
 import com.android.constant.Constants;
 import com.android.mylibrary.model.CardInfoBean;
+import com.android.mylibrary.model.SortModel;
 import com.android.qrcode.Manage.AddOwnerActivity;
 import com.android.qrcode.R;
 import com.android.utils.HttpUtil;
 import com.android.utils.NetUtil;
+import com.android.utils.OndeleteListener;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +41,7 @@ import butterknife.Bind;
  * Created by liujunqin on 2016/6/13.
  */
 public class SubCommunityManageActivity extends BaseAppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener,
-        AdapterView.OnItemClickListener, View.OnClickListener {
+        AdapterView.OnItemClickListener, View.OnClickListener,OndeleteListener {
 
 
     @Bind(R.id.toolbar)
@@ -52,8 +56,12 @@ public class SubCommunityManageActivity extends BaseAppCompatActivity implements
     @Bind(R.id.toolbar_title)
     TextView toolbar_title;
 
+    @Bind(R.id.search_lineay)
+    LinearLayout searchLineay;
+
     @Bind(R.id.search_text)
     EditText search_text;
+
 
     @Bind(R.id.search_button)
     TextView search_button;
@@ -86,13 +94,13 @@ public class SubCommunityManageActivity extends BaseAppCompatActivity implements
         setSupportActionBar(toolBar);
         toolBar.setNavigationIcon(R.mipmap.back);
         add_img.setVisibility(View.VISIBLE);
-
+        searchLineay.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void initData() {
 
-        houseAdapter = new HouseAdapter(this, carinfoBeansList);
+        houseAdapter = new HouseAdapter(this, carinfoBeansList,this);
         houseListView.setAdapter(houseAdapter);
 
     }
@@ -113,6 +121,12 @@ public class SubCommunityManageActivity extends BaseAppCompatActivity implements
             }
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        requestData();
+        super.onResume();
     }
 
     @Override
@@ -207,7 +221,10 @@ public class SubCommunityManageActivity extends BaseAppCompatActivity implements
                                         carinfoBeansList.clear();
                                         carinfoBeansList.addAll(carinfoBeansListTemp);
                                         houseAdapter.notifyDataSetChanged();
-                                        pageNumber++;
+                                        if (carinfoBeansListTemp.size() == 20) {
+                                            pageNumber++;
+                                        }
+
                                     }
                                 }
                             } else {
@@ -235,6 +252,65 @@ public class SubCommunityManageActivity extends BaseAppCompatActivity implements
                     }
                 }
                 houseSwipeRefresh.setRefreshing(false);
+            }
+
+
+        });
+    }
+
+    @Override
+    public void onDelete(int houseid) {
+        deleteMember(houseid);
+    }
+    /**
+     * 调用删除成员接口
+     */
+    private void deleteMember(int houseid) {
+        HttpUtil.delete(Constants.HOST + Constants.delete_cell + "/" + houseid, new AsyncHttpResponseHandler() {
+            @Override
+            public void onStart() {
+                super.onStart();
+                if (!NetUtil.checkNetInfo(SubCommunityManageActivity.this)) {
+
+                    showToast("当前网络不可用,请检查网络");
+                    return;
+                }
+            }
+
+
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
+                if (responseBody != null) {
+                    try {
+                        String str = new String(responseBody);
+                        JSONObject jsonObject = new JSONObject(str);
+                        if (jsonObject != null) {
+                            if (jsonObject.getBoolean("success")) {
+                                requestData();
+                                showToast("删除成功");
+                            } else {
+                                showToast("请求接口失败，请联系管理员");
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody, Throwable error) {
+
+                if (responseBody != null) {
+                    try {
+                        String str1 = new String(responseBody);
+                        JSONObject jsonObject1 = new JSONObject(str1);
+                        showToast(jsonObject1.getString("msg"));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
 
 

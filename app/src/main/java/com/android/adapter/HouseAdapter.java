@@ -1,13 +1,20 @@
 package com.android.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.mylibrary.model.CardInfoBean;
 import com.android.qrcode.R;
+import com.android.qrcode.SubManage.Manage.SubOwnerManageListActivity;
+import com.android.utils.OndeleteListener;
+import com.android.utils.SwipeLayout;
 
 import java.util.List;
 
@@ -24,9 +31,12 @@ public class HouseAdapter extends BaseAdapter {
     Context context;
     List<CardInfoBean> list;
 
-    public HouseAdapter(Context context, List<CardInfoBean> list) {
+    OndeleteListener listener;
+
+    public HouseAdapter(Context context, List<CardInfoBean> list,OndeleteListener listener) {
         this.context = context;
         this.list = list;
+        this.listener = listener;
     }
 
 
@@ -46,7 +56,7 @@ public class HouseAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View convertView, ViewGroup viewGroup) {
+    public View getView(final int i, View convertView, ViewGroup viewGroup) {
         ViewHolder holder;
         if (convertView == null) {
             convertView = View.inflate(context, R.layout.item_card, null);
@@ -58,6 +68,21 @@ public class HouseAdapter extends BaseAdapter {
         //Glide.with(context).load(list.get(i).getMemberPhoto()).into(holder.messagePic);
         holder.messagePic.setImageResource(R.mipmap.owner_manage);
         holder.messageTitle.setText(list.get(i).getName());
+        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onDelete(list.get(i).getHouseid());
+            }
+        });
+
+        holder.deleteLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, SubOwnerManageListActivity.class);
+                intent.putExtra("houseid", list.get(i).getHouseid());
+                context.startActivity(intent);
+            }
+        });
 
         return convertView;
     }
@@ -66,6 +91,10 @@ public class HouseAdapter extends BaseAdapter {
 
         @Bind(R.id.messagePic)
         CircleImageView messagePic;
+        @Bind(R.id.delete_button)
+        RelativeLayout deleteButton;
+        @Bind(R.id.delete_layout)
+        LinearLayout deleteLayout;
         @Bind(R.id.messageTitle)
         TextView messageTitle;
 

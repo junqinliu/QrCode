@@ -18,6 +18,7 @@ import com.android.mylibrary.model.CardInfoBean;
 import com.android.qrcode.R;
 import com.android.utils.HttpUtil;
 import com.android.utils.NetUtil;
+import com.android.utils.OndeleteListener;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -33,7 +34,7 @@ import butterknife.Bind;
  * Created by liujunqin on 2016/6/13.
  */
 public class SubHouseManageListActivity extends BaseAppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener,
-        AdapterView.OnItemClickListener {
+        AdapterView.OnItemClickListener,OndeleteListener {
 
     @Bind(R.id.toolbar)
     Toolbar toolBar;
@@ -77,7 +78,7 @@ public class SubHouseManageListActivity extends BaseAppCompatActivity implements
     @Override
     public void initData() {
 
-        houseAdapter = new HouseAdapter(this, carinfoBeansList);
+        houseAdapter = new HouseAdapter(this, carinfoBeansList,this);
         houseListView.setAdapter(houseAdapter);
 
     }
@@ -197,6 +198,66 @@ public class SubHouseManageListActivity extends BaseAppCompatActivity implements
                     }
                 }
                 houseSwipeRefresh.setRefreshing(false);
+            }
+
+
+        });
+    }
+
+
+    @Override
+    public void onDelete(int houseid) {
+        deleteMember(houseid);
+    }
+    /**
+     * 调用删除成员接口
+     */
+    private void deleteMember(int houseid) {
+        HttpUtil.delete(Constants.HOST + Constants.delete_cell + "/" + houseid, new AsyncHttpResponseHandler() {
+            @Override
+            public void onStart() {
+                super.onStart();
+                if (!NetUtil.checkNetInfo(SubHouseManageListActivity.this)) {
+
+                    showToast("当前网络不可用,请检查网络");
+                    return;
+                }
+            }
+
+
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
+                if (responseBody != null) {
+                    try {
+                        String str = new String(responseBody);
+                        JSONObject jsonObject = new JSONObject(str);
+                        if (jsonObject != null) {
+                            if (jsonObject.getBoolean("success")) {
+                                requestData();
+                                showToast("删除成功");
+                            } else {
+                                showToast("请求接口失败，请联系管理员");
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody, Throwable error) {
+
+                if (responseBody != null) {
+                    try {
+                        String str1 = new String(responseBody);
+                        JSONObject jsonObject1 = new JSONObject(str1);
+                        showToast(jsonObject1.getString("msg"));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
 
 

@@ -98,6 +98,8 @@ public class SubAddCommunityActivity extends BaseAppCompatActivity implements Vi
 
         add_img.setOnClickListener(this);
 
+        comfirm.setOnClickListener(this);
+
 
         toolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

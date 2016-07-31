@@ -69,5 +69,7 @@ dependencies {
 
     /*json字符串解析*/
     compile files('libs/fastjson-1.1.26.jar')
+    /*左划删除*/
+    compile "com.daimajia.swipelayout:library:1.2.0@aar"
 
 }

@@ -9,6 +9,7 @@
         layout="@layout/header_toolbar" />
 
     <LinearLayout
+        android:id="@+id/search_lineay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -22,6 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:layout_weight="1"
+            android:singleLine="true"
             android:textColor="@color/black_text"
             android:background="@drawable/shape_stroke_radius_gray"
             android:padding="5dp" />
