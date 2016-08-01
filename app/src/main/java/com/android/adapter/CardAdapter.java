@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.android.mylibrary.model.CardInfoBean;
 import com.android.mylibrary.model.MemberBean;
+import com.android.mylibrary.model.RoomCardBean;
 import com.android.qrcode.R;
 import com.bumptech.glide.Glide;
 
@@ -24,9 +25,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class CardAdapter extends BaseAdapter {
 
     Context context;
-    List<CardInfoBean> list;
+    List<RoomCardBean> list;
 
-    public CardAdapter(Context context, List<CardInfoBean> list) {
+    public CardAdapter(Context context, List<RoomCardBean> list) {
         this.context = context;
         this.list = list;
     }
@@ -51,14 +52,14 @@ public class CardAdapter extends BaseAdapter {
     public View getView(int i, View convertView, ViewGroup viewGroup) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = View.inflate(context, R.layout.item_card, null);
+            convertView = View.inflate(context, R.layout.item_card_fragment, null);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
         //Glide.with(context).load(list.get(i).getMemberPhoto()).into(holder.messagePic);
-        holder.messageTitle.setText(list.get(i).getName());
+        holder.messageTitle.setText(list.get(i).getBuildname());
 
         return convertView;
     }

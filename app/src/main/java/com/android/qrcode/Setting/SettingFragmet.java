@@ -7,11 +7,21 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.android.application.ExitApplication;
 import com.android.base.BaseFragment;
+import com.android.constant.Constants;
 import com.android.qrcode.Account.LogActivity;
 import com.android.qrcode.R;
+import com.android.utils.HttpUtil;
+import com.android.utils.NetUtil;
+import com.android.utils.SharedPreferenceUtil;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.Bind;
+import cz.msebera.android.httpclient.entity.ByteArrayEntity;
 
 /**
  * Created by liujunqin on 2016/5/31.
@@ -107,14 +117,99 @@ public class SettingFragmet extends BaseFragment implements View.OnClickListener
     }
 
 
+    // 退出提示框按钮监听
     android.content.DialogInterface.OnClickListener dialogListener = new android.content.DialogInterface.OnClickListener() {
 
         @Override
         public void onClick(DialogInterface dialog, int which) {
 
-
+            //调用退出登录接口
+            Logout();
 
         }
     };
+
+
+    /**
+     * 注销方法
+     */
+    private void Logout(){
+
+
+        ByteArrayEntity entity = null;
+        HttpUtil.post(getActivity(), Constants.HOST + Constants.LoginOut, entity, "application/json", new AsyncHttpResponseHandler() {
+            @Override
+            public void onStart() {
+                super.onStart();
+                if (!NetUtil.checkNetInfo(getActivity())) {
+
+                    showToast("当前网络不可用,请检查网络");
+                    return;
+                }
+            }
+
+
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
+
+                if (responseBody != null) {
+                    try {
+                        String str = new String(responseBody);
+                        JSONObject jsonObject = new JSONObject(str);
+                        if (jsonObject != null) {
+
+                            if (jsonObject.getBoolean("success")) {
+
+                                showToast("退出登录成功");
+                                //跳转到登录接口 并且把本地文件的数据清除掉
+
+                              /*  Intent intent = new Intent(PersonalActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                                SharedPreferenceUtil.getInstance(PersonalActivity.this).deleteData();
+                                ExitApplication.getInstance().exitActivity();*/
+
+                            } else {
+
+                                showToast("请求接口失败，请联系管理员");
+                            }
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody, Throwable error) {
+
+                if (responseBody != null) {
+                    try {
+                        String str1 = new String(responseBody);
+                        JSONObject jsonObject1 = new JSONObject(str1);
+                        showToast(jsonObject1.getString("msg"));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+
+            }
+
+
+        });
+
+
+
+
+    }
 
 }

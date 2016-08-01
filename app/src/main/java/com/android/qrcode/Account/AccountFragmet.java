@@ -5,9 +5,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.android.base.BaseFragment;
+import com.android.mylibrary.model.UserInfoBean;
 import com.android.qrcode.R;
+import com.android.utils.SharedPreferenceUtil;
 
 import butterknife.Bind;
 
@@ -18,6 +22,15 @@ public class AccountFragmet extends BaseFragment implements View.OnClickListener
 
     @Bind(R.id.log_activity)
     RelativeLayout log_activity;
+    @Bind(R.id.user_name)
+    TextView user_name;
+    @Bind(R.id.user_phone)
+    TextView user_phone;
+    @Bind(R.id.post_message)
+    TextView post_message;
+
+
+
 
     public AccountFragmet() {
         Bundle bundle = new Bundle();
@@ -59,6 +72,25 @@ public class AccountFragmet extends BaseFragment implements View.OnClickListener
             default:
                 break;
         }
+    }
+
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser){
+
+            UserInfoBean userInfoBean = JSON.parseObject(SharedPreferenceUtil.getInstance(getActivity()).getSharedPreferences().getString("UserInfo", ""), UserInfoBean.class);
+
+            user_name.setText(userInfoBean.getName());
+            user_phone.setText("手机号码     ");
+            post_message.setText("邮箱      ");
+
+        }else{
+
+
+        }
+
     }
 
 }

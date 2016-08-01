@@ -2,6 +2,7 @@ package com.android.qrcode;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -15,15 +16,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.base.BaseAppCompatActivity;
+import com.android.constant.Constants;
+import com.android.utils.HttpUtil;
+import com.android.utils.NetUtil;
 import com.android.utils.TextUtil;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.ref.WeakReference;
 
 import butterknife.Bind;
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
+import cz.msebera.android.httpclient.entity.ByteArrayEntity;
+import cz.msebera.android.httpclient.message.BasicHeader;
+import cz.msebera.android.httpclient.protocol.HTTP;
 
 public class RegisterActivity extends BaseAppCompatActivity implements View.OnClickListener {
 
@@ -180,20 +190,7 @@ public class RegisterActivity extends BaseAppCompatActivity implements View.OnCl
                         if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
                            Toast.makeText(RegisterActivity.this, "验证成功", Toast.LENGTH_LONG).show();
 
-                            /*if (check())//其他合法性的检测
-                            {
-                                UserModel user = new UserModel();
-                                user.setUserId(MyUUID.getUUID());  //id
-                                user.setUserPhone(userPhone);
-                                user.setUserPassword(MD5.md5(userPassword)); //md5加密
-                                user.setUserGender(gender);   //性别
-                                user.setUserName(userName);
-                                user.setUserBirthday("19920401");   //暂时为空
-                                //user.setUserIdCard(userIdCard);
-                                //user.setUserImage("");    //暂时为空
-                                //注册->服务器
-                                UserController.userRegister(user, handler);
-                            }*/
+                            registerUser();
 
                         }
                         //已发送验证码
@@ -260,6 +257,108 @@ public class RegisterActivity extends BaseAppCompatActivity implements View.OnCl
                 btn_get.setText("重新发送(" + --millisUntilFinished / 1000 + "s)");
             }
         }
+    }
+
+
+
+    /**
+     * 用户注册方法
+     */
+    private void registerUser(){
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("phone",userPhone);
+            jsonObject.put("password",mpassword.getText().toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        ByteArrayEntity entity = null;
+        try {
+            entity = new ByteArrayEntity(jsonObject.toString().getBytes("UTF-8"));
+            entity.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+        HttpUtil.post(RegisterActivity.this, Constants.HOST + Constants.Register, entity, "application/json", new AsyncHttpResponseHandler() {
+            @Override
+            public void onStart() {
+                super.onStart();
+                if (!NetUtil.checkNetInfo(RegisterActivity.this)) {
+
+                    showToast("当前网络不可用,请检查网络");
+                    return;
+                }
+
+            }
+
+
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
+
+                if (responseBody != null) {
+                    try {
+                        String str = new String(responseBody);
+                        JSONObject jsonObject = new JSONObject(str);
+                        if (jsonObject != null) {
+
+                            if (jsonObject.getBoolean("success")) {
+
+                               /* UserInfoBean userInfoBean = JSON.parseObject(jsonObject.getJSONObject("data").toString(), UserInfoBean.class);
+                                String  userInfoBeanStr = JSON.toJSONString(userInfoBean);
+                                SharedPreferenceUtil.getInstance(LoginActivity.this).putData("UserInfo", userInfoBeanStr);*/
+
+                                Intent intent1 = new Intent(RegisterActivity.this, LoginActivity.class);
+                                startActivity(intent1);
+
+
+                            } else {
+
+                                showToast("请求接口失败，请联系管理员");
+                            }
+
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody, Throwable error) {
+
+                if (responseBody != null) {
+                    try {
+                        String str1 = new String(responseBody);
+                        JSONObject jsonObject1 = new JSONObject(str1);
+                        showToast(jsonObject1.getString("msg"));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+
+            }
+
+
+        });
+
+
+
+
     }
 
 }

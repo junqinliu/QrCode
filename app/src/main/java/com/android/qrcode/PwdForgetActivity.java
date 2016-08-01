@@ -173,7 +173,9 @@ public class PwdForgetActivity extends BaseAppCompatActivity implements View.OnC
                             Toast.makeText(PwdForgetActivity.this, "验证成功", Toast.LENGTH_LONG).show();
 
                             Intent intent = new Intent(PwdForgetActivity.this, PwdForgetNextActivity.class);
-                            startActivity(intent);
+                            intent.putExtra("phone", user_phone.getText().toString());
+                          //  startActivity(intent);
+                            startActivityForResult(intent,100);
                         }
                         //已发送验证码
                         else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
@@ -235,6 +237,20 @@ public class PwdForgetActivity extends BaseAppCompatActivity implements View.OnC
     protected void onDestroy() {
         super.onDestroy();
         SMSSDK.unregisterEventHandler(eventHandler);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 100){
+
+            if( resultCode == RESULT_OK){
+
+                finish();
+            }
+        }
 
     }
 

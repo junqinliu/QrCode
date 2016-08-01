@@ -138,7 +138,7 @@ public class HouseManageActivity extends BaseAppCompatActivity implements  Swipe
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
         showToast("=======================");
-       // startActivity(new Intent(this,CardQrCodeCertificatActivity.class));
+
 
     }
 
@@ -221,7 +221,7 @@ public class HouseManageActivity extends BaseAppCompatActivity implements  Swipe
 
                                     buildBeanList.addAll(buildBeanListTemp);
                                     cardManageAdapter.notifyDataSetChanged();
-                                    if (buildBeanList.size() == 10) {
+                                    if (buildBeanListTemp.size() == 10) {
                                         loadingMore = true;
                                     } else {
                                         loadingMore = false;
@@ -229,7 +229,7 @@ public class HouseManageActivity extends BaseAppCompatActivity implements  Swipe
 
                                 } else {
 
-                                    showToast("该小区目前还没有维护楼栋");
+                                   // showToast("该小区目前还没有维护楼栋");
                                 }
 
                             } else {

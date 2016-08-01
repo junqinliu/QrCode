@@ -8,11 +8,29 @@ public class Constants {
 
     public static final String HOST = "http://120.76.202.60:8080/microcard";
 
-
+    /**
+     * 注册接口
+     */
+    public static final String Register = "/v0.1/user/admin/register";
     /**
      * 登录
      */
     public static final String Login = "/v0.1/user/login";
+    /**
+     * 注销
+     */
+    public static final String  LoginOut = "/v0.1/user/loginout";
+    /**
+     * 修改密码
+     */
+
+    public static final String  ModifyPwd = "/v0.1/user/updatePassword";
+    /**
+     * 忘记密码
+     */
+
+    public static final String  ForgetPassword = "/v0.1/user/forgetPassword";
+
     /**
      * 获取用户信息
      */
@@ -63,6 +81,29 @@ public class Constants {
      * 待审核列表
      */
     public static final String isROOT = "/v0.1/user/audit";
+
+    /**
+     * 审核
+     */
+    public static final String ROOT = "/v0.1/user/audit";
+
+    /**
+     * 微卡列表
+     */
+    public static final String CardList = "/v0.1/place/build/card";
+
+
+    /**
+     * 获取楼栋二维码
+     */
+    public static final String GetQrCode = "/v0.1/place/build";
+
+
+    /**
+     * 往来日志
+     */
+    public static final String  InviteLog = "/v0.1/user/invite";
+
     /*==================================================================================*/
     /**
      * 小区列表

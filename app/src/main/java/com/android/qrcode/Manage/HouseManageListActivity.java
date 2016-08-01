@@ -187,7 +187,7 @@ public class HouseManageListActivity extends BaseAppCompatActivity implements Sw
 
                                     buildBeanList.addAll(buildBeanListTemp);
                                     houseAdapter.notifyDataSetChanged();
-                                    if(buildBeanList.size() == 10){
+                                    if(buildBeanListTemp.size() == 10){
                                         loadingMore = true;
                                     }else{
                                         loadingMore = false;

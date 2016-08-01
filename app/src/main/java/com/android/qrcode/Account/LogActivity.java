@@ -9,10 +9,21 @@ import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.alibaba.fastjson.JSON;
 import com.android.adapter.LogAdapter;
 import com.android.base.BaseAppCompatActivity;
+import com.android.constant.Constants;
 import com.android.mylibrary.model.LogBean;
 import com.android.qrcode.R;
+import com.android.utils.HttpUtil;
+import com.android.utils.NetUtil;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,8 +32,8 @@ import butterknife.Bind;
 /**
  * Created by liujunqin on 2016/6/13.
  */
-public class LogActivity extends BaseAppCompatActivity implements View.OnClickListener ,
-        SwipeRefreshLayout.OnRefreshListener,AbsListView.OnScrollListener{
+public class LogActivity extends BaseAppCompatActivity implements View.OnClickListener,
+        SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener {
 
     @Bind(R.id.toolbar_title)
     TextView toolbar_title;
@@ -42,8 +53,11 @@ public class LogActivity extends BaseAppCompatActivity implements View.OnClickLi
     private boolean loadingMore = false;
 
     List<LogBean> list;
+    List<LogBean> listTemp;
 
     LogAdapter adapter;
+    int pageNumber = 0;
+    int pageSize = 10;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,7 +73,6 @@ public class LogActivity extends BaseAppCompatActivity implements View.OnClickLi
         setSupportActionBar(toolBar);
         toolBar.setNavigationIcon(R.mipmap.back);
         add_img.setImageResource(R.mipmap.submit);
-      //  add_img.setVisibility(View.VISIBLE);
 
     }
 
@@ -67,7 +80,8 @@ public class LogActivity extends BaseAppCompatActivity implements View.OnClickLi
     public void initData() {
 
         list = new ArrayList<>();
-        adapter = new LogAdapter(this,getData());
+        listTemp = new ArrayList<>();
+        adapter = new LogAdapter(this, list);
         listView.setAdapter(adapter);
     }
 
@@ -92,7 +106,9 @@ public class LogActivity extends BaseAppCompatActivity implements View.OnClickLi
 
     @Override
     public void onRefresh() {
-       // adapter.reAddList(getData());
+        pageNumber = 0;
+        list.clear();
+        getData();
         swipeRefresh.setRefreshing(false);
     }
 
@@ -103,25 +119,95 @@ public class LogActivity extends BaseAppCompatActivity implements View.OnClickLi
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-// 倒数第二个item为当前屏最后可见时，加载更多
-        if ((firstVisibleItem + visibleItemCount + 1 >= totalItemCount) && !loadingMore) {
-            loadingMore = true;
+         // 倒数第二个item为当前屏最后可见时，加载更多
+        if ((firstVisibleItem + visibleItemCount + 1 >= totalItemCount) && loadingMore) {
+          //  loadingMore = true;
             //TODO 加载数据
-          //  adapter.addAll(getData());
-            loadingMore = false;
+            getData();
+          //  loadingMore = false;
         }
     }
 
-    private List<LogBean> getData() {
-        List<LogBean> list = new ArrayList<>();
-        list.add(new LogBean("小名1","2016-4-3 19:20:32"));
-        list.add(new LogBean("小名2","2016-4-3 19:20:32"));
-        list.add(new LogBean("小名3","2016-4-3 19:20:32"));
-        list.add(new LogBean("小名4","2016-4-3 19:20:32"));
-        list.add(new LogBean("小名5","2016-4-3 19:20:32"));
-        list.add(new LogBean("小名6","2016-4-3 19:20:32"));
 
-        return list;
+    private void getData() {
+
+        RequestParams params = new RequestParams();
+        params.put("pageSize", pageSize);
+        params.put("pageNumber", pageNumber);
+        HttpUtil.get(Constants.HOST + Constants.InviteLog, params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onStart() {
+                super.onStart();
+                if (!NetUtil.checkNetInfo(LogActivity.this)) {
+
+                    showToast("当前网络不可用,请检查网络");
+                    return;
+                }
+            }
+
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
+
+                if (responseBody != null) {
+                    try {
+                        String str = new String(responseBody);
+                        JSONObject jsonObject = new JSONObject(str);
+                        if (jsonObject != null) {
+
+                            if (jsonObject.getBoolean("success")) {
+
+                                pageNumber = pageNumber + 1;
+                                JSONObject gg = new JSONObject(jsonObject.getString("data"));
+                                listTemp = JSON.parseArray(gg.getJSONArray("items").toString(), LogBean.class);
+                                list.addAll(listTemp);
+                                adapter.notifyDataSetChanged();
+                                if (listTemp.size() == 10) {
+                                    loadingMore = true;
+                                } else {
+                                    loadingMore = false;
+                                }
+
+                            } else {
+
+                                showToast("请求接口失败，请联系管理员");
+                            }
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody, Throwable error) {
+
+                if (responseBody != null) {
+                    try {
+                        String str1 = new String(responseBody);
+                        JSONObject jsonObject1 = new JSONObject(str1);
+                        showToast(jsonObject1.getString("msg"));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+
+            }
+
+
+        });
+
+
     }
+
 
 }

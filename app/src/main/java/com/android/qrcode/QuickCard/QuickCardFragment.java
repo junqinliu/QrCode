@@ -25,6 +25,7 @@ public class QuickCardFragment extends BaseFragment {
         bundle.putInt("icon", 0);
         this.setArguments(bundle);
     }
+
     @Override
     public int setContentView() {
         return R.layout.find_fragment;

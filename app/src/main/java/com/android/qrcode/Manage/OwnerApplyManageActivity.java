@@ -29,11 +29,15 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.ByteArrayEntity;
+import cz.msebera.android.httpclient.message.BasicHeader;
+import cz.msebera.android.httpclient.protocol.HTTP;
 
 /**
  * Created by liujunqin on 2016/6/13.
@@ -59,7 +63,7 @@ public class OwnerApplyManageActivity extends BaseAppCompatActivity implements  
     private boolean loadingMore = false;
     int pageNumber = 0;
     int pageSize = 10;
-
+    String audituserid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,15 +84,6 @@ public class OwnerApplyManageActivity extends BaseAppCompatActivity implements  
     @Override
     public void initData() {
 
-      /*  ownerApplyManageBeanList.add(new OwnerApplyManageBean("15522503900","1号楼","2016/06/18","0"));
-        int i = 0;
-        do {
-
-            ownerApplyManageBeanList.add(new OwnerApplyManageBean("15522503900","1号楼","2016/06/18","1"
-            ));
-            i++;
-
-        } while (i < 3);*/
 
         ownerApplyManageAdapter = new OwnerApplyManageAdapter(this, ownerApplyManageBeanList);
         houseListView.setAdapter(ownerApplyManageAdapter);
@@ -142,24 +137,45 @@ public class OwnerApplyManageActivity extends BaseAppCompatActivity implements  
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+        audituserid = ownerApplyManageBeanList.get(i).getUserid();
         new AlertDialog.Builder(OwnerApplyManageActivity.this, AlertDialog.THEME_HOLO_LIGHT).setTitle("提示")
                 .setMessage("是否认证？")
-                .setNegativeButton("拒绝", null)
-                .setPositiveButton("确定", dialogListener).create().show();
+                .setNegativeButton("拒绝", refuseListener)
+                .setPositiveButton("确定", agreeListener).create().show();
 
     }
 
 
-    android.content.DialogInterface.OnClickListener dialogListener = new android.content.DialogInterface.OnClickListener() {
+
+    /**
+     * 同意回调接口
+     */
+    android.content.DialogInterface.OnClickListener agreeListener = new android.content.DialogInterface.OnClickListener() {
 
         @Override
         public void onClick(DialogInterface dialog, int which) {
 
-
+            rootAction("PASS");
 
         }
     };
 
+    /**
+     * 拒绝回调接口
+     */
+    android.content.DialogInterface.OnClickListener refuseListener = new android.content.DialogInterface.OnClickListener() {
+
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+
+            rootAction("REFUSE");
+
+        }
+    };
+
+    /**
+     * 获取待审核列表
+     */
     private void getList(){
 
         RequestParams params = new RequestParams();
@@ -253,6 +269,91 @@ public class OwnerApplyManageActivity extends BaseAppCompatActivity implements  
 
     }
 
+    /**
+     * 通过审核
+     */
+
+   private void rootAction(String auditstatus){
+
+       JSONObject jsonObject = new JSONObject();
+       try {
+           jsonObject.put("audituserid",audituserid);
+           jsonObject.put("auditstatus",auditstatus);
+       } catch (JSONException e) {
+           e.printStackTrace();
+       }
+       ByteArrayEntity entity = null;
+       try {
+           entity = new ByteArrayEntity(jsonObject.toString().getBytes("UTF-8"));
+           entity.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+       } catch (UnsupportedEncodingException e) {
+           e.printStackTrace();
+       }
+
+       HttpUtil.post(OwnerApplyManageActivity.this, Constants.HOST + Constants.ROOT, entity, "application/json", new AsyncHttpResponseHandler() {
+           @Override
+           public void onStart() {
+               super.onStart();
+               if (!NetUtil.checkNetInfo(OwnerApplyManageActivity.this)) {
+
+                   showToast("当前网络不可用,请检查网络");
+                   return;
+               }
+           }
+
+
+           @Override
+           public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
+
+               if (responseBody != null) {
+                   try {
+                       String str = new String(responseBody);
+                       JSONObject jsonObject = new JSONObject(str);
+                       if (jsonObject != null) {
+
+                           if (jsonObject.getBoolean("success")) {
+
+                               showToast("处理成功");
+                               finish();
+                           } else {
+
+                               showToast("请求接口失败，请联系管理员");
+                           }
+
+                       }
+                   } catch (JSONException e) {
+                       e.printStackTrace();
+                   }
+               }
+
+           }
+
+           @Override
+           public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody, Throwable error) {
+
+               if (responseBody != null) {
+                   try {
+                       String str1 = new String(responseBody);
+                       JSONObject jsonObject1 = new JSONObject(str1);
+                       showToast(jsonObject1.getString("msg"));
+
+                   } catch (JSONException e) {
+                       e.printStackTrace();
+                   }
+               }
+
+           }
+
+
+           @Override
+           public void onFinish() {
+               super.onFinish();
+
+           }
+       });
+
+
+   }
 
 
 }
