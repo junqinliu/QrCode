@@ -3,6 +3,8 @@ package com.android.qrcode.Setting;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,6 +26,10 @@ public class UserNameResetActivity extends BaseAppCompatActivity implements View
     @Bind(R.id.add_img)
     ImageView add_img;
 
+    @Bind(R.id.user_name_edit)
+    EditText user_name_edit;
+    @Bind(R.id.user_name_submit)
+    Button user_name_submit;
 
 
 
@@ -40,8 +46,8 @@ public class UserNameResetActivity extends BaseAppCompatActivity implements View
         toolbar_title.setText(R.string.user_name_reset);
         setSupportActionBar(toolBar);
         toolBar.setNavigationIcon(R.mipmap.back);
-        add_img.setImageResource(R.mipmap.submit);
-        add_img.setVisibility(View.VISIBLE);
+        //add_img.setImageResource(R.mipmap.submit);
+       // add_img.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -63,6 +69,8 @@ public class UserNameResetActivity extends BaseAppCompatActivity implements View
             }
         });
 
+        user_name_submit.setOnClickListener(this);
+
     }
 
 
@@ -71,10 +79,10 @@ public class UserNameResetActivity extends BaseAppCompatActivity implements View
 
         switch (view.getId()){
 
-            //case R.id.add_img:
+            case R.id.user_name_submit:
 
 
-            //    break;
+                break;
 
             default:
                 break;

@@ -55,11 +55,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
 
-            <!-- 调用新浪原生SDK，需要注册的回调activity -->
-            <!-- <intent-filter>
-                 <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
-                 <category android:name="android.intent.category.DEFAULT" />
-             </intent-filter>-->
+
         </activity>
         <activity
             android:name=".wxapi.WXEntryActivity"
@@ -71,7 +67,7 @@
         <!--shareSdk  end-->
 
 
-        <activity
+       <!-- <activity
             android:name=".HomeActivity"
             android:theme="@style/AppThemeToolbar">
             <intent-filter>
@@ -79,11 +75,18 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity>-->
 
         <activity
             android:name=".LoginActivity"
-            android:theme="@style/AppThemeToolbar"></activity>
+            android:theme="@style/AppThemeToolbar">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".RegisterActivity"

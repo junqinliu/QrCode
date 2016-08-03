@@ -62,8 +62,15 @@ public class SharedPreferenceUtil {
 	  
 		
 	}
-	
-	
+
+	/**
+	 * 删除本地文件
+	 */
+	public void deleteData(){
+
+		preferences.edit().clear().commit();
+	}
+
 	/**
 	 * ��ȡSharedPreferences����
 	 */

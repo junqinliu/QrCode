@@ -23,6 +23,7 @@
             android:text="@string/user_name" />
 
         <EditText
+            android:id="@+id/user_name_edit"
             style="@style/Cell_Warranty_Linear_Edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -40,7 +41,7 @@
         android:background="@drawable/shape_stroke_gray"
         android:minLines="5" />-->
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/user_name_submit"
         style="@style/Cell_Warranty_Btn_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.android.adapter.CardAdapter;
@@ -31,7 +32,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import cz.msebera.android.httpclient.Header;
@@ -61,6 +65,8 @@ public class CardFragmet extends BaseFragment implements  SwipeRefreshLayout.OnR
     private boolean loadingMore = false;
     int pageNumber = 0;
     int pageSize = 10;
+    Map<Integer, Boolean> isSelectedMap = new HashMap<Integer, Boolean>();
+    RoomCardBean roomCardBean;
 
     @Override
     public int setContentView() {
@@ -77,6 +83,11 @@ public class CardFragmet extends BaseFragment implements  SwipeRefreshLayout.OnR
 
         cardAdapter = new CardAdapter(getActivity(), roomCardBeanList);
         cardListView.setAdapter(cardAdapter);
+
+        if(!"".equals(SharedPreferenceUtil.getInstance(getActivity()).getSharedPreferences().getString("RoomCardBean", ""))){
+
+            roomCardBean = JSON.parseObject(SharedPreferenceUtil.getInstance(getActivity()).getSharedPreferences().getString("RoomCardBean", ""), RoomCardBean.class);
+        }
 
     }
 
@@ -100,6 +111,11 @@ public class CardFragmet extends BaseFragment implements  SwipeRefreshLayout.OnR
         //TODO request data from server
         pageNumber = 0;
         roomCardBeanList.clear();
+        //刷新的时候 重新获取选中的快房卡 不然会一直选中刚进来的那张房卡
+        if(!"".equals(SharedPreferenceUtil.getInstance(getActivity()).getSharedPreferences().getString("RoomCardBean", ""))){
+
+            roomCardBean = JSON.parseObject(SharedPreferenceUtil.getInstance(getActivity()).getSharedPreferences().getString("RoomCardBean", ""), RoomCardBean.class);
+        }
         getCardList();
         cardSwipeRefresh.setRefreshing(false);
     }
@@ -114,7 +130,7 @@ public class CardFragmet extends BaseFragment implements  SwipeRefreshLayout.OnR
         // 倒数第二个item为当前屏最后可见时，加载更多
         if ((firstVisibleItem + visibleItemCount + 1 >= totalItemCount) && loadingMore) {
             //  loadingMore = true;
-            //TODO 加载数据
+            //TODO 加载数据 （重新获取选中的快房卡 不然会一直选中刚进来的那张房卡 ）（还没做）
             getCardList();
         }
     }
@@ -169,7 +185,27 @@ public class CardFragmet extends BaseFragment implements  SwipeRefreshLayout.OnR
                                 if (roomCardBeanListTemp != null && roomCardBeanListTemp.size() > 0) {
 
                                     roomCardBeanList.addAll(roomCardBeanListTemp);
+                                    cardAdapter.initDate();
+                                    if(roomCardBean != null){
+
+                                        for(int i = 0;i<roomCardBeanList.size();i++){
+
+                                            if(roomCardBean.getBuildid().equals(roomCardBeanList.get(i).getBuildid())){
+
+                                                //设置上次选中的房卡作为默认快捷房卡
+                                                isSelectedMap = cardAdapter.getIsSelected();
+                                                isSelectedMap.put(i,true);
+                                            }
+                                        }
+                                    }else{
+                                        //初始化设置快捷房卡（以前没有设置过房卡）
+                                        isSelectedMap = cardAdapter.getIsSelected();
+                                        isSelectedMap.put(0,true);
+                                        String  roomCardBeanstr = JSON.toJSONString(roomCardBeanList.get(0));
+                                        SharedPreferenceUtil.getInstance(getActivity()).putData("RoomCardBean", roomCardBeanstr);
+                                    }
                                     cardAdapter.notifyDataSetChanged();
+
                                     if (roomCardBeanListTemp.size() == 10) {
                                         loadingMore = true;
                                     } else {
@@ -257,8 +293,6 @@ public class CardFragmet extends BaseFragment implements  SwipeRefreshLayout.OnR
 
                             if (jsonObject.getBoolean("success")) {
 
-                                //  binaryCode.setImageBitmap(Utils.createQRImage(CardQrCodeCertificatActivity.this, jsonObject.getString("data"), 500, 500));
-
                                 Intent intent = new Intent(getActivity(), CardQrCodeActivity.class);
                                 intent.putExtra("secret", jsonObject.getString("data"));
                                 intent.putExtra("buildname", buildname);
@@ -313,8 +347,16 @@ public class CardFragmet extends BaseFragment implements  SwipeRefreshLayout.OnR
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser){
 
+            //实时获取最新的选中快捷房卡
+            if(!"".equals(SharedPreferenceUtil.getInstance(getActivity()).getSharedPreferences().getString("RoomCardBean", ""))){
+
+                roomCardBean = JSON.parseObject(SharedPreferenceUtil.getInstance(getActivity()).getSharedPreferences().getString("RoomCardBean", ""), RoomCardBean.class);
+            }
+            pageNumber = 0;
+            roomCardBeanList.clear();
             getCardList();
         }else{
+
 
 
         }

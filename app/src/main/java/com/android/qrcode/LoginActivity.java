@@ -167,10 +167,10 @@ public class LoginActivity extends BaseAppCompatActivity implements View.OnClick
                             if(jsonObject.getBoolean("success")){
 
                                 UserInfoBean userInfoBean = JSON.parseObject(jsonObject.getJSONObject("data").toString(),UserInfoBean.class);
+                                userInfoBean.setPhone(ed_account.getText().toString());
                                 String  userInfoBeanStr = JSON.toJSONString(userInfoBean);
                                 SharedPreferenceUtil.getInstance(LoginActivity.this).putData("UserInfo", userInfoBeanStr);
 
-                                //Intent intent1 = new Intent(LoginActivity.this, CardMainActivity.class);
                                 Intent intent1;
 
                                 if ("ADMIN".equals(userInfoBean.getAuthority())) {//二级管理员
@@ -178,13 +178,11 @@ public class LoginActivity extends BaseAppCompatActivity implements View.OnClick
                                     startActivity(intent1);
                                 } else if ("PROPERTY".equals(userInfoBean.getAuthority())){
                                     intent1 = new Intent(LoginActivity.this, MainActivity.class);
+                                    intent1.putExtra("phone",ed_account.getText().toString());
                                     startActivity(intent1);
                                 } else {
                                     showToast("请输入正确账号！");
                                 }
-
-
-
 
                             }else{
 
@@ -201,8 +199,6 @@ public class LoginActivity extends BaseAppCompatActivity implements View.OnClick
 
             @Override
             public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody, Throwable error) {
-               /* store = JSON.parseObject(jsonObj.getJSONObject("store").toString(),Store.class);*/
-                /*list = JSON.parseArray(jsonObj.getJSONArray("data").toString(),OrderListBean.class);*/
 
                 if(responseBody != null){
                     try {
@@ -214,20 +210,13 @@ public class LoginActivity extends BaseAppCompatActivity implements View.OnClick
                         e.printStackTrace();
                     }
                 }
-
-
-
-
             }
-
 
             @Override
             public void onFinish() {
                 super.onFinish();
 
             }
-
-
         });
 
 

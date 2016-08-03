@@ -11,6 +11,7 @@ import com.android.application.ExitApplication;
 import com.android.base.BaseFragment;
 import com.android.constant.Constants;
 import com.android.qrcode.Account.LogActivity;
+import com.android.qrcode.LoginActivity;
 import com.android.qrcode.R;
 import com.android.utils.HttpUtil;
 import com.android.utils.NetUtil;
@@ -163,10 +164,10 @@ public class SettingFragmet extends BaseFragment implements View.OnClickListener
                                 showToast("退出登录成功");
                                 //跳转到登录接口 并且把本地文件的数据清除掉
 
-                              /*  Intent intent = new Intent(PersonalActivity.this, LoginActivity.class);
+                                Intent intent = new Intent(getActivity(), LoginActivity.class);
                                 startActivity(intent);
-                                SharedPreferenceUtil.getInstance(PersonalActivity.this).deleteData();
-                                ExitApplication.getInstance().exitActivity();*/
+                                SharedPreferenceUtil.getInstance(getActivity()).deleteData();
+                                ExitApplication.getInstance().exitActivity();
 
                             } else {
 

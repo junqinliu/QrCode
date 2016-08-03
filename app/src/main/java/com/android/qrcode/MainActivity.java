@@ -68,6 +68,7 @@ public class MainActivity extends BaseAppCompatActivity implements
     @Bind(R.id.add_img)
     ImageView add_img;
     private UserInfoBean userInfoBean = new UserInfoBean();
+    private String phone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +111,8 @@ public class MainActivity extends BaseAppCompatActivity implements
             }
         });
 
-        //湖区用户信息
+        phone = getIntent().getStringExtra("phone");
+        //获取用户信息
         getUserInfo();
 
     }
@@ -432,6 +434,7 @@ public class MainActivity extends BaseAppCompatActivity implements
 
 
                                 UserInfoBean userInfoBean = JSON.parseObject(jsonObject.getJSONObject("data").toString(),UserInfoBean.class);
+                                userInfoBean.setPhone(phone);
                                 String  userInfoBeanStr = JSON.toJSONString(userInfoBean);
                                 SharedPreferenceUtil.getInstance(MainActivity.this).putData("UserInfo", userInfoBeanStr);
 

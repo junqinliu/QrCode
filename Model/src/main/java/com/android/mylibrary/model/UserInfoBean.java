@@ -12,6 +12,7 @@ public class UserInfoBean {
     private  String authority;//ADMIN/PROPERTY/OWNER/USER   权限（枚举管理员、物业、业主、成员）
     private String houseid;
     private String housename;
+    private String phone;
 
 
     public String getToken() {
@@ -68,5 +69,13 @@ public class UserInfoBean {
 
     public void setHousename(String housename) {
         this.housename = housename;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }
