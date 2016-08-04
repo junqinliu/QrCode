@@ -19,17 +19,17 @@ public class Constants {
     /**
      * 注销
      */
-    public static final String  LoginOut = "/v0.1/user/loginout";
+    public static final String LoginOut = "/v0.1/user/loginout";
     /**
      * 修改密码
      */
 
-    public static final String  ModifyPwd = "/v0.1/user/updatePassword";
+    public static final String ModifyPwd = "/v0.1/user/updatePassword";
     /**
      * 忘记密码
      */
 
-    public static final String  ForgetPassword = "/v0.1/user/forgetPassword";
+    public static final String ForgetPassword = "/v0.1/user/forgetPassword";
 
     /**
      * 获取用户信息
@@ -42,15 +42,20 @@ public class Constants {
     /**
      * 获取省份
      */
-    public static final String  Provice = "/v0.1/place/province";
+    public static final String Provice = "/v0.1/place/province";
     /**
      * 获取城市
      */
-    public static final String  City = "/v0.1/place/city";
+    public static final String City = "/v0.1/place/city";
     /**
      * 获取区县
      */
-    public static final String  Area = "/v0.1/place/area";
+    public static final String Area = "/v0.1/place/area";
+
+    /**
+     * 小区列表
+     */
+    public static final String  House = "/v0.1/place/house";
 
     /**
      * 设备报修 业主投诉列表
@@ -102,7 +107,26 @@ public class Constants {
     /**
      * 往来日志
      */
-    public static final String  InviteLog = "/v0.1/user/invite";
+    public static final String InviteLog = "/v0.1/user/invite";
+
+    /**
+     * 获取业主列表
+     */
+    public static final String OwnerList = "/v0.1/user/owner";
+
+    /**
+     * 添加业主
+     */
+    public static final String AddOwner = "/v0.1/user/owner";
+    /**
+     * 删除业主
+     */
+    public static final String DeleteOwner = "/v0.1/user/owner";
+
+    /**
+     * 申请审核
+     */
+    public static final String Apply = "/v0.1/user/audit/apply";
 
     /*==================================================================================*/
     /**

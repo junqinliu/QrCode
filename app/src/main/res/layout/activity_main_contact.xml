@@ -32,6 +32,10 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" >
 
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/houseSwipeRefresh"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
             <ListView
                 android:id="@+id/sortlist"
                 android:layout_width="fill_parent"
@@ -39,6 +43,8 @@
                 android:background="@color/whites"
                 android:listSelector="@drawable/comm_btn_selector"
                 android:layout_gravity="center" />
+
+            </android.support.v4.widget.SwipeRefreshLayout>
 
             <TextView
                 android:id="@+id/dialog"

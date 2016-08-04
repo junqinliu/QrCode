@@ -179,6 +179,11 @@
 
         </activity>
         <activity
+            android:name=".Manage.CommunityActivity"
+            android:theme="@style/AppThemeToolbar">
+
+        </activity>
+        <activity
             android:name=".Manage.AddBuildActivity"
             android:theme="@style/AppThemeToolbar">
 
@@ -205,6 +210,11 @@
         </activity>
         <activity
             android:name=".Setting.IdeaFeedBackActivity"
+            android:theme="@style/AppThemeToolbar">
+
+        </activity>
+        <activity
+            android:name=".Setting.ApplyActivity"
             android:theme="@style/AppThemeToolbar">
 
         </activity>

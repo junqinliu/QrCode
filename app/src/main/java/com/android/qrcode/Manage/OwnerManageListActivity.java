@@ -1,41 +1,58 @@
 package com.android.qrcode.Manage;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.android.adapter.SortAdapter;
 import com.android.base.BaseAppCompatActivity;
+import com.android.constant.Constants;
+import com.android.mylibrary.model.BuildBean;
 import com.android.mylibrary.model.OwnerListBean;
 import com.android.mylibrary.model.SortModel;
+import com.android.mylibrary.model.UserInfoBean;
 import com.android.qrcode.R;
 import com.android.utils.CharacterParser;
 import com.android.utils.ClearEditText;
+import com.android.utils.HttpUtil;
+import com.android.utils.NetUtil;
 import com.android.utils.OndeleteListener;
 import com.android.utils.PinyinComparator;
+import com.android.utils.SharedPreferenceUtil;
 import com.android.utils.SideBar;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import butterknife.Bind;
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by liujunqin on 2016/6/13.
  */
-public class OwnerManageListActivity extends BaseAppCompatActivity implements View.OnClickListener, OndeleteListener {
+public class OwnerManageListActivity extends BaseAppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener ,View.OnClickListener, OndeleteListener {
 
 
     @Bind(R.id.toolbar)
@@ -53,12 +70,22 @@ public class OwnerManageListActivity extends BaseAppCompatActivity implements Vi
     @Bind(R.id.add_img)
     ImageView add_img;
 
+    @Bind(R.id.houseSwipeRefresh)
+    SwipeRefreshLayout houseSwipeRefresh;
+
     private SortAdapter adapter;
     private CharacterParser characterParser;
-    private List<SortModel> SourceDateList;
-    private List<OwnerListBean> OwnerListBean;
+    private List<SortModel> SourceDateList = new ArrayList<>();
+    private List<OwnerListBean> OwnerListBean = new ArrayList<>();
+    private List<OwnerListBean> OwnerListBeanTemp = new ArrayList<>();
 
     private PinyinComparator pinyinComparator;
+
+    private boolean loadingMore = false;
+    int pageNumber = 0;
+    int pageSize = 10;
+    String buildid;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,27 +111,25 @@ public class OwnerManageListActivity extends BaseAppCompatActivity implements Vi
 
         pinyinComparator = new PinyinComparator();
 
+
+
         sideBar.setTextView(dialog);
 
-        OwnerListBean = new ArrayList<>();
-        OwnerListBean.add(new OwnerListBean("李海", "15522503900", 0));
-        OwnerListBean.add(new OwnerListBean("啊龙", "15522503900", 1));
-        OwnerListBean.add(new OwnerListBean("何绍", "15522503900", 0));
-        OwnerListBean.add(new OwnerListBean("志伟", "15522503900", 0));
-        OwnerListBean.add(new OwnerListBean("晓桃", "15522503900", 0));
-
-        SourceDateList = filledData(OwnerListBean);
+        /*SourceDateList = filledData(OwnerListBean);
         // 根据a-z进行排序源数据
-        Collections.sort(SourceDateList, pinyinComparator);
+        Collections.sort(SourceDateList, pinyinComparator);*/
         adapter = new SortAdapter(this, SourceDateList, this);
         sortListView.setAdapter(adapter);
 
+        buildid = getIntent().getStringExtra("buildid");
+        getOwnerList();
     }
 
     @Override
     public void setListener() {
 
         add_img.setOnClickListener(this);
+        houseSwipeRefresh.setOnRefreshListener(this);
 
         // 设置右侧触摸监听
         sideBar.setOnTouchingLetterChangedListener(new SideBar.OnTouchingLetterChangedListener() {
@@ -243,6 +268,7 @@ public class OwnerManageListActivity extends BaseAppCompatActivity implements Vi
             case R.id.add_img:
 
                 Intent intent = new Intent(OwnerManageListActivity.this, AddOwnerActivity.class);
+                intent.putExtra("buildid",buildid);
                 startActivityForResult(intent, 1);
 
                 break;
@@ -260,17 +286,247 @@ public class OwnerManageListActivity extends BaseAppCompatActivity implements Vi
 
             if (resultCode == 2) {
 
-                OwnerListBean ownerListBean = (OwnerListBean) data.getSerializableExtra("OwnerListBean");
+               /* OwnerListBean ownerListBean = (OwnerListBean) data.getSerializableExtra("OwnerListBean");
                 OwnerListBean.add(ownerListBean);
                 SourceDateList = filledData(OwnerListBean);
                 Collections.sort(SourceDateList, pinyinComparator);
-                adapter.updateListView(SourceDateList);
+                adapter.updateListView(SourceDateList);*/
+
+                pageNumber = 0;
+                OwnerListBean.clear();
+                getOwnerList();
+
             }
         }
     }
 
     @Override
-    public void onDelete(int houseid) {
+    public void onDelete(int userid) {
         //TODO //穿过来用户id,
+
+        for (SortModel model : SourceDateList ) {
+            if(model.getUserid() == userid){
+               // deleteMember(model);
+
+                showDeleteDialog(model);
+                break;
+            }
+        }
     }
+
+
+
+
+    @Override
+    public void onRefresh() {
+        //TODO request data from server
+        pageNumber = 0;
+        OwnerListBean.clear();
+        getOwnerList();
+        houseSwipeRefresh.setRefreshing(false);
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView absListView, int i) {
+
+    }
+
+    @Override
+    public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+        // 倒数第二个item为当前屏最后可见时，加载更多
+        if ((firstVisibleItem + visibleItemCount + 1 >= totalItemCount) && loadingMore) {
+            //  loadingMore = true;
+            //TODO 加载数据
+            getOwnerList();
+        }
+    }
+
+
+    /**
+     * 删除成员弹出框
+     *
+     * @param model
+     */
+    private void showDeleteDialog(SortModel model) {
+        new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_LIGHT).setTitle("提示")
+                .setMessage("确定删除" + model.getName())
+                .setNegativeButton("取消", null)
+                .setPositiveButton("确定", new DialogListener(model)).create().show();
+    }
+
+    // 退出提示框按钮监听
+    class DialogListener implements android.content.DialogInterface.OnClickListener {
+        private SortModel model;
+
+        DialogListener(SortModel model) {
+            this.model = model;
+        }
+
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            deleteMember(model);
+        }
+    }
+
+
+    /**
+     * 获取业主列表
+     */
+    private void getOwnerList() {
+
+
+
+        RequestParams params = new RequestParams();
+        params.put("pageSize", pageSize);
+        params.put("pageNumber", pageNumber);
+        params.put("buildid", buildid);
+
+        HttpUtil.get(Constants.HOST + Constants.OwnerList, params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onStart() {
+                super.onStart();
+                if (!NetUtil.checkNetInfo(OwnerManageListActivity.this)) {
+
+                    showToast("当前网络不可用,请检查网络");
+                    return;
+
+                }
+            }
+
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+                if (responseBody != null) {
+                    try {
+                        String str = new String(responseBody);
+                        JSONObject jsonObject = new JSONObject(str);
+                        if (jsonObject != null) {
+
+                            if (jsonObject.getBoolean("success")) {
+
+                                pageNumber = pageNumber + 1;
+                                OwnerListBeanTemp.clear();
+                                JSONObject gg = new JSONObject(jsonObject.getString("data"));
+
+                                OwnerListBeanTemp = JSON.parseArray(gg.getJSONArray("items").toString(), OwnerListBean.class);
+                                if (OwnerListBeanTemp != null && OwnerListBeanTemp.size() > 0) {
+
+                                    OwnerListBean.addAll(OwnerListBeanTemp);
+                                    SourceDateList = filledData(OwnerListBean);
+                                    // 根据a-z进行排序源数据
+                                    Collections.sort(SourceDateList, pinyinComparator);
+                                    adapter.updateListView(SourceDateList);
+                                    if (OwnerListBeanTemp.size() == 10) {
+                                        loadingMore = true;
+                                    } else {
+                                        loadingMore = false;
+                                    }
+
+                                } else {
+
+
+                                }
+
+                            } else {
+
+                                showToast("请求接口失败，请联系管理员");
+                            }
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+                if (responseBody != null) {
+                    try {
+                        String str1 = new String(responseBody);
+                        JSONObject jsonObject1 = new JSONObject(str1);
+                        showToast(jsonObject1.getString("msg"));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+
+            }
+
+
+        });
+
+    }
+
+
+    /**
+     * 调用删除成员接口
+     */
+    private void deleteMember(final SortModel model) {
+        HttpUtil.delete(Constants.HOST + Constants.delete_member + "/" + model.getUserid(), new AsyncHttpResponseHandler() {
+            @Override
+            public void onStart() {
+                super.onStart();
+                if (!NetUtil.checkNetInfo(OwnerManageListActivity.this)) {
+
+                    showToast("当前网络不可用,请检查网络");
+                    return;
+                }
+            }
+
+
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
+                if (responseBody != null) {
+                    try {
+                        String str = new String(responseBody);
+                        JSONObject jsonObject = new JSONObject(str);
+                        if (jsonObject != null) {
+                            if (jsonObject.getBoolean("success")) {
+                                showToast("已删除" + model.getName());
+                                SourceDateList.remove(model);
+                                adapter.notifyDataSetChanged();
+//                                requestData();//重新调用接口
+                            } else {
+                                showToast("请求接口失败，请联系管理员");
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody, Throwable error) {
+
+                if (responseBody != null) {
+                    try {
+                        String str1 = new String(responseBody);
+                        JSONObject jsonObject1 = new JSONObject(str1);
+                        showToast(jsonObject1.getString("msg"));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+
+        });
+    }
+
+
 }

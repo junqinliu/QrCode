@@ -78,7 +78,7 @@ public class CardAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         //Glide.with(context).load(list.get(i).getMemberPhoto()).into(holder.messagePic);
-        holder.messageTitle.setText(list.get(i).getBuildname());
+        holder.messageTitle.setText(list.get(i).getName());
 
         final int tempPosition = i;
 
@@ -94,7 +94,7 @@ public class CardAdapter extends BaseAdapter {
 
                         if (j == tempPosition) {
 
-                            Toast.makeText(context,"你设置快捷房卡"+list.get(j).getBuildname(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context,"你设置快捷房卡"+list.get(j).getName(),Toast.LENGTH_SHORT).show();
                             //contextshowToast("你设置快捷房卡"+roomCardBeanList.get(key).getBuildname());
                             String  roomCardBeanstr = JSON.toJSONString(list.get(j));
                             SharedPreferenceUtil.getInstance(context).putData("RoomCardBean", roomCardBeanstr);

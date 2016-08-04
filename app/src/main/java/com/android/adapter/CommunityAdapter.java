@@ -6,28 +6,28 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.android.mylibrary.model.BuildBean;
+
+import com.android.mylibrary.model.CommunityBean;
 import com.android.qrcode.R;
 
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import de.hdodenhof.circleimageview.CircleImageView;
-
 
 /**
  * Created by liujunqin on 2016/5/12.
  */
-public class MainHouseAdapter extends BaseAdapter {
+public class CommunityAdapter extends BaseAdapter {
 
     Context context;
-    List<BuildBean> list;
+    List<CommunityBean> list;
 
-    public MainHouseAdapter(Context context, List<BuildBean> list) {
+    public CommunityAdapter(Context context, List<CommunityBean> list) {
         this.context = context;
         this.list = list;
     }
+
 
 
     @Override
@@ -49,26 +49,19 @@ public class MainHouseAdapter extends BaseAdapter {
     public View getView(int i, View convertView, ViewGroup viewGroup) {
         ViewHolder holder;
         if (convertView == null) {
-            convertView = View.inflate(context, R.layout.item_main_house, null);
+            convertView = View.inflate(context, R.layout.item_common_adapter, null);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        //Glide.with(context).load(list.get(i).getMemberPhoto()).into(holder.messagePic);
-        holder.messagePic.setImageResource(R.mipmap.owner_manage);
-        holder.messageTitle.setText(list.get(i).getName());
-
+        holder.block_txt.setText(list.get(i).getName());
         return convertView;
     }
 
-    static class ViewHolder {
-
-        @Bind(R.id.messagePic)
-        CircleImageView messagePic;
-        @Bind(R.id.messageTitle)
-        TextView messageTitle;
-
+    class ViewHolder {
+        @Bind(R.id.block_txt)
+        TextView block_txt;
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }

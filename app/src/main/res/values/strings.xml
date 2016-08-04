@@ -40,6 +40,7 @@
     <string name="add_owner_phone_str">"手机号码:"</string>
     <string name="add_owner_name_str">"姓       名"</string>
     <string name="add_owner_sex_str">"性       别"</string>
+    <string name="open_door_str">"开门权限"</string>
     <string name="add_owner_hint_num_str">"请输入号码"</string>
     <string name="user_name">用户姓名</string>
     <string name="add_owner_hint_name_str">"请输入姓名"</string>
@@ -121,6 +122,8 @@
     <string name="full_name">姓名：</string>
     <string name="comfirm">确认</string>
     <string name="add_community_str">添加小区</string>
+    <string name="add_limit_str">申请权限</string>
+    <string name="submit_limit_str">提交审核</string>
     <string name="user_str">用户</string>
 
     <!--login-->

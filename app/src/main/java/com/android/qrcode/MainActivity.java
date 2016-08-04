@@ -1,5 +1,6 @@
 package com.android.qrcode;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -23,12 +24,14 @@ import com.android.mylibrary.model.UserInfoBean;
 import com.android.qrcode.Account.AccountFragmet;
 import com.android.qrcode.Card.CardFragmet;
 import com.android.qrcode.QuickCard.QuickCardFragment;
+import com.android.qrcode.Setting.ApplyActivity;
 import com.android.qrcode.Setting.SettingFragmet;
 import com.android.qrcode.Manage.ManageFragmet;
 import com.android.utils.HttpUtil;
 import com.android.utils.NetUtil;
 import com.android.utils.Page;
 import com.android.utils.SharedPreferenceUtil;
+import com.android.utils.TextUtil;
 import com.android.utils.Utils;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -84,7 +87,11 @@ public class MainActivity extends BaseAppCompatActivity implements
         toolbar_title.setText(R.string.manage_title);
         setSupportActionBar(toolBar);
 
-        userInfoBean = JSON.parseObject(SharedPreferenceUtil.getInstance(this).getSharedPreferences().getString("UserInfo", ""), UserInfoBean.class);
+        if(!TextUtil.isEmpty(SharedPreferenceUtil.getInstance(this).getSharedPreferences().getString("UserInfo", ""))){
+
+            userInfoBean = JSON.parseObject(SharedPreferenceUtil.getInstance(this).getSharedPreferences().getString("UserInfo", ""), UserInfoBean.class);
+        }
+
         //配置请求接口全局token 和 userid
         if (userInfoBean != null) {
 
@@ -153,6 +160,16 @@ public class MainActivity extends BaseAppCompatActivity implements
 
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(!TextUtil.isEmpty(SharedPreferenceUtil.getInstance(this).getSharedPreferences().getString("UserInfo", ""))){
+
+            userInfoBean = JSON.parseObject(SharedPreferenceUtil.getInstance(this).getSharedPreferences().getString("UserInfo", ""), UserInfoBean.class);
+        }
+    }
 
     /**
      * 设置所有tab的图标和初始化第一个界面
@@ -223,38 +240,107 @@ public class MainActivity extends BaseAppCompatActivity implements
         switch (tab.getPosition()){
 
             case 0:
-                changeQuickIconAndTextColor();
-                toolbar_title.setText(R.string.manage_title);
-                add_img.setVisibility(View.GONE);
-                flag = Page.MANAGE;
+
+                if ("PASS".equals(userInfoBean.getAduitstatus())) {
+
+                    changeQuickIconAndTextColor();
+                    toolbar_title.setText(R.string.manage_title);
+                    add_img.setVisibility(View.GONE);
+                    flag = Page.MANAGE;
+
+                } else if ("AUDITING".equals(userInfoBean.getAduitstatus())) {
+
+                    showToast("您所申请的权限正在审核。。。");
+
+                } else {
+                    //跳到权限申请界面
+                    startActivity(new Intent(this, ApplyActivity.class));
+                }
+
+
+
                 break;
             case 1:
-                changeQuickIconAndTextColor();
-                toolbar_title.setText(R.string.card_title);
-                add_img.setVisibility(View.GONE);
-                flag = Page.CARD;
+
+                if ("PASS".equals(userInfoBean.getAduitstatus())) {
+
+                    changeQuickIconAndTextColor();
+                    toolbar_title.setText(R.string.card_title);
+                    add_img.setVisibility(View.GONE);
+                    flag = Page.CARD;
+
+                } else if ("AUDITING".equals(userInfoBean.getAduitstatus())) {
+
+                    showToast("您所申请的权限正在审核。。。");
+
+                } else {
+                    //跳到权限申请界面
+                    startActivity(new Intent(this, ApplyActivity.class));
+                }
+
+
+
                 break;
             case 2:
 
-                toolbar_title.setText(R.string.quick_title);
-                quick_img.setImageDrawable(this.getResources().getDrawable(R.mipmap.owner_manage));
-                quick_tx.setTextColor(this.getResources().getColor(R.color.black_text));
+                if ("PASS".equals(userInfoBean.getAduitstatus())) {
 
-                add_img.setVisibility(View.VISIBLE);
-                add_img.setOnClickListener(this);
-                flag = Page.QUICKCARD;
+                    toolbar_title.setText(R.string.quick_title);
+                    quick_img.setImageDrawable(this.getResources().getDrawable(R.mipmap.owner_manage));
+                    quick_tx.setTextColor(this.getResources().getColor(R.color.black_text));
+
+                    add_img.setVisibility(View.VISIBLE);
+                    add_img.setOnClickListener(this);
+                    flag = Page.QUICKCARD;
+
+                } else if ("AUDITING".equals(userInfoBean.getAduitstatus())) {
+
+                    showToast("您所申请的权限正在审核。。。");
+
+                } else {
+                    //跳到权限申请界面
+                    startActivity(new Intent(this, ApplyActivity.class));
+                }
+
+
                 break;
             case 3:
-                changeQuickIconAndTextColor();
-                toolbar_title.setText(R.string.account_title);
-                add_img.setVisibility(View.GONE);
-                flag = Page.ACCOUNT;
+
+                if ("PASS".equals(userInfoBean.getAduitstatus())) {
+
+                    changeQuickIconAndTextColor();
+                    toolbar_title.setText(R.string.account_title);
+                    add_img.setVisibility(View.GONE);
+                    flag = Page.ACCOUNT;
+
+                } else if ("AUDITING".equals(userInfoBean.getAduitstatus())) {
+
+                    showToast("您所申请的权限正在审核。。。");
+
+                } else {
+                    //跳到权限申请界面
+                    startActivity(new Intent(this, ApplyActivity.class));
+                }
+
                 break;
             case 4:
-                changeQuickIconAndTextColor();
-                toolbar_title.setText(R.string.setting_title);
-                add_img.setVisibility(View.GONE);
-                flag = Page.SETTING;
+
+                if ("PASS".equals(userInfoBean.getAduitstatus())) {
+
+                    changeQuickIconAndTextColor();
+                    toolbar_title.setText(R.string.setting_title);
+                    add_img.setVisibility(View.GONE);
+                    flag = Page.SETTING;
+
+                } else if ("AUDITING".equals(userInfoBean.getAduitstatus())) {
+
+                    showToast("您所申请的权限正在审核。。。");
+
+                } else {
+                    //跳到权限申请界面
+                    startActivity(new Intent(this, ApplyActivity.class));
+                }
+
                 break;
             default:
                 break;
@@ -437,6 +523,16 @@ public class MainActivity extends BaseAppCompatActivity implements
                                 userInfoBean.setPhone(phone);
                                 String  userInfoBeanStr = JSON.toJSONString(userInfoBean);
                                 SharedPreferenceUtil.getInstance(MainActivity.this).putData("UserInfo", userInfoBeanStr);
+
+                                //配置请求接口全局token 和 userid
+                                if (userInfoBean != null) {
+
+                                    HttpUtil.getClient().addHeader("Token", userInfoBean.getToken());
+                                    HttpUtil.getClient().addHeader("Userid", userInfoBean.getUserid());
+
+                                }
+
+
 
                             }else{
 

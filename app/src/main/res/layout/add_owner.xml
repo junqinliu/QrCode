@@ -131,7 +131,7 @@
                 style="@style/Cell_Warranty_Btn_1"
                 android:layout_margin="20dp"
                 android:padding="10dp"
-                android:text="@string/submit"
+                android:text="@string/feed_back_submit"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/bg_finsh"
                 android:id="@+id/button3" />

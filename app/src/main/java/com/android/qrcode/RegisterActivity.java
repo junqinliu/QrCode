@@ -15,10 +15,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.android.application.ExitApplication;
 import com.android.base.BaseAppCompatActivity;
 import com.android.constant.Constants;
+import com.android.mylibrary.model.UserInfoBean;
+import com.android.qrcode.Setting.ApplyActivity;
 import com.android.utils.HttpUtil;
 import com.android.utils.NetUtil;
+import com.android.utils.SharedPreferenceUtil;
 import com.android.utils.TextUtil;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
@@ -63,7 +68,7 @@ public class RegisterActivity extends BaseAppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
+        ExitApplication.getInstance().addAllActivity(this);
     }
 
 
@@ -308,11 +313,12 @@ public class RegisterActivity extends BaseAppCompatActivity implements View.OnCl
 
                             if (jsonObject.getBoolean("success")) {
 
-                               /* UserInfoBean userInfoBean = JSON.parseObject(jsonObject.getJSONObject("data").toString(), UserInfoBean.class);
+                                UserInfoBean userInfoBean = JSON.parseObject(jsonObject.getJSONObject("data").toString(), UserInfoBean.class);
                                 String  userInfoBeanStr = JSON.toJSONString(userInfoBean);
-                                SharedPreferenceUtil.getInstance(LoginActivity.this).putData("UserInfo", userInfoBeanStr);*/
+                                SharedPreferenceUtil.getInstance(RegisterActivity.this).putData("UserInfo", userInfoBeanStr);
 
-                                Intent intent1 = new Intent(RegisterActivity.this, LoginActivity.class);
+                                Intent intent1 = new Intent(RegisterActivity.this, ApplyActivity.class);
+                                intent1.putExtra("flag","register");
                                 startActivity(intent1);
 
 

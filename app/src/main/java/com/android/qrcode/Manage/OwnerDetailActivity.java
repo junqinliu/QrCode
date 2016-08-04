@@ -44,6 +44,9 @@ public class OwnerDetailActivity extends BaseAppCompatActivity implements View.O
     @Bind(R.id.sex)
     TextView sex;
 
+    @Bind(R.id.open_door_layout)
+    RelativeLayout open_door_layout;
+
     private SortModel sortModel;
 
     @Override
@@ -61,6 +64,7 @@ public class OwnerDetailActivity extends BaseAppCompatActivity implements View.O
         toolBar.setNavigationIcon(R.mipmap.back);
         add_img.setImageResource(R.mipmap.submit);
         add_img.setVisibility(View.VISIBLE);
+        open_door_layout.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -94,6 +98,8 @@ public class OwnerDetailActivity extends BaseAppCompatActivity implements View.O
             }
         });
 
+        open_door_layout.setOnClickListener(this);
+
     }
 
 
@@ -104,11 +110,18 @@ public class OwnerDetailActivity extends BaseAppCompatActivity implements View.O
 
             case R.id.add_img:
                 Intent intent = new Intent(new Intent(this, SubOwnerEditActivity.class));
-                intent.putExtra("houseid",sortModel.getUserid());
+                intent.putExtra("houseid", sortModel.getUserid());
                 startActivity(intent);
 
                 break;
+            //开门权限
+            case R.id.open_door_layout:
 
+                Intent intentlimt = new Intent(OwnerDetailActivity.this,OpenDoorLimitActivity.class);
+                intentlimt.putExtra("","");
+                startActivity(intentlimt);
+
+                break;
 
             default:
                 break;

@@ -90,7 +90,7 @@ public class QuickCardFragment extends BaseFragment implements View.OnClickListe
             if(!"".equals(SharedPreferenceUtil.getInstance(getActivity()).getSharedPreferences().getString("RoomCardBean", ""))){
 
                 roomCardBean = JSON.parseObject(SharedPreferenceUtil.getInstance(getActivity()).getSharedPreferences().getString("RoomCardBean", ""), RoomCardBean.class);
-                getQrCode(roomCardBean.getBuildid(),roomCardBean.getBuildname());
+                getQrCode(roomCardBean.getBuildid(),roomCardBean.getName());
             }
 
         }else{
@@ -110,12 +110,12 @@ public class QuickCardFragment extends BaseFragment implements View.OnClickListe
                 if(!"".equals(SharedPreferenceUtil.getInstance(getActivity()).getSharedPreferences().getString("RoomCardBean", ""))){
 
                     roomCardBean = JSON.parseObject(SharedPreferenceUtil.getInstance(getActivity()).getSharedPreferences().getString("RoomCardBean", ""), RoomCardBean.class);
-                    getQrCode(roomCardBean.getBuildid(),roomCardBean.getBuildname());
+                    getQrCode(roomCardBean.getBuildid(),roomCardBean.getName());
                 }else{
                 //表示没有在房卡列表配置过快捷房卡 那就是取得默认的第一张房卡作为快捷房卡
                     if(roomCardBeanListTemp.size()>0){
 
-                        getQrCode(roomCardBeanListTemp.get(0).getBuildid(),roomCardBeanListTemp.get(0).getBuildname());
+                        getQrCode(roomCardBeanListTemp.get(0).getBuildid(),roomCardBeanListTemp.get(0).getName());
                     }
                 }
 
@@ -134,18 +134,17 @@ public class QuickCardFragment extends BaseFragment implements View.OnClickListe
     private void getCardList() {
 
         UserInfoBean userInfoBean = JSON.parseObject(SharedPreferenceUtil.getInstance(getActivity()).getSharedPreferences().getString("UserInfo", ""), UserInfoBean.class);
-        String sourceuserid = "";
+        String houseid = "";
 
         if (userInfoBean != null) {
 
-            sourceuserid = userInfoBean.getUserid();
+            houseid = userInfoBean.getHouseid();
         }
-
         RequestParams params = new RequestParams();
         params.put("pageSize", pageSize);
         params.put("pageNumber", pageNumber);
 
-        HttpUtil.get(Constants.HOST + Constants.CardList + "/" + sourceuserid, params, new AsyncHttpResponseHandler() {
+        HttpUtil.get(Constants.HOST + Constants.build + "/" + houseid, params, new AsyncHttpResponseHandler() {
             @Override
             public void onStart() {
                 super.onStart();
@@ -174,7 +173,7 @@ public class QuickCardFragment extends BaseFragment implements View.OnClickListe
                                 roomCardBeanListTemp = JSON.parseArray(gg.getJSONArray("items").toString(), RoomCardBean.class);
                                 if (roomCardBeanListTemp != null && roomCardBeanListTemp.size() > 0) {
 
-                                    getQrCode(roomCardBeanListTemp.get(0).getBuildid(),roomCardBeanListTemp.get(0).getBuildname());
+                                    getQrCode(roomCardBeanListTemp.get(0).getBuildid(),roomCardBeanListTemp.get(0).getName());
 
                                 } else {
 

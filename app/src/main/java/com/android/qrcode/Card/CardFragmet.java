@@ -102,7 +102,7 @@ public class CardFragmet extends BaseFragment implements  SwipeRefreshLayout.OnR
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-        getQrCode(roomCardBeanList.get(i).getBuildid(),roomCardBeanList.get(i).getBuildname());
+        getQrCode(roomCardBeanList.get(i).getBuildid(),roomCardBeanList.get(i).getName());
 
     }
 
@@ -142,18 +142,18 @@ public class CardFragmet extends BaseFragment implements  SwipeRefreshLayout.OnR
     private void getCardList() {
 
         UserInfoBean userInfoBean = JSON.parseObject(SharedPreferenceUtil.getInstance(getActivity()).getSharedPreferences().getString("UserInfo", ""), UserInfoBean.class);
-        String sourceuserid = "";
+        String houseid = "";
 
         if (userInfoBean != null) {
 
-            sourceuserid = userInfoBean.getUserid();
+            houseid = userInfoBean.getHouseid();
         }
 
         RequestParams params = new RequestParams();
         params.put("pageSize", pageSize);
         params.put("pageNumber", pageNumber);
 
-        HttpUtil.get(Constants.HOST + Constants.CardList + "/" + sourceuserid, params, new AsyncHttpResponseHandler() {
+        HttpUtil.get(Constants.HOST + Constants.build + "/" + houseid, params, new AsyncHttpResponseHandler() {
             @Override
             public void onStart() {
                 super.onStart();

@@ -148,6 +148,39 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/open_door_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/manage_layout_height"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:paddingLeft="@dimen/manage_padding_left">
+
+        <ImageView
+
+            android:id="@+id/open_door_img"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_gravity="center"
+            android:src="@mipmap/car_manage"
+            android:visibility="gone">
+
+        </ImageView>
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/manage_margin_left"
+            android:layout_toRightOf="@+id/open_door_img"
+            android:gravity="center"
+            android:text="@string/open_door_str" />
+
+
+    </RelativeLayout>
+
 
 
     <View

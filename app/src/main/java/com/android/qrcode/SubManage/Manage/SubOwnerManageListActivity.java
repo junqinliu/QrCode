@@ -66,7 +66,7 @@ public class SubOwnerManageListActivity extends BaseAppCompatActivity implements
 
     private SortAdapter adapter;
     private CharacterParser characterParser;
-    private List<SortModel> SourceDateList;
+    private List<SortModel> SourceDateList = new ArrayList<>();
     private List<OwnerListBean> OwnerListBean;
 
     private PinyinComparator pinyinComparator;
@@ -101,9 +101,9 @@ public class SubOwnerManageListActivity extends BaseAppCompatActivity implements
 
         OwnerListBean = new ArrayList<>();
 
-        SourceDateList = filledData(OwnerListBean);
+       /* SourceDateList = filledData(OwnerListBean);
         // 根据a-z进行排序源数据
-        Collections.sort(SourceDateList, pinyinComparator);
+        Collections.sort(SourceDateList, pinyinComparator);*/
         adapter = new SortAdapter(this, SourceDateList,this);
         sortListView.setAdapter(adapter);
 
@@ -149,13 +149,13 @@ public class SubOwnerManageListActivity extends BaseAppCompatActivity implements
             }
         });
 
-        sortListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        /*sortListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 showDeleteDialog(SourceDateList.get(position));
                 return false;
             }
-        });
+        });*/
 
         mClearEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
@@ -417,7 +417,10 @@ public class SubOwnerManageListActivity extends BaseAppCompatActivity implements
                                     OwnerListBean = JSON.parseArray(response.getJSONArray("items").toString(), OwnerListBean.class);
                                     SourceDateList.clear();
                                     SourceDateList.addAll(filledData(OwnerListBean));
-                                    adapter.notifyDataSetChanged();
+                                    SourceDateList = filledData(OwnerListBean);
+                                    // 根据a-z进行排序源数据
+                                    Collections.sort(SourceDateList, pinyinComparator);
+                                    adapter.updateListView(SourceDateList);
                                 }
                             } else {
                                 showToast("请求接口失败，请联系管理员");
