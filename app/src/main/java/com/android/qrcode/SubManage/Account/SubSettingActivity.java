@@ -14,15 +14,26 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.application.ExitApplication;
 import com.android.base.BaseAppCompatActivity;
+import com.android.constant.Constants;
 import com.android.mylibrary.model.OwnerListBean;
+import com.android.qrcode.LoginActivity;
 import com.android.qrcode.R;
 import com.android.qrcode.Setting.IdeaFeedBackActivity;
 import com.android.qrcode.Setting.PwdResetActivity;
 import com.android.qrcode.Setting.UserNameResetActivity;
+import com.android.utils.HttpUtil;
+import com.android.utils.NetUtil;
+import com.android.utils.SharedPreferenceUtil;
 import com.android.utils.TextUtil;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.Bind;
+import cz.msebera.android.httpclient.entity.ByteArrayEntity;
 
 /**
  * Created by liujunqin on 2016/6/14.
@@ -54,7 +65,7 @@ public class SubSettingActivity extends BaseAppCompatActivity implements View.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sub_setting_fragment);
-
+        ExitApplication.getInstance().addAllActivity(this);
     }
 
     @Override
@@ -137,9 +148,92 @@ public class SubSettingActivity extends BaseAppCompatActivity implements View.On
         @Override
         public void onClick(DialogInterface dialog, int which) {
 
-
+            //调用退出登录接口
+            Logout();
 
         }
     };
+
+
+    /**
+     * 注销方法
+     */
+    private void Logout(){
+
+
+        ByteArrayEntity entity = null;
+        HttpUtil.post(SubSettingActivity.this, Constants.HOST + Constants.LoginOut, entity, "application/json", new AsyncHttpResponseHandler() {
+            @Override
+            public void onStart() {
+                super.onStart();
+                if (!NetUtil.checkNetInfo(SubSettingActivity.this)) {
+
+                    showToast("当前网络不可用,请检查网络");
+                    return;
+                }
+            }
+
+
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
+
+                if (responseBody != null) {
+                    try {
+                        String str = new String(responseBody);
+                        JSONObject jsonObject = new JSONObject(str);
+                        if (jsonObject != null) {
+
+                            if (jsonObject.getBoolean("success")) {
+
+                                showToast("退出登录成功");
+                                //跳转到登录接口 并且把本地文件的数据清除掉
+                                Intent intent = new Intent(SubSettingActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                                SharedPreferenceUtil.getInstance(SubSettingActivity.this).deleteData();
+                                ExitApplication.getInstance().exitAll();
+
+                            } else {
+
+                                showToast("请求接口失败，请联系管理员");
+                            }
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody, Throwable error) {
+
+                if (responseBody != null) {
+                    try {
+                        String str1 = new String(responseBody);
+                        JSONObject jsonObject1 = new JSONObject(str1);
+                        showToast(jsonObject1.getString("msg"));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+
+            }
+
+
+        });
+
+
+
+
+    }
 
 }

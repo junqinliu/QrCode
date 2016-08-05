@@ -5,10 +5,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.android.base.BaseFragment;
+import com.android.mylibrary.model.UserInfoBean;
 import com.android.qrcode.Account.LogActivity;
 import com.android.qrcode.R;
+import com.android.utils.SharedPreferenceUtil;
 
 import butterknife.Bind;
 
@@ -19,7 +23,13 @@ public class SubAccountFragmet extends BaseFragment implements View.OnClickListe
 
     @Bind(R.id.sub_set_activity)
     RelativeLayout sub_set_activity;
-//
+    @Bind(R.id.user_name_txt)
+    TextView user_name_txt;
+    @Bind(R.id.user_phone_txt)
+    TextView user_phone_txt;
+
+    private UserInfoBean userInfoBean = new UserInfoBean();
+
     public SubAccountFragmet() {
         Bundle bundle = new Bundle();
         bundle.putString("title", "用户");
@@ -39,6 +49,13 @@ public class SubAccountFragmet extends BaseFragment implements View.OnClickListe
     @Override
     public void initData() {
 
+        userInfoBean = JSON.parseObject(SharedPreferenceUtil.getInstance(getActivity()).getSharedPreferences().getString("UserInfo", ""), UserInfoBean.class);
+        if(userInfoBean != null){
+
+            user_name_txt.setText(userInfoBean.getName());
+            user_phone_txt.setText("手机号码      " + userInfoBean.getPhone());
+
+        }
 
     }
 

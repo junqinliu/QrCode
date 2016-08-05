@@ -25,11 +25,12 @@
         </de.hdodenhof.circleimageview.CircleImageView>
 
         <TextView
+            android:id="@+id/user_name_txt"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dip"
             android:gravity="center"
-            android:text="科比"/>
+            android:text="***"/>
     </LinearLayout>
 
 
@@ -51,11 +52,12 @@
         </ImageView>
 
         <TextView
+            android:id="@+id/user_phone_txt"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
             android:layout_marginLeft="10dip"
-            android:text="手机号码   15522503900"/>
+            android:text="手机号码   "/>
     </LinearLayout>
 
     <!--<LinearLayout-->

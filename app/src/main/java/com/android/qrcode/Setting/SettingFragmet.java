@@ -103,9 +103,8 @@ public class SettingFragmet extends BaseFragment implements View.OnClickListener
             break;
             //关于
             case R.id.about_layout:
-                Intent intent = new Intent(getActivity(),ApplyActivity.class);
-               // intent.putExtra("","");
-                startActivity(intent);
+//                Intent intent = new Intent(getActivity(),ApplyActivity.class);
+//                startActivity(intent);
 
 
             break;

@@ -45,9 +45,12 @@
             android:hint="手机号"
             android:inputType="number"
             android:paddingLeft="15dp"
-            android:text="510"
+            android:text="18650868651"
             android:textColor="@color/black_text"
             android:textSize="13sp" />
+
+        <!--18650868651-->
+        <!--510-->
     </RelativeLayout>
 
     <ImageView
@@ -79,7 +82,7 @@
             android:hint="密码"
             android:inputType="textPassword"
             android:paddingLeft="15dp"
-            android:text="510"
+            android:text="1"
             android:textColor="@color/black_text"
             android:digits="@string/intput_psw"
             android:textSize="13sp" />

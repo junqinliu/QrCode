@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.android.adapter.MainActivityAdapter;
+import com.android.application.ExitApplication;
 import com.android.base.BaseAppCompatActivity;
 import com.android.mylibrary.model.UserInfoBean;
 import com.android.qrcode.Account.AccountFragmet;
@@ -72,7 +73,7 @@ public class SubMainActivity extends BaseAppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        ExitApplication.getInstance().addAllActivity(this);
 
     }
 
