@@ -473,7 +473,7 @@ public class OwnerManageListActivity extends BaseAppCompatActivity implements Sw
      * 调用删除成员接口
      */
     private void deleteMember(final SortModel model) {
-        HttpUtil.delete(Constants.HOST + Constants.delete_member + "/" + model.getUserid(), new AsyncHttpResponseHandler() {
+        HttpUtil.delete(Constants.HOST + Constants.DeleteOwner + "/" + model.getUserid(), new AsyncHttpResponseHandler() {
             @Override
             public void onStart() {
                 super.onStart();

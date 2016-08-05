@@ -178,10 +178,12 @@ public class LoginActivity extends BaseAppCompatActivity implements View.OnClick
                                 if ("ADMIN".equals(userInfoBean.getAuthority())) {//二级管理员
                                     intent1 = new Intent(LoginActivity.this, SubMainActivity.class);
                                     startActivity(intent1);
+                                    finish();
                                 } else if ("PROPERTY".equals(userInfoBean.getAuthority())){
                                     intent1 = new Intent(LoginActivity.this, MainActivity.class);
                                     intent1.putExtra("phone",ed_account.getText().toString());
                                     startActivity(intent1);
+                                    finish();
                                 } else {
                                     showToast("请输入正确账号！");
                                 }
