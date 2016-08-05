@@ -5,27 +5,32 @@ package com.android.mylibrary.model;
  */
 public class OpenDoorLimit {
 
-    private String doorId;
-    private String doorDesc;
 
-    public OpenDoorLimit(String doorId, String doorDesc) {
-        this.doorId = doorId;
-        this.doorDesc = doorDesc;
+    private  boolean open;
+    private  String buildname;
+    private  String buildid;
+
+    public boolean isOpen() {
+        return open;
     }
 
-    public String getDoorId() {
-        return doorId;
+    public void setOpen(boolean open) {
+        this.open = open;
     }
 
-    public void setDoorId(String doorId) {
-        this.doorId = doorId;
+    public String getBuildname() {
+        return buildname;
     }
 
-    public String getDoorDesc() {
-        return doorDesc;
+    public void setBuildname(String buildname) {
+        this.buildname = buildname;
     }
 
-    public void setDoorDesc(String doorDesc) {
-        this.doorDesc = doorDesc;
+    public String getBuildid() {
+        return buildid;
+    }
+
+    public void setBuildid(String buildid) {
+        this.buildid = buildid;
     }
 }

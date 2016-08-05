@@ -128,6 +128,14 @@ public class Constants {
      */
     public static final String Apply = "/v0.1/user/audit/apply";
 
+    /**
+     * 添加开门权限
+     */
+    public static final String AddLimit = "/v0.1/place/build/card";
+    /**
+     * 删除开门权限
+     */
+    public static final String DeleteLimit = "/v0.1/place/build/card";
     /*==================================================================================*/
     /**
      * 小区列表

@@ -151,9 +151,6 @@ public class OwnerManageListActivity extends BaseAppCompatActivity implements Sw
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 // 这里要利用adapter.getItem(position)来获取当前position所对应的对象
-               /* Toast.makeText(getApplication(),
-                        ((SortModel) adapter.getItem(position)).getName(),
-                        Toast.LENGTH_SHORT).show();*/
 
                 Intent intent = new Intent(OwnerManageListActivity.this, OwnerDetailActivity.class);
                 intent.putExtra("Model", (SortModel) adapter.getItem(position));
@@ -215,6 +212,7 @@ public class OwnerManageListActivity extends BaseAppCompatActivity implements Sw
             sortModel.setName(OwnerListBean.get(i).getName());
             sortModel.setPhoneNum(OwnerListBean.get(i).getPhone());
             sortModel.setSex(OwnerListBean.get(i).getSex() + "");
+            sortModel.setUserid(OwnerListBean.get(i).getUserid());
             // 汉字转换成拼音
             String pinyin = characterParser.getSelling(OwnerListBean.get(i).getName());
             String sortString = pinyin.substring(0, 1).toUpperCase();

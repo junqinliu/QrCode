@@ -147,6 +147,12 @@ public class HttpUtil {
 		client.delete(urlString,res);
 
 	}
+	public static void delete(Context context,String url,HttpEntity entity,String contentType,ResponseHandlerInterface responseHandler)   //url里面带参�?
+	{
+
+		client.delete(context,url,entity,contentType,responseHandler);
+
+	}
 
 
 	public static AsyncHttpClient getClient()

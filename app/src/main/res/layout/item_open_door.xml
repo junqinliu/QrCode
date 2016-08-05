@@ -19,10 +19,17 @@
 
 
     <CheckBox
-        android:id="@+id/open_door_cb"
+
+        android:id="@+id/toggle_btn"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:background="@drawable/radio_selector"
-        android:layout_height="wrap_content" />
+        android:layout_centerVertical="true"
+        android:layout_gravity="right|center_vertical"
+        android:background="@android:color/transparent"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:button="@drawable/ios_check_btn"
+        android:checked="false" />
 
 </RelativeLayout>

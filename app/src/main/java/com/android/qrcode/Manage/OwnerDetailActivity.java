@@ -118,7 +118,7 @@ public class OwnerDetailActivity extends BaseAppCompatActivity implements View.O
             case R.id.open_door_layout:
 
                 Intent intentlimt = new Intent(OwnerDetailActivity.this,OpenDoorLimitActivity.class);
-                intentlimt.putExtra("","");
+                intentlimt.putExtra("sourceuserid",sortModel.getUserid()+"");
                 startActivity(intentlimt);
 
                 break;
