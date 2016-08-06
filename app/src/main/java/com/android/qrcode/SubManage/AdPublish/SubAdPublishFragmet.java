@@ -82,7 +82,7 @@ public class SubAdPublishFragmet extends BaseFragment implements View.OnClickLis
                 .setSource(adBeanList)
                 .startScroll();*/
         //获取图片路径
-        getAdList();
+        //getAdList();
     }
 
     @Override
@@ -107,19 +107,15 @@ public class SubAdPublishFragmet extends BaseFragment implements View.OnClickLis
     }
 
 
-   /* public static ArrayList<BannerItemBean> getList() {
-        ArrayList<BannerItemBean> list = new ArrayList<>();
-        for (int i = 0; i < urls.length; i++) {
-            BannerItemBean item = new BannerItemBean();
-            item.imgUrl = urls[i];
-            item.title = titles[i];
-            list.add(item);
-        }
 
-        return list;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        //获取图片路径
+        getAdList();
     }
-*/
-
 
     /**
      * 获取广告列表的方法

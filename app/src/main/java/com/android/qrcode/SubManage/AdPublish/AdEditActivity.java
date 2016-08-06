@@ -7,6 +7,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -15,14 +17,16 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.android.adapter.HorizontalListViewAdapter;
 import com.android.base.BaseAppCompatActivity;
+import com.android.constant.Constants;
 import com.android.qrcode.R;
+import com.android.utils.HttpPostUtil;
 import com.android.utils.ImageOpera;
 import com.android.utils.SelectPicPopupWindow;
-import com.android.utils.SystemUtils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -30,7 +34,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.Bind;
 
 /**
@@ -260,15 +263,42 @@ public class AdEditActivity extends BaseAppCompatActivity implements View.OnClic
                         SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
                         String time = sDateFormat.format(new java.util.Date());
                         //将压缩过的图片保存到本地文件下 以供上传到服务器 ( 只要把bitmap写入到文件来就行)
-                        String localUrl = ImageOpera.savePicToSdcard(smallBitmap, getOutputMediaFile(), "IMAGE_" + time + ".jpg");
+                        final String localUrl = ImageOpera.savePicToSdcard(smallBitmap, getOutputMediaFile(), "IMAGE_" + time + ".jpg");
                         locationDrr.add(localUrl);
                         Bitmap showBitmap = getLoacalBitmap(locationDrr.get(locationDrr.size() - 1));
                         alb.add(alb.size() - 1, showBitmap);
                         adEditAdapter.notifyDataSetChanged();
                         smallBitmap.recycle();
 
-                        //开始调接口 从locationDrr获取路径
-                        // updateImage(getOutputMediaFile()+"IMAGE_HEAD.jpg");
+                        //开始调接口 如果是批量上传从locationDrr获取路径 如果是单个上传则用下面的方法
+                        new  Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                               // UploadUtil.uploadFile(Constants.HOST + Constants.AddAd,localUrl);
+                                try {
+                                    HttpPostUtil  httpPostUtil = new HttpPostUtil(Constants.HOST + Constants.AddAd,AdEditActivity.this);
+
+
+                                    httpPostUtil.addFileParameter("file", new File(localUrl));
+                                    httpPostUtil.addTextParameter("title", "hello");
+                                    byte[] b =  httpPostUtil.send();
+                                    String result = new String(b);
+
+                                    Message message = new Message();
+                                    message.what = 1;
+                                    message.obj = result;
+                                    mhandler.sendMessage(message);
+
+
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+
+
+                            }
+                        }).start();
+
                     }
 
 
@@ -318,5 +348,43 @@ public class AdEditActivity extends BaseAppCompatActivity implements View.OnClic
             return null;
         }
     }
+
+  private Handler mhandler = new Handler() {
+
+      @Override
+      public void handleMessage(Message msg) {
+          super.handleMessage(msg);
+
+          switch (msg.what){
+
+              case 1:
+
+                 String result = (String)msg.obj;
+
+                  JSONObject object = null;
+                  try {
+                      object = new JSONObject(result);
+                      if(object.getBoolean("success")){
+
+                          showToast("广告上传成功");
+                      }else{
+
+                          showToast("广告上传失败");
+                      }
+
+                  } catch (JSONException e) {
+                      e.printStackTrace();
+                  }
+
+
+                  break;
+              default:
+
+                  break;
+
+          }
+      }
+  };
+
 
 }
