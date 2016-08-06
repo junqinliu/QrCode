@@ -158,4 +158,17 @@ public class Constants {
      */
     public static final String add_cell = "/v0.1/place/house";
 
+    /**
+     * 广告列表
+     */
+    public static final String AdList = "/v0.1/ad";
+
+    /**
+     * 添加广告
+     */
+    public static final String  AddAd = "/v0.1/ad";
+    /**
+     * 删除广告
+     */
+    public static final String DeleteAd = "/v0.1/ad";
 }

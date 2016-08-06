@@ -24,6 +24,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 
 import butterknife.Bind;
+import cz.msebera.android.httpclient.HttpEntity;
 import cz.msebera.android.httpclient.entity.ByteArrayEntity;
 import cz.msebera.android.httpclient.message.BasicHeader;
 import cz.msebera.android.httpclient.protocol.HTTP;
@@ -137,6 +138,7 @@ public class LoginActivity extends BaseAppCompatActivity implements View.OnClick
             e.printStackTrace();
         }
         ByteArrayEntity entity = null;
+
         try {
             entity = new ByteArrayEntity(jsonObject.toString().getBytes("UTF-8"));
             entity.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
