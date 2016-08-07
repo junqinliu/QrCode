@@ -26,6 +26,11 @@ public class Constants {
 
     public static final String ModifyPwd = "/v0.1/user/updatePassword";
     /**
+     * 修改用户名
+     */
+
+    public static final String ModifyUserName = "/v0.1/user";
+    /**
      * 忘记密码
      */
 

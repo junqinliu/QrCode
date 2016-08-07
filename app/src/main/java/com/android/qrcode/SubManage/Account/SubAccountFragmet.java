@@ -49,6 +49,19 @@ public class SubAccountFragmet extends BaseFragment implements View.OnClickListe
     @Override
     public void initData() {
 
+     /*   userInfoBean = JSON.parseObject(SharedPreferenceUtil.getInstance(getActivity()).getSharedPreferences().getString("UserInfo", ""), UserInfoBean.class);
+        if(userInfoBean != null){
+
+            user_name_txt.setText(userInfoBean.getName());
+            user_phone_txt.setText("手机号码      " + userInfoBean.getPhone());
+
+        }
+*/
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         userInfoBean = JSON.parseObject(SharedPreferenceUtil.getInstance(getActivity()).getSharedPreferences().getString("UserInfo", ""), UserInfoBean.class);
         if(userInfoBean != null){
 
@@ -79,4 +92,19 @@ public class SubAccountFragmet extends BaseFragment implements View.OnClickListe
         }
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser){
+
+            userInfoBean = JSON.parseObject(SharedPreferenceUtil.getInstance(getActivity()).getSharedPreferences().getString("UserInfo", ""), UserInfoBean.class);
+            if(userInfoBean != null){
+
+                user_name_txt.setText(userInfoBean.getName());
+                user_phone_txt.setText("手机号码      " + userInfoBean.getPhone());
+
+            }
+        }
+
+    }
 }

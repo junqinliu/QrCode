@@ -114,9 +114,9 @@ public class PwdForgetNextActivity extends BaseAppCompatActivity implements View
         }
         StringEntity entity = null;
         try {
-            entity = new StringEntity(jsonObject.toString());
+            entity = new StringEntity(jsonObject.toString(),"utf-8");
 
-        } catch (UnsupportedEncodingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
