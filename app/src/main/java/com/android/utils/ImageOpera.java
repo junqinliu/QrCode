@@ -485,11 +485,11 @@ public class ImageOpera {
 			throws Exception {
 		
 		Options opts = new Options();
-		opts.inSampleSize = 2;//图片宽高都为原来的3分之一，即图片为原来的9分之一  
+		opts.inSampleSize = 2;//图片宽高都为原来的3分之一，即图片为原来的9分之一
 		opts.inJustDecodeBounds = true;
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		image.compress(CompressFormat.JPEG, 100, baos);// 质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
-		int options = 100;
+		int options = 70;
 		Log.e("LogUtil", "当前图片原大小为：" + baos.toByteArray().length / 1024 + "kb");
 		while (baos.toByteArray().length / 1024 > size) { // 循环判断如果压缩后图片是否大于(size)kb,大于继续压缩
 			if (options < 0)
