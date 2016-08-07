@@ -1,9 +1,11 @@
 package com.android.mylibrary.model;
 
+import java.io.Serializable;
+
 /**
  * Created by liujunqin on 2016/7/29.
  */
-public class AdBean {
+public class AdBean implements Serializable{
 
     private String adid;
     private String title;

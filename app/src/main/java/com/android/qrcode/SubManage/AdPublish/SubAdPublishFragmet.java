@@ -1,16 +1,22 @@
 package com.android.qrcode.SubManage.AdPublish;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.alibaba.fastjson.JSON;
+import com.android.application.AppContext;
 import com.android.base.BaseFragment;
 import com.android.constant.Constants;
 import com.android.mylibrary.model.AdBean;
 import com.android.mylibrary.model.BannerItemBean;
+import com.android.mylibrary.model.SortModel;
 import com.android.qrcode.R;
 import com.android.qrcode.Setting.UserNameResetActivity;
 import com.android.qrcode.SubManage.Account.SubSettingActivity;
@@ -20,15 +26,19 @@ import com.android.utils.SimpleImageBanner;
 import com.flyco.banner.anim.select.RotateEnter;
 import com.flyco.banner.anim.unselect.NoAnimExist;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.BinaryHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by liujunqin on 2016/06/21.
@@ -44,6 +54,9 @@ public class SubAdPublishFragmet extends BaseFragment implements View.OnClickLis
         this.setArguments(bundle);
     }
     List<AdBean> adBeanList = new ArrayList<>();
+
+
+
    /* public static String[] titles = new String[]{
             "伪装者:胡歌演绎'痞子特工'",
             "无心法师:生死离别!月牙遭虐杀",
@@ -77,12 +90,7 @@ public class SubAdPublishFragmet extends BaseFragment implements View.OnClickLis
     @Override
     public void initData() {
 
-      /*  advert.setSelectAnimClass(RotateEnter.class)
-                .setUnselectAnimClass(NoAnimExist.class)
-                .setSource(adBeanList)
-                .startScroll();*/
-        //获取图片路径
-        //getAdList();
+
     }
 
     @Override
@@ -98,7 +106,23 @@ public class SubAdPublishFragmet extends BaseFragment implements View.OnClickLis
             //广告编辑
             case R.id.ad_edit_img:
 
-                startActivity( new Intent(getActivity(),AdEditActivity.class));
+
+                if(adBeanList == null || adBeanList.size() ==0){
+
+                    Intent intent = new Intent(getActivity(),AdEditPublicActivity.class);
+                    startActivity(intent);
+
+                }else{
+
+
+                    Intent intent = new Intent(getActivity(),AdEditPublicActivity.class);
+                    intent.putExtra("AdBeanList", (Serializable)adBeanList );
+                    startActivity(intent);
+
+
+                }
+
+
                 break;
 
             default:
@@ -156,7 +180,6 @@ public class SubAdPublishFragmet extends BaseFragment implements View.OnClickLis
                                             .setSource(adBeanList)
                                             .startScroll();
                                 }
-
                             } else {
 
                                 showToast("请求接口失败，请联系管理员");
@@ -198,6 +221,29 @@ public class SubAdPublishFragmet extends BaseFragment implements View.OnClickLis
 
 
     }
+
+
+
+
+    private Handler mhandler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            switch (msg.what){
+
+                case 1:
+
+
+                    break;
+                default:
+
+                    break;
+
+            }
+        }
+    };
 
 
 }

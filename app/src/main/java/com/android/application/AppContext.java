@@ -2,10 +2,14 @@ package com.android.application;
 
 
 import android.app.Application;
+import android.graphics.Bitmap;
 
 import com.android.exception.CrashHandler;
 import com.android.mylibrary.model.AddressBean;
 
+
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.sharesdk.framework.ShareSDK;
 import cn.smssdk.SMSSDK;
@@ -15,6 +19,8 @@ public class AppContext extends Application {
     private static AppContext appContext;
 
     AddressBean addressBean;
+
+    List<Bitmap> alb = new ArrayList<>();
 
     /**
      * 将在Application中注册未捕获异常处理器。
@@ -45,5 +51,13 @@ public class AppContext extends Application {
 
     public void setAddressBean(AddressBean addressBean) {
         this.addressBean = addressBean;
+    }
+
+    public List<Bitmap> getAlb() {
+        return alb;
+    }
+
+    public void setAlb(List<Bitmap> alb) {
+        this.alb = alb;
     }
 }

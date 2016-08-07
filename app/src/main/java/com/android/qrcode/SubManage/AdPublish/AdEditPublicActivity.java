@@ -1,6 +1,8 @@
 package com.android.qrcode.SubManage.AdPublish;
 
+import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,17 +19,28 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.alibaba.fastjson.JSON;
+import com.android.adapter.AdEditPublicAdapter;
 import com.android.adapter.HorizontalListViewAdapter;
 import com.android.application.AppContext;
 import com.android.base.BaseAppCompatActivity;
 import com.android.constant.Constants;
+import com.android.mylibrary.model.AdBean;
 import com.android.qrcode.R;
 import com.android.utils.HttpPostUtil;
+import com.android.utils.HttpUtil;
 import com.android.utils.ImageOpera;
+import com.android.utils.NetUtil;
 import com.android.utils.SelectPicPopupWindow;
+import com.flyco.banner.anim.select.RotateEnter;
+import com.flyco.banner.anim.unselect.NoAnimExist;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -35,12 +48,13 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.Bind;
 
 /**
  * Created by liujunqin on 2016/7/23.
  */
-public class AdEditActivity extends BaseAppCompatActivity implements View.OnClickListener {
+public class AdEditPublicActivity extends BaseAppCompatActivity implements View.OnClickListener {
 
 
     @Bind(R.id.toolbar)
@@ -53,16 +67,17 @@ public class AdEditActivity extends BaseAppCompatActivity implements View.OnClic
     @Bind(R.id.edittsukkomi_grid)
     ListView adEditListView;
 
-    HorizontalListViewAdapter adEditAdapter;
-    Bitmap image_add;
-    List<Bitmap>  alb = new ArrayList<>();
+    AdEditPublicAdapter adEditAdapter;
+   // Bitmap image_add;
+    //List<Bitmap>  alb = new ArrayList<>();
     private List<String> locationDrr = new ArrayList<String>(); // 文件存放的路径
     private static final int PHOTO_WITH_DATA = 18;  //从SD卡中得到图片
     private static final int PHOTO_WITH_CAMERA = 37;// 拍摄照片
     private static final int SCALE = 2;//照片缩小比例
 
     private SelectPicPopupWindow menuWindow;// 更新头像弹出框
-
+    List<AdBean> adBeanList = new ArrayList<>();
+    int positionFlag = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,16 +98,10 @@ public class AdEditActivity extends BaseAppCompatActivity implements View.OnClic
 
     @Override
     public void initData() {
-
-       // String size = getIntent().getStringExtra("size");
-        AppContext myApplicaton =  (AppContext)getApplication();
-        alb =  myApplicaton.getAlb();
-
         menuWindow = new SelectPicPopupWindow(this, itemsOnClick);
-        image_add = BitmapFactory.decodeResource(getResources(), R.mipmap.ad_icon);
 
-        alb.add(image_add);
-        adEditAdapter = new HorizontalListViewAdapter(this, alb);
+        adBeanList = (List<AdBean>) getIntent().getSerializableExtra("AdBeanList");
+        adEditAdapter = new AdEditPublicAdapter(this,adBeanList);
         adEditListView.setAdapter(adEditAdapter);
 
     }
@@ -116,19 +125,19 @@ public class AdEditActivity extends BaseAppCompatActivity implements View.OnClic
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
 
-                if (alb.size() < 6) {
+              /*  if (alb.size() < 6) {
                     if (position == alb.size() - 1) {
                         //弹出选择框
                         showPopWindow(findViewById(R.id.edittsukkomi_grid_item_image), itemsOnClick);
                     } else {
                         //点击放大图片
-                        /*Intent intent  = new Intent();
+                        *//*Intent intent  = new Intent();
 						intent.setClass(Add_ThingsActivity.this,ShowImgActivity.class);
 						intent.putExtra("url",locationDrr.get(position));
 						intent.putExtra("position",position+"");
-						startActivityForResult(intent,PICREQUEST);*/
+						startActivityForResult(intent,PICREQUEST);*//*
                     }
-                }
+                }*/
             }
         });
 
@@ -138,11 +147,12 @@ public class AdEditActivity extends BaseAppCompatActivity implements View.OnClic
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-                if (position != alb.size() - 1) {
-                    alb.remove(position);
-                    adEditAdapter.notifyDataSetChanged();
-                    locationDrr.remove(position);
-                }
+                positionFlag = position;
+                new AlertDialog.Builder(AdEditPublicActivity.this, AlertDialog.THEME_HOLO_LIGHT).setTitle("提示")
+                        .setMessage("是否删除该条广告？")
+                        .setNegativeButton("取消", null)
+                        .setPositiveButton("确定", dialogListener).create().show();
+
 
                 return true;
             }
@@ -152,16 +162,28 @@ public class AdEditActivity extends BaseAppCompatActivity implements View.OnClic
 
     }
 
+    //是否删除该条广告
+    android.content.DialogInterface.OnClickListener dialogListener = new android.content.DialogInterface.OnClickListener() {
+
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+
+            deleteAd(adBeanList.get(positionFlag).getAdid(),positionFlag);
+
+        }
+    };
+
 
     @Override
     public void onClick(View view) {
 
         switch (view.getId()) {
 
-            //case R.id.add_img:
+            case R.id.add_img:
 
-
-            //    break;
+                //弹出选择框
+                showPopWindow(findViewById(R.id.add_img), itemsOnClick);
+                break;
 
             default:
                 break;
@@ -269,11 +291,11 @@ public class AdEditActivity extends BaseAppCompatActivity implements View.OnClic
                         String time = sDateFormat.format(new java.util.Date());
                         //将压缩过的图片保存到本地文件下 以供上传到服务器 ( 只要把bitmap写入到文件来就行)
                         final String localUrl = ImageOpera.savePicToSdcard(smallBitmap, getOutputMediaFile(), "IMAGE_" + time + ".jpg");
-                        locationDrr.add(localUrl);
-                        Bitmap showBitmap = getLoacalBitmap(locationDrr.get(locationDrr.size() - 1));
-                        alb.add(alb.size() - 1, showBitmap);
-                        adEditAdapter.notifyDataSetChanged();
-                        smallBitmap.recycle();
+                       // locationDrr.add(localUrl);
+                       //  Bitmap showBitmap = getLoacalBitmap(locationDrr.get(locationDrr.size() - 1));
+                       // alb.add(alb.size() - 1, showBitmap);
+                       // adEditAdapter.notifyDataSetChanged();
+                        //smallBitmap.recycle();
 
                         //开始调接口 如果是批量上传从locationDrr获取路径 如果是单个上传则用下面的方法
                         new  Thread(new Runnable() {
@@ -281,7 +303,7 @@ public class AdEditActivity extends BaseAppCompatActivity implements View.OnClic
                             public void run() {
                                // UploadUtil.uploadFile(Constants.HOST + Constants.AddAd,localUrl);
                                 try {
-                                    HttpPostUtil  httpPostUtil = new HttpPostUtil(Constants.HOST + Constants.AddAd,AdEditActivity.this);
+                                    HttpPostUtil  httpPostUtil = new HttpPostUtil(Constants.HOST + Constants.AddAd,AdEditPublicActivity.this);
 
 
                                     httpPostUtil.addFileParameter("file", new File(localUrl));
@@ -372,6 +394,7 @@ public class AdEditActivity extends BaseAppCompatActivity implements View.OnClic
                       if(object.getBoolean("success")){
 
                           showToast("广告上传成功");
+                          getAdList();
                       }else{
 
                           showToast("广告上传失败");
@@ -390,6 +413,173 @@ public class AdEditActivity extends BaseAppCompatActivity implements View.OnClic
           }
       }
   };
+
+
+
+    /**
+     * 删除广告图片
+     */
+
+    private void deleteAd(String adid, final int position) {
+
+
+        HttpUtil.delete(Constants.HOST + Constants.DeleteAd +"/"+adid, new AsyncHttpResponseHandler() {
+            @Override
+            public void onStart() {
+                super.onStart();
+                if (!NetUtil.checkNetInfo(AdEditPublicActivity.this)) {
+
+                    showToast("当前网络不可用,请检查网络");
+                    return;
+                }
+
+            }
+
+
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
+
+                if (responseBody != null) {
+                    try {
+                        String str = new String(responseBody);
+                        JSONObject jsonObject = new JSONObject(str);
+                        if (jsonObject != null) {
+
+                            if (jsonObject.getBoolean("success")) {
+
+                                showToast("该条广告删除成功");
+                                adBeanList.remove(position);
+                                adEditAdapter.notifyDataSetChanged();
+
+                            } else {
+
+                                showToast("请求接口失败，请联系管理员");
+                            }
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody, Throwable error) {
+
+                if (responseBody != null) {
+                    try {
+                        String str1 = new String(responseBody);
+                        JSONObject jsonObject1 = new JSONObject(str1);
+                        showToast(jsonObject1.getString("msg"));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+
+            }
+
+
+        });
+
+
+    }
+
+
+    /**
+     * 获取广告列表的方法
+     */
+
+    private void getAdList() {
+
+        RequestParams params = new RequestParams();
+        HttpUtil.get(Constants.HOST + Constants.AdList, params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onStart() {
+                super.onStart();
+                if (!NetUtil.checkNetInfo(AdEditPublicActivity.this)) {
+
+                    showToast("当前网络不可用,请检查网络");
+                    return;
+                }
+
+            }
+
+
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
+
+                if (responseBody != null) {
+                    try {
+                        String str = new String(responseBody);
+                        JSONObject jsonObject = new JSONObject(str);
+                        if (jsonObject != null) {
+
+                            if (jsonObject.getBoolean("success")) {
+                                if(adBeanList != null && adBeanList.size()>0){
+
+                                    adBeanList.clear();
+                                }
+                                JSONObject gg = new JSONObject(jsonObject.getString("data"));
+                                adBeanList = JSON.parseArray(gg.getJSONArray("items").toString(), AdBean.class);
+                                if(adEditAdapter.isEmpty()){
+                                    adEditAdapter = new AdEditPublicAdapter(AdEditPublicActivity.this,adBeanList);
+                                    adEditListView.setAdapter(adEditAdapter);
+                                    adEditAdapter.notifyDataSetChanged();
+                                } else{
+                                    adEditAdapter.notifyDataSetChanged();
+                                }
+
+
+                            } else {
+
+                                showToast("请求接口失败，请联系管理员");
+                            }
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody, Throwable error) {
+
+                if (responseBody != null) {
+                    try {
+                        String str1 = new String(responseBody);
+                        JSONObject jsonObject1 = new JSONObject(str1);
+                        showToast(jsonObject1.getString("msg"));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+
+            }
+
+
+        });
+
+
+    }
 
 
 }

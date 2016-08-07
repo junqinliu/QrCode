@@ -1,9 +1,6 @@
 package com.android.adapter;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
@@ -12,18 +9,23 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.android.mylibrary.model.AdBean;
 import com.android.qrcode.R;
+import com.bumptech.glide.Glide;
 
-public class HorizontalListViewAdapter extends BaseAdapter{
+import java.util.ArrayList;
+import java.util.List;
+
+public class AdEditPublicAdapter extends BaseAdapter{
 	private Context context;
-	private List<Bitmap> alb;
-	public HorizontalListViewAdapter(Context context,List<Bitmap> alb) {
+	private List<AdBean> list = new ArrayList<>();
+	public AdEditPublicAdapter(Context context, List<AdBean> list) {
 		this.context = context;
-		this.alb = alb;
+		this.list = list;
 	}
 	@Override
 	public int getCount() {
-		return alb.size();
+		return list==null?0:list.size();
 	}
 	@Override
 	public Object getItem(int position) {
@@ -48,12 +50,14 @@ public class HorizontalListViewAdapter extends BaseAdapter{
 		}else {
 			mViewHould=(ViewHould) convertView.getTag();
 		}
-		mViewHould.mImageView.setImageBitmap(alb.get(position));
-		if(position == alb.size()-1){
+		//mViewHould.mImageView.setImageBitmap(alb.get(position));
+		Glide.with(context).load(list.get(position).getPicurl()).into(mViewHould.mImageView);
+
+		/*if(position == list.size()-1){
 			mViewHould.delete_pic.setVisibility(View.GONE);
-		}else{
+		}else{*/
 			mViewHould.delete_pic.setVisibility(View.VISIBLE);
-		}
+	/*	}*/
 
 		
 		return convertView;
