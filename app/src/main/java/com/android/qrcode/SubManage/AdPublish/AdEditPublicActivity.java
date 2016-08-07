@@ -73,7 +73,7 @@ public class AdEditPublicActivity extends BaseAppCompatActivity implements View.
     private List<String> locationDrr = new ArrayList<String>(); // 文件存放的路径
     private static final int PHOTO_WITH_DATA = 18;  //从SD卡中得到图片
     private static final int PHOTO_WITH_CAMERA = 37;// 拍摄照片
-    private static final int SCALE = 2;//照片缩小比例
+    private static final int SCALE = 3;//照片缩小比例
 
     private SelectPicPopupWindow menuWindow;// 更新头像弹出框
     List<AdBean> adBeanList = new ArrayList<>();
