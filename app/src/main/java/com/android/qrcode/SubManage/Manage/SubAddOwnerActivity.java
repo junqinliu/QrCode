@@ -154,7 +154,7 @@ public class SubAddOwnerActivity extends BaseAppCompatActivity implements View.O
             jsonObject.put("phone", phone_num_txt.getText().toString().trim());
             jsonObject.put("name", name_txt.getText().toString().trim());
             jsonObject.put("sex", sex);
-            jsonObject.put("houseid", houseid);
+            jsonObject.put("houseid", houseid+"");
         } catch (JSONException e) {
             e.printStackTrace();
         }

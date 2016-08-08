@@ -138,9 +138,6 @@ public class SubOwnerManageListActivity extends BaseAppCompatActivity implements
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 // 这里要利用adapter.getItem(position)来获取当前position所对应的对象
-               /* Toast.makeText(getApplication(),
-                        ((SortModel) adapter.getItem(position)).getName(),
-                        Toast.LENGTH_SHORT).show();*/
 
                 Intent intent = new Intent(SubOwnerManageListActivity.this, OwnerDetailActivity.class);
                 intent.putExtra("Model", (SortModel) adapter.getItem(position));
@@ -200,7 +197,8 @@ public class SubOwnerManageListActivity extends BaseAppCompatActivity implements
     public void onDelete(int userid) {
         for (SortModel model : SourceDateList ) {
             if(model.getUserid() == userid){
-                deleteMember(model);
+
+                showDeleteDialog(model);
                 break;
             }
         }
@@ -360,7 +358,7 @@ public class SubOwnerManageListActivity extends BaseAppCompatActivity implements
             case R.id.add_img:
 
                 Intent intent = new Intent(SubOwnerManageListActivity.this, SubAddOwnerActivity.class);
-                intent.putExtra("intent",houseid);
+                intent.putExtra("houseid",houseid);
                 startActivityForResult(intent, 1);
 
                 break;
@@ -377,12 +375,17 @@ public class SubOwnerManageListActivity extends BaseAppCompatActivity implements
         if (requestCode == 1) {
 
             if (resultCode == 2) {
-                requestData();
+               /* requestData();
                 OwnerListBean ownerListBean = (OwnerListBean) data.getSerializableExtra("OwnerListBean");
                 OwnerListBean.add(ownerListBean);
                 SourceDateList = filledData(OwnerListBean);
                 Collections.sort(SourceDateList, pinyinComparator);
-                adapter.updateListView(SourceDateList);
+                adapter.updateListView(SourceDateList);*/
+
+               // pageNumber = 0;
+                OwnerListBean.clear();
+                requestData();
+
             }
         }
     }
@@ -390,7 +393,7 @@ public class SubOwnerManageListActivity extends BaseAppCompatActivity implements
 
     private void requestData() {
         RequestParams params = new RequestParams();
-        params.put("pageSize", 20);
+        params.put("pageSize", 100);
         params.put("pageNumber", 0);
         HttpUtil.get(Constants.HOST + Constants.managers + "/" + houseid, params, new AsyncHttpResponseHandler() {
             @Override
