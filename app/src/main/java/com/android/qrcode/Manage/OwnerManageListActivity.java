@@ -305,9 +305,9 @@ public class OwnerManageListActivity extends BaseAppCompatActivity implements Sw
 
         for (SortModel model : SourceDateList ) {
             if(model.getUserid() == userid){
-               // deleteMember(model);
 
                 showDeleteDialog(model);
+
                 break;
             }
         }

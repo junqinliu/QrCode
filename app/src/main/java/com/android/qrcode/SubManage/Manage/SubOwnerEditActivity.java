@@ -6,11 +6,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.android.base.BaseAppCompatActivity;
 import com.android.constant.Constants;
+import com.android.mylibrary.model.UserInfoBean;
 import com.android.qrcode.R;
 import com.android.utils.HttpUtil;
 import com.android.utils.NetUtil;
+import com.android.utils.SharedPreferenceUtil;
+import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import org.json.JSONException;
@@ -20,6 +24,7 @@ import java.io.UnsupportedEncodingException;
 
 import butterknife.Bind;
 import cz.msebera.android.httpclient.entity.ByteArrayEntity;
+import cz.msebera.android.httpclient.entity.StringEntity;
 import cz.msebera.android.httpclient.message.BasicHeader;
 import cz.msebera.android.httpclient.protocol.HTTP;
 
@@ -74,26 +79,29 @@ public class SubOwnerEditActivity extends BaseAppCompatActivity implements View.
     }
 
 
-    private void createManage() {
-        //TODO 修改用户名的接口没有提供，需要提供
+    /**
+     * 修改用户名
+     */
+    private void modifyUserName(){
+
         JSONObject jsonObject = new JSONObject();
         try {
-//            jsonObject.put("phone", phone_num_txt.getText().toString().trim());
-//            jsonObject.put("name", name_txt.getText().toString().trim());
-//            jsonObject.put("sex", sex);
-            jsonObject.put("houseid", houseid);
+            jsonObject.put("name","");
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        ByteArrayEntity entity = null;
+        StringEntity entity = null;
         try {
-            entity = new ByteArrayEntity(jsonObject.toString().getBytes("UTF-8"));
-            entity.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
-        } catch (UnsupportedEncodingException e) {
+            entity = new StringEntity(jsonObject.toString(),"utf-8");
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        HttpUtil.post(SubOwnerEditActivity.this, Constants.HOST + Constants.managers, entity, "application/json", new AsyncHttpResponseHandler() {
+       // AsyncHttpClient  client = new AsyncHttpClient();
+
+        HttpUtil.put(SubOwnerEditActivity.this, Constants.HOST + Constants.ModifyUserName, entity, "application/json", new AsyncHttpResponseHandler() {
             @Override
             public void onStart() {
                 super.onStart();
@@ -107,22 +115,28 @@ public class SubOwnerEditActivity extends BaseAppCompatActivity implements View.
 
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
+
                 if (responseBody != null) {
                     try {
                         String str = new String(responseBody);
                         JSONObject jsonObject = new JSONObject(str);
                         if (jsonObject != null) {
+
                             if (jsonObject.getBoolean("success")) {
-                                showToast("添加成功");
+
+                                showToast("用户名修改成功");
                                 finish();
                             } else {
+
                                 showToast("请求接口失败，请联系管理员");
                             }
+
                         }
-                    } catch (Exception e) {
+                    } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
+
             }
 
             @Override
@@ -138,12 +152,20 @@ public class SubOwnerEditActivity extends BaseAppCompatActivity implements View.
                         e.printStackTrace();
                     }
                 }
+
+            }
+
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+
             }
 
 
         });
-    }
 
+    }
     @Override
     public void onClick(View v) {
         showToast("修改接口未提供，需要完善");

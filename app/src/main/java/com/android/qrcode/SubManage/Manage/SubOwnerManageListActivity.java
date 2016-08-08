@@ -5,12 +5,14 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -46,7 +48,7 @@ import butterknife.Bind;
 /**
  * Created by liujunqin on 2016/6/13.
  */
-public class SubOwnerManageListActivity extends BaseAppCompatActivity implements View.OnClickListener ,OndeleteListener {
+public class SubOwnerManageListActivity extends BaseAppCompatActivity implements  SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener ,View.OnClickListener ,OndeleteListener {
 
 
     @Bind(R.id.toolbar)
@@ -63,13 +65,18 @@ public class SubOwnerManageListActivity extends BaseAppCompatActivity implements
     TextView toolbar_title;
     @Bind(R.id.add_img)
     ImageView add_img;
+    @Bind(R.id.houseSwipeRefresh)
+    SwipeRefreshLayout houseSwipeRefresh;
 
     private SortAdapter adapter;
     private CharacterParser characterParser;
     private List<SortModel> SourceDateList = new ArrayList<>();
     private List<OwnerListBean> OwnerListBean;
+    private List<OwnerListBean> OwnerListBeanTemp = new ArrayList<>();
 
     private PinyinComparator pinyinComparator;
+    private boolean loadingMore = false;
+    int pageNumber = 0;
 
     private int houseid = 0;
 
@@ -117,6 +124,7 @@ public class SubOwnerManageListActivity extends BaseAppCompatActivity implements
     public void setListener() {
 
         add_img.setOnClickListener(this);
+        houseSwipeRefresh.setOnRefreshListener(this);
 
         // 设置右侧触摸监听
         sideBar.setOnTouchingLetterChangedListener(new SideBar.OnTouchingLetterChangedListener() {
@@ -192,6 +200,35 @@ public class SubOwnerManageListActivity extends BaseAppCompatActivity implements
             }
         });
     }
+
+
+
+    @Override
+    public void onRefresh() {
+
+        pageNumber = 0;
+        OwnerListBean.clear();
+        requestData();
+        houseSwipeRefresh.setRefreshing(false);
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView absListView, int i) {
+
+    }
+
+    @Override
+    public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+        // 倒数第二个item为当前屏最后可见时，加载更多
+        if ((firstVisibleItem + visibleItemCount + 1 >= totalItemCount) && loadingMore) {
+            //  loadingMore = true;
+            //TODO 加载数据
+            requestData();
+        }
+    }
+
+
 
     @Override
     public void onDelete(int userid) {
@@ -382,7 +419,7 @@ public class SubOwnerManageListActivity extends BaseAppCompatActivity implements
                 Collections.sort(SourceDateList, pinyinComparator);
                 adapter.updateListView(SourceDateList);*/
 
-               // pageNumber = 0;
+                pageNumber = 0;
                 OwnerListBean.clear();
                 requestData();
 
@@ -393,7 +430,7 @@ public class SubOwnerManageListActivity extends BaseAppCompatActivity implements
 
     private void requestData() {
         RequestParams params = new RequestParams();
-        params.put("pageSize", 100);
+        params.put("pageSize", 10);
         params.put("pageNumber", 0);
         HttpUtil.get(Constants.HOST + Constants.managers + "/" + houseid, params, new AsyncHttpResponseHandler() {
             @Override
@@ -418,13 +455,22 @@ public class SubOwnerManageListActivity extends BaseAppCompatActivity implements
                             if (jsonObject.getBoolean("success")) {
                                 JSONObject response = jsonObject.getJSONObject("data");
                                 if (response != null && response.getJSONArray("items") != null) {
-                                    OwnerListBean = JSON.parseArray(response.getJSONArray("items").toString(), OwnerListBean.class);
-                                    SourceDateList.clear();
-                                    SourceDateList.addAll(filledData(OwnerListBean));
+                                    pageNumber = pageNumber + 1;
+                                    OwnerListBeanTemp.clear();
+                                    OwnerListBeanTemp = JSON.parseArray(response.getJSONArray("items").toString(), OwnerListBean.class);
+
+                                    OwnerListBean.addAll(OwnerListBeanTemp);
                                     SourceDateList = filledData(OwnerListBean);
                                     // 根据a-z进行排序源数据
                                     Collections.sort(SourceDateList, pinyinComparator);
                                     adapter.updateListView(SourceDateList);
+                                    if (OwnerListBeanTemp.size() == 10) {
+                                        loadingMore = true;
+                                    } else {
+                                        loadingMore = false;
+                                    }
+
+
                                 }
                             } else {
                                 showToast("请求接口失败，请联系管理员");
