@@ -99,10 +99,10 @@ public class SubAddOwnerActivity extends BaseAppCompatActivity implements View.O
                 // TODO Auto-generated method stub
                 if (checkedId == R.id.radio_man) {
                     sex = 0;
-                    Toast.makeText(SubAddOwnerActivity.this, "男", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(SubAddOwnerActivity.this, "男", Toast.LENGTH_LONG).show();
                 } else {
                     sex = 1;
-                    Toast.makeText(SubAddOwnerActivity.this, "女", Toast.LENGTH_LONG).show();
+                   // Toast.makeText(SubAddOwnerActivity.this, "女", Toast.LENGTH_LONG).show();
                 }
             }
         });
