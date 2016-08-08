@@ -154,6 +154,7 @@ public class OwnerManageListActivity extends BaseAppCompatActivity implements Sw
 
                 Intent intent = new Intent(OwnerManageListActivity.this, OwnerDetailActivity.class);
                 intent.putExtra("Model", (SortModel) adapter.getItem(position));
+                intent.putExtra("Flag","1");
                 startActivity(intent);
 
             }

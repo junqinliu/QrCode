@@ -64,7 +64,7 @@ public class OwnerDetailActivity extends BaseAppCompatActivity implements View.O
         toolBar.setNavigationIcon(R.mipmap.back);
         add_img.setImageResource(R.mipmap.submit);
         add_img.setVisibility(View.VISIBLE);
-        open_door_layout.setVisibility(View.VISIBLE);
+
     }
 
     @Override
@@ -83,6 +83,12 @@ public class OwnerDetailActivity extends BaseAppCompatActivity implements View.O
         }else{
 
             sex.setText("性   别：   "+"女");
+        }
+
+        if("1".equals(getIntent().getStringExtra("Flag"))){
+            open_door_layout.setVisibility(View.VISIBLE);
+        }else{
+            open_door_layout.setVisibility(View.GONE);
         }
     }
 

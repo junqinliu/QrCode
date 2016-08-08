@@ -144,6 +144,7 @@ public class SubOwnerManageListActivity extends BaseAppCompatActivity implements
 
                 Intent intent = new Intent(SubOwnerManageListActivity.this, OwnerDetailActivity.class);
                 intent.putExtra("Model", (SortModel) adapter.getItem(position));
+                intent.putExtra("Flag","2");
                 startActivity(intent);
 
             }
