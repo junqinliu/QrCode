@@ -223,27 +223,4 @@ public class SubAdPublishFragmet extends BaseFragment implements View.OnClickLis
     }
 
 
-
-
-    private Handler mhandler = new Handler() {
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-
-            switch (msg.what){
-
-                case 1:
-
-
-                    break;
-                default:
-
-                    break;
-
-            }
-        }
-    };
-
-
 }

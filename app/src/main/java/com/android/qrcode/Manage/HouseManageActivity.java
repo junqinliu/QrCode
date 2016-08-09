@@ -72,6 +72,7 @@ public class HouseManageActivity extends BaseAppCompatActivity implements  Swipe
         toolBar.setNavigationIcon(R.mipmap.back);
         add_img.setVisibility(View.VISIBLE);
 
+
     }
 
     @Override

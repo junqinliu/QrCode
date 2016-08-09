@@ -63,7 +63,12 @@ public class OwnerDetailActivity extends BaseAppCompatActivity implements View.O
         setSupportActionBar(toolBar);
         toolBar.setNavigationIcon(R.mipmap.back);
         add_img.setImageResource(R.mipmap.submit);
-        add_img.setVisibility(View.VISIBLE);
+
+        if("1".equals(getIntent().getStringExtra("Flag"))){
+            add_img.setVisibility(View.VISIBLE);
+        }else{
+           add_img.setVisibility(View.GONE);
+        }
 
     }
 
