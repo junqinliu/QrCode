@@ -1,6 +1,7 @@
 package com.android.qrcode.QuickCard;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -66,7 +67,7 @@ public class QuickCardFragment extends BaseFragment implements View.OnClickListe
     public void initData() {
 
         //这边调接口是避免用户进入首页 没有去配置微卡 直接点击快捷房卡出现没有默认快捷房卡的问题
-        getCardList();
+        //getCardList();
 
     }
 
@@ -91,6 +92,10 @@ public class QuickCardFragment extends BaseFragment implements View.OnClickListe
 
                 roomCardBean = JSON.parseObject(SharedPreferenceUtil.getInstance(getActivity()).getSharedPreferences().getString("RoomCardBean", ""), RoomCardBean.class);
                 getQrCode(roomCardBean.getBuildid(),roomCardBean.getName());
+            }else{
+
+                //这边调接口是避免用户进入首页 没有去配置微卡 直接点击快捷房卡出现没有默认快捷房卡的问题
+                getCardList();
             }
 
         }else{
@@ -196,6 +201,9 @@ public class QuickCardFragment extends BaseFragment implements View.OnClickListe
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
 
                 if (responseBody != null) {
+
+                    binaryCode.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.default_qrcode));
+
                     try {
                         String str1 = new String(responseBody);
                         JSONObject jsonObject1 = new JSONObject(str1);
@@ -274,6 +282,8 @@ public class QuickCardFragment extends BaseFragment implements View.OnClickListe
 
                 if (responseBody != null) {
                     try {
+
+                        binaryCode.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.default_qrcode));
                         String str1 = new String(responseBody);
                         JSONObject jsonObject1 = new JSONObject(str1);
                         showToast(jsonObject1.getString("msg"));

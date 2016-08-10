@@ -143,6 +143,10 @@ public class Constants {
     public static final String DeleteLimit = "/v0.1/place/build/card";
     /*==================================================================================*/
     /**
+     * 搜索小区
+     */
+    public static final String  SearchHouse = "/v0.1/place/house";
+    /**
      * 小区列表
      */
     public static final String cell_list = "/v0.1/place/house/admin";

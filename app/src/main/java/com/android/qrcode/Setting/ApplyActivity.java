@@ -17,6 +17,7 @@ import com.android.base.BaseAppCompatActivity;
 import com.android.constant.Constants;
 import com.android.mylibrary.model.AddressBean;
 import com.android.mylibrary.model.UserInfoBean;
+import com.android.qrcode.Address.KeySearchCommunityActivity;
 import com.android.qrcode.Address.ProviceActivity;
 import com.android.qrcode.MainActivity;
 import com.android.qrcode.Manage.CommunityActivity;
@@ -54,9 +55,9 @@ public class ApplyActivity extends BaseAppCompatActivity implements View.OnClick
     @Bind(R.id.add_img)
     ImageView add_img;
     @Bind(R.id.search_text)
-    EditText searchText;
+    EditText search_text;
     @Bind(R.id.search_button)
-    ImageView searchButton;
+    ImageView search_button;
     @Bind(R.id.provice)
     EditText provice;
     @Bind(R.id.city)
@@ -106,13 +107,14 @@ public class ApplyActivity extends BaseAppCompatActivity implements View.OnClick
 
         flag = getIntent().getStringExtra("flag");
 
+        UserInfoBean userInfoBean = null;
+        if(!TextUtil.isEmpty(SharedPreferenceUtil.getInstance(this).getSharedPreferences().getString("UserInfo", ""))){
+
+            userInfoBean  = JSON.parseObject(SharedPreferenceUtil.getInstance(this).getSharedPreferences().getString("UserInfo", ""), UserInfoBean.class);
+            user_phone.setText(userInfoBean.getPhone());
+
+        }
         if("register".equals(flag)){
-
-            UserInfoBean userInfoBean = null;
-            if(!TextUtil.isEmpty(SharedPreferenceUtil.getInstance(this).getSharedPreferences().getString("UserInfo", ""))){
-
-                userInfoBean  = JSON.parseObject(SharedPreferenceUtil.getInstance(this).getSharedPreferences().getString("UserInfo", ""), UserInfoBean.class);
-            }
 
             //配置请求接口全局token 和 userid
             if (userInfoBean != null) {
@@ -150,6 +152,7 @@ public class ApplyActivity extends BaseAppCompatActivity implements View.OnClick
 
        // xiaoqu.setOnClickListener(this);
         village.setOnClickListener(this);
+        search_button.setOnClickListener(this);
 
     }
 
@@ -158,11 +161,28 @@ public class ApplyActivity extends BaseAppCompatActivity implements View.OnClick
     public void onClick(View view) {
 
         switch (view.getId()) {
-            //提交按钮
-            case R.id.add_img:
+
+            //关键字查询
+            case R.id.search_button:
+
+                if(TextUtil.isEmpty(search_text.getText().toString())){
+
+                    showToast("请输入小区名称");
+                    return;
+                }
+
+                //清空上次所选的地址和小区楼栋
+                addressBean = null;
+                myApplicaton.setAddressBean(addressBean);
+                Intent intent1 = new Intent(this,KeySearchCommunityActivity.class);
+                intent1.putExtra("queryword", search_text.getText().toString());
+                startActivityForResult(intent1,1000);
+
 
 
                 break;
+
+
 
             //获取小区列表
             case R.id.village:
@@ -229,6 +249,8 @@ public class ApplyActivity extends BaseAppCompatActivity implements View.OnClick
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        //点击小区的回调值
         if(requestCode == 100){
 
             if(resultCode == 200){
@@ -236,6 +258,20 @@ public class ApplyActivity extends BaseAppCompatActivity implements View.OnClick
                 village.setText(data.getStringExtra("housename"));
                 houseid = data.getStringExtra("houseid");
             }
+        }
+        //点击搜索小区的回调值
+        if(requestCode == 1000){
+
+            if(resultCode == 2000){
+
+                provice.setText(data.getStringExtra("province"));
+                city.setText(data.getStringExtra("city"));
+                zone.setText(data.getStringExtra("zone"));
+                village.setText(data.getStringExtra("housename"));
+                houseid = data.getStringExtra("houseid");
+
+            }
+
         }
 
     }

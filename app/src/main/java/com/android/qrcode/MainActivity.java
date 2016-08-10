@@ -150,6 +150,13 @@ public class MainActivity extends BaseAppCompatActivity implements
         //设置刚进来默认显示第三个fragment
         viewPager.setCurrentItem(2);
 
+        toolbar_title.setText(R.string.quick_title);
+        quick_img.setImageDrawable(this.getResources().getDrawable(R.mipmap.owner_manage));
+        quick_tx.setTextColor(this.getResources().getColor(R.color.black_text));
+        add_img.setVisibility(View.VISIBLE);
+        add_img.setOnClickListener(this);
+        flag = Page.QUICKCARD;
+
 
         initTab();
     }

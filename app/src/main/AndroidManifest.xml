@@ -283,6 +283,11 @@
             android:theme="@style/AppThemeToolbar">
 
         </activity>
+        <activity
+            android:name=".Address.KeySearchCommunityActivity"
+            android:theme="@style/AppThemeToolbar">
+
+        </activity>
 
     </application>
 
