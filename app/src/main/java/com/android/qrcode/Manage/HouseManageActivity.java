@@ -138,8 +138,6 @@ public class HouseManageActivity extends BaseAppCompatActivity implements  Swipe
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-        showToast("=======================");
-
 
     }
 

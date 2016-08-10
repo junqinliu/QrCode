@@ -115,6 +115,7 @@ public class OpenDoorLimitActivity extends BaseAppCompatActivity implements Swip
         });
 
         submit_btn.setOnClickListener(this);
+        openSwipeRefresh.setOnRefreshListener(this);
     }
 
 

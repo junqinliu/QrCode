@@ -139,7 +139,7 @@ public class CardManageActivity extends BaseAppCompatActivity implements  SwipeR
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
         //根据选中的楼栋去获取授权码 在这里调接口是增加用户体验 防止刚进去二维码没刷出来
-        getAuthorizateQrCode(buildBeanList.get(i).getBuildid());
+        getAuthorizateQrCode(buildBeanList.get(i).getBuildid(),buildBeanList.get(i).getName());
 
 
     }
@@ -250,7 +250,7 @@ public class CardManageActivity extends BaseAppCompatActivity implements  SwipeR
     /**
      * 获取楼栋授权码
      */
-    private void getAuthorizateQrCode(final String buildid){
+    private void getAuthorizateQrCode(final String buildid,final String buildname){
 
 
 
@@ -283,8 +283,11 @@ public class CardManageActivity extends BaseAppCompatActivity implements  SwipeR
 
 
                                 Intent intent = new Intent(CardManageActivity.this, CardQrCodeCertificatActivity.class);
-                                intent.putExtra("secret", jsonObject.getString("data"));
+                                JSONObject jsonObject1 = new JSONObject(jsonObject.getString("data"));
+
+                                intent.putExtra("secret", jsonObject1.getString("secret"));
                                 intent.putExtra("buildid",buildid);
+                                intent.putExtra("buildname",buildname);
                                 startActivity(intent);
 
 

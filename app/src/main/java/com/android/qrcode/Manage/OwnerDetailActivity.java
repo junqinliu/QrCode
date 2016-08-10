@@ -65,7 +65,7 @@ public class OwnerDetailActivity extends BaseAppCompatActivity implements View.O
         add_img.setImageResource(R.mipmap.submit);
 
         if("1".equals(getIntent().getStringExtra("Flag"))){
-            add_img.setVisibility(View.VISIBLE);
+            add_img.setVisibility(View.GONE);
         }else{
            add_img.setVisibility(View.GONE);
         }

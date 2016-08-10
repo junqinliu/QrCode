@@ -177,8 +177,8 @@ public class CardQrCodeActivity extends BaseAppCompatActivity implements View.On
                         if (jsonObject != null) {
 
                             if (jsonObject.getBoolean("success")) {
-
-                                binaryCode.setImageBitmap(Utils.createQRImage(CardQrCodeActivity.this, jsonObject.getString("data"), 500, 500));
+                                JSONObject jsonObject1 = new JSONObject(jsonObject.getString("data"));
+                                binaryCode.setImageBitmap(Utils.createQRImage(CardQrCodeActivity.this, jsonObject1.getString("secret"), 500, 500));
 
                             } else {
 

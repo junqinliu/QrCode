@@ -141,12 +141,15 @@ public class MainActivity extends BaseAppCompatActivity implements
 
         //如果不设置，默认值为1，那么切换第四个页面的时候，第一个页面在下次展现的时候，会重新加载。
         viewPager.setOffscreenPageLimit(3);
+
         //绑定适配器
         viewPager.setAdapter(mainActivityAdapter);
 
         //tab与viewPage关联
         tabLayout.setupWithViewPager(viewPager);
-       // tabLayout.addTab();
+        //设置刚进来默认显示第三个fragment
+        viewPager.setCurrentItem(2);
+
 
         initTab();
     }
@@ -373,7 +376,7 @@ public class MainActivity extends BaseAppCompatActivity implements
         switch (flag){
 
             case MANAGE:
-                isShowMenu(true,menu);
+                isShowMenu(false,menu);
                 break;
             case CARD:
                 isShowMenu(false,menu);

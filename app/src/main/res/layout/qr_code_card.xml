@@ -9,6 +9,17 @@
     <include
         android:id="@+id/layout"
         layout="@layout/header_toolbar"/>
+
+    <TextView
+        android:id="@+id/build_name_txt"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:textColor="@color/cardview_dark_background"
+
+        />
+
     <com.android.utils.SquareImageView
         android:id="@+id/binaryCode"
         android:layout_width="match_parent"

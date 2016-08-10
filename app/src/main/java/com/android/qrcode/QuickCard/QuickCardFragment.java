@@ -253,7 +253,8 @@ public class QuickCardFragment extends BaseFragment implements View.OnClickListe
                             if (jsonObject.getBoolean("success")) {
 
                                 build_name_quick.setText(buildname);
-                                binaryCode.setImageBitmap(Utils.createQRImage(getActivity(), jsonObject.getString("data"), 500, 500));
+                                JSONObject jsonObject1 = new JSONObject(jsonObject.getString("data"));
+                                binaryCode.setImageBitmap(Utils.createQRImage(getActivity(), jsonObject1.getString("secret"), 500, 500));
 
                             } else {
 

@@ -35,9 +35,12 @@ public class CardQrCodeCertificatActivity extends BaseAppCompatActivity implemen
     ImageView add_img;
     @Bind(R.id.binaryCode)
     SquareImageView binaryCode;
+    @Bind(R.id.build_name_txt)
+    TextView build_name_txt;
 
     String secret;
     String buildid;
+    String buildname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +64,8 @@ public class CardQrCodeCertificatActivity extends BaseAppCompatActivity implemen
 
         secret = getIntent().getStringExtra("secret");
         buildid = getIntent().getStringExtra("buildid");
+        buildname = getIntent().getStringExtra("buildname");
+        build_name_txt.setText(buildname);
         binaryCode.setImageBitmap(Utils.createQRImage(this, secret, 500, 500));
 
     }
@@ -136,7 +141,8 @@ public class CardQrCodeCertificatActivity extends BaseAppCompatActivity implemen
 
                             if (jsonObject.getBoolean("success")) {
 
-                                binaryCode.setImageBitmap(Utils.createQRImage(CardQrCodeCertificatActivity.this, jsonObject.getString("data"), 500, 500));
+                                JSONObject jsonObject1 = new JSONObject(jsonObject.getString("data"));
+                                binaryCode.setImageBitmap(Utils.createQRImage(CardQrCodeCertificatActivity.this, jsonObject1.getString("secret"), 500, 500));
 
                             } else {
 

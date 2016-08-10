@@ -294,7 +294,8 @@ public class CardFragmet extends BaseFragment implements  SwipeRefreshLayout.OnR
                             if (jsonObject.getBoolean("success")) {
 
                                 Intent intent = new Intent(getActivity(), CardQrCodeActivity.class);
-                                intent.putExtra("secret", jsonObject.getString("data"));
+                                JSONObject jsonObject1 = new JSONObject(jsonObject.getString("data"));
+                                intent.putExtra("secret", jsonObject1.getString("secret"));
                                 intent.putExtra("buildname", buildname);
                                 intent.putExtra("buildid", buildid);
                                 startActivity(intent);
