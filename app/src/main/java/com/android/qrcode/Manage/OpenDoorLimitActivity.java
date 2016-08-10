@@ -365,7 +365,7 @@ public class OpenDoorLimitActivity extends BaseAppCompatActivity implements Swip
         }
 
 
-        HttpUtil.post(OpenDoorLimitActivity.this, Constants.HOST + Constants.DeleteLimit, entity, "application/json", new
+        HttpUtil.delete(OpenDoorLimitActivity.this, Constants.HOST + Constants.DeleteLimit, entity, "application/json", new
 
                         AsyncHttpResponseHandler() {
                             @Override
