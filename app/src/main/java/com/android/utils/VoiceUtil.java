@@ -31,12 +31,12 @@ public class VoiceUtil {
 
    public void startVoice(){
 
-       try {
-           Thread.sleep(1000);
+       //try {
+          // Thread.sleep(1000);
            sp.play(music, 1, 1, 0, 0, 1);
-       } catch (InterruptedException e) {
-           e.printStackTrace();
-       }
+//       } catch (InterruptedException e) {
+//           e.printStackTrace();
+//       }
 
    }
 
