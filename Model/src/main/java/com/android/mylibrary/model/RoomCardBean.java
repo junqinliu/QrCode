@@ -13,6 +13,7 @@ public class RoomCardBean {
     private String name;
     private String openstatus;
 
+
     public String getBuildcode() {
         return buildcode;
     }
@@ -68,4 +69,6 @@ public class RoomCardBean {
     public void setOpenstatus(String openstatus) {
         this.openstatus = openstatus;
     }
+
+
 }

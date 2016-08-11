@@ -185,6 +185,13 @@ public class HouseManageListActivity extends BaseAppCompatActivity implements Sw
                                 buildBeanListTemp = JSON.parseArray(gg.getJSONArray("items").toString(), BuildBean.class);
                                 if(buildBeanListTemp != null && buildBeanListTemp.size() > 0) {
 
+                                    //过滤小区
+                                    for(int i = 0; i<buildBeanListTemp.size();i++){
+                                        if(buildBeanListTemp.get(i).getBuildmodel().equals("2")){
+                                            buildBeanListTemp.remove(i);
+                                        }
+                                    }
+
                                     buildBeanList.addAll(buildBeanListTemp);
                                     houseAdapter.notifyDataSetChanged();
                                     if(buildBeanListTemp.size() == 10){
