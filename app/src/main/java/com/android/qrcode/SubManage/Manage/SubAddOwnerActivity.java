@@ -98,10 +98,10 @@ public class SubAddOwnerActivity extends BaseAppCompatActivity implements View.O
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 // TODO Auto-generated method stub
                 if (checkedId == R.id.radio_man) {
-                    sex = 0;
+                    sex = 1;
                     //Toast.makeText(SubAddOwnerActivity.this, "男", Toast.LENGTH_LONG).show();
                 } else {
-                    sex = 1;
+                    sex = 2;
                    // Toast.makeText(SubAddOwnerActivity.this, "女", Toast.LENGTH_LONG).show();
                 }
             }

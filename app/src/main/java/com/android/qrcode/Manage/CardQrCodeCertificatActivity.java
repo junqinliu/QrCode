@@ -13,6 +13,7 @@ import com.android.utils.HttpUtil;
 import com.android.utils.NetUtil;
 import com.android.utils.SquareImageView;
 import com.android.utils.Utils;
+import com.android.utils.VoiceUtil;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import org.json.JSONException;
@@ -94,10 +95,30 @@ public class CardQrCodeCertificatActivity extends BaseAppCompatActivity implemen
             //配置按钮实时获取最新的授权码
             case R.id.add_img:
 
+                //给按钮添加音效
+                try{
+
+                    VoiceUtil.getInstance(this).startVoice();
+
+                }catch (Exception e){
+
+                    e.printStackTrace();
+                }
+
                 getAuthorizateQrCode(buildid);
                 break;
             //点击二维码实时获取最新的授权码
             case R.id.binaryCode:
+
+                //给按钮添加音效
+                try{
+
+                    VoiceUtil.getInstance(this).startVoice();
+
+                }catch (Exception e){
+
+                    e.printStackTrace();
+                }
 
                 getAuthorizateQrCode(buildid);
                 break;

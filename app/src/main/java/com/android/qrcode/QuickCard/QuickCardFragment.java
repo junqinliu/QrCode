@@ -90,6 +90,16 @@ public class QuickCardFragment extends BaseFragment implements View.OnClickListe
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser){
 
+            //给按钮添加音效
+            try{
+
+                VoiceUtil.getInstance(getActivity()).startVoice();
+
+            }catch (Exception e){
+
+                e.printStackTrace();
+            }
+
             //实时获取最新的选中快捷房卡
             if(!"".equals(SharedPreferenceUtil.getInstance(getActivity()).getSharedPreferences().getString("RoomCardBean", ""))){
 
@@ -114,8 +124,16 @@ public class QuickCardFragment extends BaseFragment implements View.OnClickListe
             //点击二维码实时获取最新的二维码
             case R.id.binaryCode:
 
-                VoiceUtil.getInstance(getActivity()).startVoice();
-                    //    new VoiceUtil(getActivity()).startVoice();
+                //给按钮添加音效
+                try{
+
+                    VoiceUtil.getInstance(getActivity()).startVoice();
+
+                }catch (Exception e){
+
+                    e.printStackTrace();
+                }
+
 
                 //实时获取最新的选中快捷房卡
                 if(!"".equals(SharedPreferenceUtil.getInstance(getActivity()).getSharedPreferences().getString("RoomCardBean", ""))){

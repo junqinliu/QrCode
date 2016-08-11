@@ -2,6 +2,7 @@ package com.android.qrcode.Card;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
@@ -17,15 +18,19 @@ import com.android.constant.Constants;
 import com.android.mylibrary.model.LogBean;
 import com.android.qrcode.R;
 import com.android.utils.HttpUtil;
+import com.android.utils.ImageOpera;
 import com.android.utils.NetUtil;
 import com.android.utils.SquareImageView;
+import com.android.utils.TextUtil;
 import com.android.utils.Utils;
+import com.android.utils.VoiceUtil;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +59,7 @@ public class CardQrCodeActivity extends BaseAppCompatActivity implements View.On
     String secret;
     String buildname;
     String buildid;
+    String localUrl;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,6 +87,7 @@ public class CardQrCodeActivity extends BaseAppCompatActivity implements View.On
         buildid = getIntent().getStringExtra("buildid");
         build_name.setText(buildname);
         binaryCode.setImageBitmap(Utils.createQRImage(CardQrCodeActivity.this, secret, 500, 500));
+        localUrl = ImageOpera.savePicToSdcard(Utils.createQRImage(CardQrCodeActivity.this, secret, 500, 500), getOutputMediaFile(), "MicroCode.png");
     }
 
     @Override
@@ -106,7 +113,19 @@ public class CardQrCodeActivity extends BaseAppCompatActivity implements View.On
 
            //获取二维码
            case R.id.binaryCode:
+
+               //给按钮添加音效
+               try{
+
+                   VoiceUtil.getInstance(CardQrCodeActivity.this).startVoice();
+
+               }catch (Exception e){
+
+                   e.printStackTrace();
+               }
+
                getQrCode(buildid);
+
                break;
            //分享二维码
            case R.id.add_img:
@@ -117,18 +136,21 @@ public class CardQrCodeActivity extends BaseAppCompatActivity implements View.On
                // 分享时Notification的图标和文字  2.5.9以后的版本不调用此方法
                //oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
                // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
-               oks.setTitle("微卡管理");
+               oks.setTitle("微卡");
                // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
                // oks.setTitleUrl("http://sharesdk.cn");
                // text是分享文本，所有平台都需要这个字段
-               oks.setText("我是分享文本");
+               oks.setText("微卡");
 
-               oks.setTitleUrl("http://mob.com");
+               //oks.setTitleUrl("http://mob.com");
 
-               oks.setImageUrl("http://f1.sharesdk.cn/imgs/2014/02/26/owWpLZo_638x960.jpg");
+             //  oks.setImageUrl("http://f1.sharesdk.cn/imgs/2014/02/26/owWpLZo_638x960.jpg");
 
                // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-               //oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
+               if(!TextUtil.isEmpty(localUrl)){
+
+                   oks.setImagePath(localUrl);//确保SDcard下面存在此张图片
+               }
                // url仅在微信（包括好友和朋友圈）中使用
                //oks.setUrl("http://sharesdk.cn");
                // comment是我对这条分享的评论，仅在人人网和QQ空间使用
@@ -179,6 +201,7 @@ public class CardQrCodeActivity extends BaseAppCompatActivity implements View.On
                             if (jsonObject.getBoolean("success")) {
                                 JSONObject jsonObject1 = new JSONObject(jsonObject.getString("data"));
                                 binaryCode.setImageBitmap(Utils.createQRImage(CardQrCodeActivity.this, jsonObject1.getString("secret"), 500, 500));
+                                localUrl = ImageOpera.savePicToSdcard(Utils.createQRImage(CardQrCodeActivity.this, jsonObject1.getString("secret"), 500, 500), getOutputMediaFile(), "MicroCode.png");
 
                             } else {
 
@@ -217,6 +240,18 @@ public class CardQrCodeActivity extends BaseAppCompatActivity implements View.On
             }
         });
 
+    }
+
+
+    /**
+     * 将图片保存到本地文件中
+     */
+    private String getOutputMediaFile() {
+
+        //get the mobile Pictures directory   /storage/emulated/0/Pictures/IMAGE_20160315_134742.jpg
+        File picDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        String str = picDir.getPath() + File.separator;
+        return str;
     }
 
 }

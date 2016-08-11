@@ -203,7 +203,7 @@ public class CardManageActivity extends BaseAppCompatActivity implements  SwipeR
 
                                 } else {
 
-                                    showToast("该小区目前还没有维护楼栋");
+                                  //  showToast("该小区目前还没有维护楼栋");
                                 }
 
                             } else {

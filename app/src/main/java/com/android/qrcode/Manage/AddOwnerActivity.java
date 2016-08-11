@@ -95,11 +95,11 @@ public class AddOwnerActivity extends BaseAppCompatActivity implements View.OnCl
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 // TODO Auto-generated method stub
                 if (checkedId == R.id.radio_man) {
-                    sex = 0;
-                    Toast.makeText(AddOwnerActivity.this, "男", Toast.LENGTH_LONG).show();
-                } else {
                     sex = 1;
-                    Toast.makeText(AddOwnerActivity.this, "女", Toast.LENGTH_LONG).show();
+                   // Toast.makeText(AddOwnerActivity.this, "男", Toast.LENGTH_LONG).show();
+                } else {
+                    sex = 2;
+                  //  Toast.makeText(AddOwnerActivity.this, "女", Toast.LENGTH_LONG).show();
                 }
             }
         });
