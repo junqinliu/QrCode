@@ -38,10 +38,8 @@ public class LoginActivity extends BaseAppCompatActivity implements View.OnClick
     TextView tv_resiger;
     @Bind(R.id.tv_forgetpassword)
     TextView tv_forgetpassword;
-
     @Bind(R.id.ed_account)
     EditText ed_account;
-
     @Bind(R.id.ed_password)
     EditText ed_password;
 
