@@ -2,6 +2,8 @@ package com.android.qrcode.QuickCard;
 
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -18,6 +20,7 @@ import com.android.utils.NetUtil;
 import com.android.utils.SharedPreferenceUtil;
 import com.android.utils.SquareImageView;
 import com.android.utils.Utils;
+import com.android.utils.VoiceUtil;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -110,6 +113,9 @@ public class QuickCardFragment extends BaseFragment implements View.OnClickListe
 
             //点击二维码实时获取最新的二维码
             case R.id.binaryCode:
+
+                VoiceUtil.getInstance(getActivity()).startVoice();
+                    //    new VoiceUtil(getActivity()).startVoice();
 
                 //实时获取最新的选中快捷房卡
                 if(!"".equals(SharedPreferenceUtil.getInstance(getActivity()).getSharedPreferences().getString("RoomCardBean", ""))){
