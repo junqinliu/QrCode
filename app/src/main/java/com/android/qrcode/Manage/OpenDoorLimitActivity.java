@@ -202,6 +202,13 @@ public class OpenDoorLimitActivity extends BaseAppCompatActivity implements Swip
                                 openDoorLimitListTemp = JSON.parseArray(gg.getJSONArray("items").toString(), OpenDoorLimit.class);
                                 if (openDoorLimitListTemp != null && openDoorLimitListTemp.size() > 0) {
 
+                                    //过滤小区
+                                    for(int i = 0; i<openDoorLimitList.size();i++){
+                                        if(openDoorLimitList.get(i).getModel().equals("1")){
+                                            openDoorLimitList.remove(i);
+                                        }
+                                    }
+
                                     openDoorLimitList.addAll(openDoorLimitListTemp);
                                     openDoorLimitAdapter.initDate();
                                     openDoorLimitAdapter.notifyDataSetChanged();

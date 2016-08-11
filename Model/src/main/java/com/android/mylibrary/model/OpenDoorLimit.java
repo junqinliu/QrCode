@@ -9,6 +9,7 @@ public class OpenDoorLimit {
     private  boolean open;
     private  String buildname;
     private  String buildid;
+    private  String model;
 
     public boolean isOpen() {
         return open;
@@ -32,5 +33,13 @@ public class OpenDoorLimit {
 
     public void setBuildid(String buildid) {
         this.buildid = buildid;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
     }
 }
