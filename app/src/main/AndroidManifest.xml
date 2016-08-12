@@ -216,6 +216,10 @@
         <activity
             android:name=".Setting.ApplyActivity"
             android:theme="@style/AppThemeToolbar">
+        </activity>
+        <activity
+            android:name=".Setting.AboutActivity"
+            android:theme="@style/AppThemeToolbar">
 
         </activity>
         <activity
