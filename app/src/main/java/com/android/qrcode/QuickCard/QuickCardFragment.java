@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.android.base.BaseFragment;
@@ -450,8 +451,19 @@ public class QuickCardFragment extends BaseFragment implements View.OnClickListe
      */
     private String getOutputMediaFile() {
 
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+
+            Toast.makeText(getContext(),"SD卡可用",Toast.LENGTH_SHORT).show();
+        }
+
+
         //get the mobile Pictures directory   /storage/emulated/0/Pictures/IMAGE_20160315_134742.jpg
         File picDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        if(!picDir.exists()){
+            picDir.mkdir();
+        }
+
         String str = picDir.getPath() + File.separator;
         return str;
     }

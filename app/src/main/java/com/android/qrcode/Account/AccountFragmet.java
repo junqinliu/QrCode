@@ -9,9 +9,17 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.android.base.BaseFragment;
+import com.android.constant.Constants;
 import com.android.mylibrary.model.UserInfoBean;
 import com.android.qrcode.R;
+import com.android.utils.HttpUtil;
+import com.android.utils.NetUtil;
 import com.android.utils.SharedPreferenceUtil;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.Bind;
 
@@ -90,6 +98,94 @@ public class AccountFragmet extends BaseFragment implements View.OnClickListener
 
 
         }
+
+    }
+
+
+
+    private void getUserInfo(){
+
+        RequestParams params = new RequestParams();
+
+
+        HttpUtil.get(Constants.HOST + Constants.getUserInfo, params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onStart() {
+                super.onStart();
+
+                if (!NetUtil.checkNetInfo(getActivity())) {
+
+                    showToast("当前网络不可用,请检查网络");
+                    return;
+                }
+            }
+
+
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
+
+                if (responseBody != null) {
+                    try {
+                        String str = new String(responseBody);
+                        JSONObject jsonObject = new JSONObject(str);
+                        if (jsonObject != null) {
+
+                            if (jsonObject.getBoolean("success")) {
+
+
+                                UserInfoBean userInfoBean = JSON.parseObject(jsonObject.getJSONObject("data").toString(), UserInfoBean.class);
+                              //  userInfoBean.setPhone(phone);
+                                String userInfoBeanStr = JSON.toJSONString(userInfoBean);
+                                SharedPreferenceUtil.getInstance(getActivity()).putData("UserInfo", userInfoBeanStr);
+
+                                //配置请求接口全局token 和 userid
+                                if (userInfoBean != null) {
+
+                                    HttpUtil.getClient().addHeader("Token", userInfoBean.getToken());
+                                    HttpUtil.getClient().addHeader("Userid", userInfoBean.getUserid());
+
+                                }
+
+
+
+                            } else {
+
+                                showToast("请求接口失败，请联系管理员");
+                            }
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody, Throwable error) {
+
+                if (responseBody != null) {
+                    try {
+                        String str1 = new String(responseBody);
+                        JSONObject jsonObject1 = new JSONObject(str1);
+                        showToast(jsonObject1.getString("msg"));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+
+            }
+
+
+        });
 
     }
 

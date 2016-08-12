@@ -123,7 +123,9 @@ public class MainActivity extends BaseAppCompatActivity implements
             }
         });
 
+
         phone = getIntent().getStringExtra("phone");
+
         //获取用户信息
         getUserInfo();
 
