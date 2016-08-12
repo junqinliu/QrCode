@@ -94,6 +94,7 @@ public class SubCommunityManageActivity extends BaseAppCompatActivity implements
         setSupportActionBar(toolBar);
         toolBar.setNavigationIcon(R.mipmap.back);
         add_img.setVisibility(View.VISIBLE);
+        add_img.setImageResource(R.mipmap.tianjia);
         //暂时不做搜索
       //  searchLineay.setVisibility(View.VISIBLE);
     }

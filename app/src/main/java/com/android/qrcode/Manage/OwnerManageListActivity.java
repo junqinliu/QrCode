@@ -101,6 +101,7 @@ public class OwnerManageListActivity extends BaseAppCompatActivity implements Sw
         setSupportActionBar(toolBar);
         toolBar.setNavigationIcon(R.mipmap.back);
         add_img.setVisibility(View.VISIBLE);
+       add_img.setImageResource(R.mipmap.tianjia);
     }
 
     @Override

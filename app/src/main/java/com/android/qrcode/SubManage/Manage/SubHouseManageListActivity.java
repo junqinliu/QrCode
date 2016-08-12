@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -58,6 +59,8 @@ public class SubHouseManageListActivity extends BaseAppCompatActivity implements
     private List<CardInfoBean> carinfoBeansListTemp = new ArrayList<CardInfoBean>();
     private boolean loadingMore = false;
 
+    @Bind(R.id.add_img)
+    ImageView add_img;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +75,8 @@ public class SubHouseManageListActivity extends BaseAppCompatActivity implements
         toolbar_title.setText(R.string.sub_community_str);
         setSupportActionBar(toolBar);
         toolBar.setNavigationIcon(R.mipmap.back);
-
+        add_img.setVisibility(View.VISIBLE);
+        add_img.setImageResource(R.mipmap.tianjia);
     }
 
     @Override
