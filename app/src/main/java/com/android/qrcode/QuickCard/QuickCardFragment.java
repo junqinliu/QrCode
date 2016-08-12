@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.TextView;
 
@@ -16,6 +17,7 @@ import com.android.mylibrary.model.UserInfoBean;
 import com.android.qrcode.Card.CardQrCodeActivity;
 import com.android.qrcode.R;
 import com.android.utils.HttpUtil;
+import com.android.utils.ImageOpera;
 import com.android.utils.NetUtil;
 import com.android.utils.SharedPreferenceUtil;
 import com.android.utils.SquareImageView;
@@ -28,6 +30,7 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,8 +74,6 @@ public class QuickCardFragment extends BaseFragment implements View.OnClickListe
     @Override
     public void initData() {
 
-        //这边调接口是避免用户进入首页 没有去配置微卡 直接点击快捷房卡出现没有默认快捷房卡的问题
-       // getCardList();
 
         Bundle bundle = getArguments();
         phone = bundle.getString("phone");
@@ -310,7 +311,7 @@ public class QuickCardFragment extends BaseFragment implements View.OnClickListe
                                 build_name_quick.setText(buildname);
                                 JSONObject jsonObject1 = new JSONObject(jsonObject.getString("data"));
                                 binaryCode.setImageBitmap(Utils.createQRImage(getActivity(), jsonObject1.getString("secret"), 500, 500));
-
+                                String  localUrl = ImageOpera.savePicToSdcard(Utils.createQRImage(getActivity(), jsonObject1.getString("secret"), 500, 500), getOutputMediaFile(), "MicroCode.png");
                             } else {
 
                                 showToast("请求接口失败，请联系管理员");
@@ -441,6 +442,18 @@ public class QuickCardFragment extends BaseFragment implements View.OnClickListe
 
         });
 
+    }
+
+
+    /**
+     * 将图片保存到本地文件中
+     */
+    private String getOutputMediaFile() {
+
+        //get the mobile Pictures directory   /storage/emulated/0/Pictures/IMAGE_20160315_134742.jpg
+        File picDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        String str = picDir.getPath() + File.separator;
+        return str;
     }
 
 }
