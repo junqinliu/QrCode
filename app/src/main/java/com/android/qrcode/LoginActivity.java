@@ -61,6 +61,37 @@ public class LoginActivity extends BaseAppCompatActivity implements View.OnClick
     @Override
     public void initData() {
 
+
+        /**
+         * 免登陆逻辑
+         */
+        if (!TextUtil.isEmpty(SharedPreferenceUtil.getInstance(this).getSharedPreferences().getString("UserInfo", ""))) {
+
+            UserInfoBean userInfoBean = JSON.parseObject(SharedPreferenceUtil.getInstance(this).getSharedPreferences().getString("UserInfo", ""), UserInfoBean.class);
+            if (userInfoBean != null) {
+
+                Intent intent1;
+                if ("ADMIN".equals(userInfoBean.getAuthority())) {//二级管理员
+                    intent1 = new Intent(LoginActivity.this, SubMainActivity.class);
+                    startActivity(intent1);
+                    finish();
+                } else if ("PROPERTY".equals(userInfoBean.getAuthority())){
+                    intent1 = new Intent(LoginActivity.this, MainActivity.class);
+                  //  intent1.putExtra("phone",ed_account.getText().toString());
+                    startActivity(intent1);
+                    finish();
+                }
+
+
+            }
+        }
+
+
+
+
+
+
+
     }
 
     @Override
