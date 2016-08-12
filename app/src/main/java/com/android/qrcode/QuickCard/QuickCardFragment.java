@@ -19,6 +19,7 @@ import com.android.utils.HttpUtil;
 import com.android.utils.NetUtil;
 import com.android.utils.SharedPreferenceUtil;
 import com.android.utils.SquareImageView;
+import com.android.utils.TextUtil;
 import com.android.utils.Utils;
 import com.android.utils.VoiceUtil;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -47,6 +48,7 @@ public class QuickCardFragment extends BaseFragment implements View.OnClickListe
     RoomCardBean roomCardBean;
     int pageNumber = 0;
     int pageSize = 10;
+    String phone;
 
 
     public QuickCardFragment() {
@@ -70,7 +72,10 @@ public class QuickCardFragment extends BaseFragment implements View.OnClickListe
     public void initData() {
 
         //这边调接口是避免用户进入首页 没有去配置微卡 直接点击快捷房卡出现没有默认快捷房卡的问题
-        //getCardList();
+       // getCardList();
+
+        Bundle bundle = getArguments();
+        phone = bundle.getString("phone");
 
     }
 
@@ -90,7 +95,9 @@ public class QuickCardFragment extends BaseFragment implements View.OnClickListe
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser){
 
-            //给按钮添加音效
+            /**
+             * 给按钮添加音效
+             */
             try{
 
                 VoiceUtil.getInstance(getActivity()).startVoice();
@@ -108,7 +115,23 @@ public class QuickCardFragment extends BaseFragment implements View.OnClickListe
             }else{
 
                 //这边调接口是避免用户进入首页 没有去配置微卡 直接点击快捷房卡出现没有默认快捷房卡的问题
-                getCardList();
+
+                UserInfoBean userInfoBean = JSON.parseObject(SharedPreferenceUtil.getInstance(getActivity()).getSharedPreferences().getString("UserInfo", ""), UserInfoBean.class);
+                String houseid = "";
+
+                if (userInfoBean != null) {
+
+                    houseid = userInfoBean.getHouseid();
+                    if(TextUtil.isEmpty(houseid)){
+
+                        getUserInfo();
+                    }else{
+
+                        getCardList();
+                    }
+
+                }
+
             }
 
         }else{
@@ -323,6 +346,99 @@ public class QuickCardFragment extends BaseFragment implements View.OnClickListe
                 super.onFinish();
 
             }
+        });
+
+    }
+
+
+
+    private void getUserInfo(){
+
+        RequestParams params = new RequestParams();
+
+
+        HttpUtil.get(Constants.HOST + Constants.getUserInfo,params,new AsyncHttpResponseHandler() {
+            @Override
+            public void onStart() {
+                super.onStart();
+
+                if(!NetUtil.checkNetInfo(getActivity())){
+
+                    showToast("当前网络不可用,请检查网络");
+                    return;
+                }
+            }
+
+
+            @Override
+            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody) {
+
+                if (responseBody != null) {
+                    try {
+                        String str = new String(responseBody);
+                        JSONObject jsonObject = new JSONObject(str);
+                        if (jsonObject != null) {
+
+                            if(jsonObject.getBoolean("success")){
+
+
+                                UserInfoBean userInfoBean = JSON.parseObject(jsonObject.getJSONObject("data").toString(),UserInfoBean.class);
+                                userInfoBean.setPhone(phone);
+                                String  userInfoBeanStr = JSON.toJSONString(userInfoBean);
+                                SharedPreferenceUtil.getInstance(getActivity()).putData("UserInfo", userInfoBeanStr);
+
+                                //配置请求接口全局token 和 userid
+                                if (userInfoBean != null) {
+
+                                    HttpUtil.getClient().addHeader("Token", userInfoBean.getToken());
+                                    HttpUtil.getClient().addHeader("Userid", userInfoBean.getUserid());
+
+                                }
+
+                                /**
+                                 * 这里调用获取用户信息接口主要是要获取houseid值，因为刚进来默认来到快捷房卡时 houseid是null
+                                 */
+                                getCardList();
+
+
+
+                            }else{
+
+                                showToast("请求接口失败，请联系管理员");
+                            }
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, cz.msebera.android.httpclient.Header[] headers, byte[] responseBody, Throwable error) {
+
+                if(responseBody != null){
+                    try {
+                        String str1 = new String(responseBody);
+                        JSONObject jsonObject1 = new JSONObject(str1);
+                        showToast(jsonObject1.getString("msg"));
+
+                    }catch (JSONException e){
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+
+            }
+
+
         });
 
     }

@@ -130,7 +130,13 @@ public class MainActivity extends BaseAppCompatActivity implements
         //把页面加入到集合中
         fragmentList.add(new ManageFragmet());
         fragmentList.add(new CardFragmet());
-        fragmentList.add(new QuickCardFragment());
+        //fragmentList.add(new QuickCardFragment());
+        QuickCardFragment quickCardFragment = new QuickCardFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("phone", phone);
+        quickCardFragment.setArguments(bundle);
+
+        fragmentList.add(quickCardFragment);
         fragmentList.add(new AccountFragmet());
         fragmentList.add(new SettingFragmet());
 
@@ -179,15 +185,6 @@ public class MainActivity extends BaseAppCompatActivity implements
 
             userInfoBean = JSON.parseObject(SharedPreferenceUtil.getInstance(this).getSharedPreferences().getString("UserInfo", ""), UserInfoBean.class);
         }
-
-      /*  if(userInfoBean != null){
-
-            if(!"PASS".equals(userInfoBean.getAduitstatus()) && !"AUDITING".equals(userInfoBean.getAduitstatus())){
-                //跳到权限申请界面
-                startActivity(new Intent(this, ApplyActivity.class));
-            }
-        }*/
-
 
 
     }
