@@ -454,7 +454,7 @@ public class QuickCardFragment extends BaseFragment implements View.OnClickListe
         String state = Environment.getExternalStorageState();
         if (Environment.MEDIA_MOUNTED.equals(state)) {
 
-            Toast.makeText(getContext(),"SD卡可用",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getContext(),"SD卡可用",Toast.LENGTH_SHORT).show();
         }
 
 

@@ -48,7 +48,7 @@ public class AddBuildActivity extends BaseAppCompatActivity implements View.OnCl
     @Bind(R.id.toggle_btn)
     ToggleButton toggle_btn;
 
-    String buildmodel;
+    String buildmodel = "1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
