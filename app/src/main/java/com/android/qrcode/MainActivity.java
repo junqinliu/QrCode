@@ -587,6 +587,9 @@ public class MainActivity extends BaseAppCompatActivity implements
 
         //get the mobile Pictures directory   /storage/emulated/0/Pictures/IMAGE_20160315_134742.jpg
         File picDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        if(!picDir.exists()){
+            picDir.mkdir();
+        }
         String str = picDir.getPath() + File.separator;
         return str;
     }

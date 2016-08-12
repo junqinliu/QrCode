@@ -129,7 +129,14 @@ public class SettingFragmet extends BaseFragment implements View.OnClickListener
         public void onClick(DialogInterface dialog, int which) {
 
             //调用退出登录接口
-            Logout();
+           //  Logout();
+            //跳转到登录接口 并且把本地文件的数据清除掉
+            showToast("退出登录成功");
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            startActivity(intent);
+            SharedPreferenceUtil.getInstance(getActivity()).deleteData();
+            ExitApplication.getInstance().exitActivity();
+
 
         }
     };
@@ -166,12 +173,7 @@ public class SettingFragmet extends BaseFragment implements View.OnClickListener
                             if (jsonObject.getBoolean("success")) {
 
                                 showToast("退出登录成功");
-                                //跳转到登录接口 并且把本地文件的数据清除掉
 
-                                Intent intent = new Intent(getActivity(), LoginActivity.class);
-                                startActivity(intent);
-                                SharedPreferenceUtil.getInstance(getActivity()).deleteData();
-                                ExitApplication.getInstance().exitActivity();
 
                             } else {
 
