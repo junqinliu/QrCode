@@ -40,6 +40,7 @@
                     android:background="@null"
                     android:hint="@string/add_owner_hint_num_str"
                     android:textColor="@color/gray_text"
+                    android:textCursorDrawable="@null"
                     android:phoneNumber="true"
                     android:textSize="14sp"
                     android:id="@+id/phone_num_txt" />
@@ -71,6 +72,7 @@
                     android:background="@null"
                     android:hint="@string/add_owner_hint_name_str"
                     android:textColor="@color/gray_text"
+                    android:textCursorDrawable="@null"
                     android:textSize="14sp"
                     android:id="@+id/name_txt" />
             </LinearLayout>

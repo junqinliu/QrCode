@@ -84,8 +84,9 @@ public class SubAddCommunityActivity extends BaseAppCompatActivity implements Vi
         toolbar_title.setText(R.string.add_community_str);
         setSupportActionBar(toolBar);
         toolBar.setNavigationIcon(R.mipmap.back);
-        add_img.setImageResource(R.mipmap.submit);
-        add_img.setVisibility(View.VISIBLE);
+        //add_img.setImageResource(R.mipmap.submit);
+       // add_img.setVisibility(View.VISIBLE);
+       // add_img.setBackgroundResource(R.mipmap.tianjia);
     }
 
     @Override
