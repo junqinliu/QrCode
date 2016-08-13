@@ -38,10 +38,11 @@ public class AboutActivity extends BaseAppCompatActivity implements View.OnClick
     public void initData() {
         toolbar.setNavigationIcon(android.R.drawable.ic_menu_revert);
         //设置标题
-        String titleName = getIntent().getStringExtra(getResources().getString(R.string.about_micro_card));
-        if (!TextUtil.isEmpty(titleName)) {
-            title.setText(titleName);
-        }
+        title.setText("关于微卡");
+//        String titleName = getIntent().getStringExtra(getResources().getString(R.string.about_micro_card));
+//        if (!TextUtil.isEmpty(titleName)) {
+//            title.setText(titleName);
+//        }
     }
 
     @Override

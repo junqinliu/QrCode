@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,6 +65,7 @@ public class BlockManageAdapter extends BaseAdapter {
         }
         //Glide.with(context).load(list.get(i).getMemberPhoto()).into(holder.messagePic);
         holder.messagePic.setVisibility(View.GONE);
+        holder.img_layout.setVisibility(View.GONE);
         holder.messageTitle.setText(list.get(i).getName());
 
 
@@ -87,6 +89,9 @@ public class BlockManageAdapter extends BaseAdapter {
         TextView messageTitle;
         @Bind(R.id.delete_button)
         RelativeLayout delete_button;
+
+        @Bind(R.id.img_layout)
+        LinearLayout img_layout;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
