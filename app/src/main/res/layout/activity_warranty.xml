@@ -37,6 +37,7 @@
             android:inputType="textPassword"
             android:padding="5dp"
             android:hint="请输入原始密码"
+            android:textSize="15sp"
             android:textColor="@color/black_text" />
     </LinearLayout>
 
