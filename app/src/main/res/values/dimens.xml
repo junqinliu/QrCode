@@ -8,6 +8,7 @@
     <dimen name="manage_margin_left">10dip</dimen>
     <dimen name="manage_margin_right">10dip</dimen>
     <dimen name="manage_margin_top">10dip</dimen>
+    <dimen name="manage_margin_top_20dip">20dip</dimen>
     <dimen name="manage_margin_top2">30dip</dimen>
     <dimen name="manage_layout_height">50dip</dimen>
     <dimen name="padding_layout">10dip</dimen>

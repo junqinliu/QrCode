@@ -62,7 +62,7 @@
     <string name="hint_build_name">请输入楼栋名称</string>
     <string name="is_public_door">是否小区公共门</string>
     <string name="card_certification">房卡认证</string>
-    <string name="card_certification_desc">"设置说明：\n
+    <string name="card_certification_desc">"     设置说明：\n
         1.将授权卡对准门禁，如果设置成功，将听到“滴..滴 ”\n
         2.将配置卡对准门禁，如果成功，将听到“滴”一声\n
         3.你可以通过右上角授权与配置设置卡"</string>

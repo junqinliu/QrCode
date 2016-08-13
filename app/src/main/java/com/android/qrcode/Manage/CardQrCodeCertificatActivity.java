@@ -2,6 +2,7 @@ package com.android.qrcode.Manage;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
@@ -38,10 +39,13 @@ public class CardQrCodeCertificatActivity extends BaseAppCompatActivity implemen
     SquareImageView binaryCode;
     @Bind(R.id.build_name_txt)
     TextView build_name_txt;
+    @Bind(R.id.time_count_txt)
+    TextView time_count_txt;
 
     String secret;
     String buildid;
     String buildname;
+    TimeCount time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +62,7 @@ public class CardQrCodeCertificatActivity extends BaseAppCompatActivity implemen
         toolBar.setNavigationIcon(R.mipmap.back);
         add_img.setImageResource(R.mipmap.submit);
         add_img.setVisibility(View.VISIBLE);
+        time = new TimeCount(60000, 1000);//构造CountDownTimer对象
     }
 
     @Override
@@ -68,6 +73,7 @@ public class CardQrCodeCertificatActivity extends BaseAppCompatActivity implemen
         buildname = getIntent().getStringExtra("buildname");
         build_name_txt.setText(buildname);
         binaryCode.setImageBitmap(Utils.createQRImage(this, secret, 500, 500));
+        time.start();
 
     }
 
@@ -95,32 +101,14 @@ public class CardQrCodeCertificatActivity extends BaseAppCompatActivity implemen
             //配置按钮实时获取最新的授权码
             case R.id.add_img:
 
-                //给按钮添加音效
-                try{
-
-                    VoiceUtil.getInstance(this).startVoice();
-
-                }catch (Exception e){
-
-                    e.printStackTrace();
-                }
-
                 getAuthorizateQrCode(buildid);
+
                 break;
             //点击二维码实时获取最新的授权码
             case R.id.binaryCode:
 
-                //给按钮添加音效
-                try{
-
-                    VoiceUtil.getInstance(this).startVoice();
-
-                }catch (Exception e){
-
-                    e.printStackTrace();
-                }
-
                 getAuthorizateQrCode(buildid);
+
                 break;
             default:
                 break;
@@ -164,6 +152,17 @@ public class CardQrCodeCertificatActivity extends BaseAppCompatActivity implemen
 
                                 JSONObject jsonObject1 = new JSONObject(jsonObject.getString("data"));
                                 binaryCode.setImageBitmap(Utils.createQRImage(CardQrCodeCertificatActivity.this, jsonObject1.getString("secret"), 500, 500));
+                                time.start();
+
+                                //给按钮添加音效
+                                try{
+
+                                    VoiceUtil.getInstance(CardQrCodeCertificatActivity.this).startVoice();
+
+                                }catch (Exception e){
+
+                                    e.printStackTrace();
+                                }
 
                             } else {
 
@@ -201,5 +200,35 @@ public class CardQrCodeCertificatActivity extends BaseAppCompatActivity implemen
             }
         });
     }
+
+    /* 定义一个倒计时的内部类 */
+    class TimeCount extends CountDownTimer {
+        public TimeCount(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);//参数依次为总时长,和计时的时间间隔
+        }
+
+        @Override
+        public void onFinish() {//计时完毕时触发
+
+            if(binaryCode != null && time_count_txt != null && add_img != null) {
+                binaryCode.setClickable(true);
+                add_img.setClickable(true);
+                time_count_txt.setText("扫描二维码授权(" + "0" + ")");
+            }
+        }
+        @Override
+        public void onTick(long millisUntilFinished){//计时过程显示
+
+            if(binaryCode != null && time_count_txt != null && add_img != null ){
+
+                time_count_txt.setText("扫描二维码授权("+ --millisUntilFinished / 1000 + ")");
+                binaryCode.setClickable(false);
+                add_img.setClickable(false);
+            }
+        }
+    }
+
+
+
 
 }

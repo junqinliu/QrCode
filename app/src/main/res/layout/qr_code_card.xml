@@ -20,24 +20,61 @@
 
         />
 
-    <com.android.utils.SquareImageView
+   <!-- <com.android.utils.SquareImageView
         android:id="@+id/binaryCode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp"
-        android:layout_marginTop="40dp" />
+        android:layout_marginTop="40dp" />-->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/manage_margin_top"
+        android:layout_marginTop="@dimen/manage_margin_top2"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/time_count_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:textColor="@color/colorAccent"
+            />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="228dp"
+        android:layout_height="228dp"
+        android:background="@mipmap/codebg"
+        android:layout_gravity="center"
+        android:padding="4dp"
+        android:orientation="horizontal">
+
+        <com.android.utils.SquareImageView
+            android:id="@+id/binaryCode"
+            android:layout_width="220dp"
+            android:layout_height="220dp"
+
+            />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/manage_margin_top_20dip"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/gray_text"
+            android:textColor="@color/black_text"
             android:text="@string/card_certification_desc"/>
 
     </LinearLayout>
