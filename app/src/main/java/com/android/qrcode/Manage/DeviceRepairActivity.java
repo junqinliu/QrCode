@@ -182,7 +182,7 @@ public class DeviceRepairActivity extends BaseAppCompatActivity implements  Swip
 
                                 } else {
 
-                                    showToast("暂无设备维修");
+                                   // showToast("暂无设备维修");
                                 }
 
                             } else {

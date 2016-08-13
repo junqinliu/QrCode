@@ -525,7 +525,10 @@ public class MainActivity extends BaseAppCompatActivity implements
 
 
                                 UserInfoBean userInfoBean = JSON.parseObject(jsonObject.getJSONObject("data").toString(),UserInfoBean.class);
-                                userInfoBean.setPhone(phone);
+                                if(!TextUtil.isEmpty(phone)){
+
+                                    userInfoBean.setPhone(phone);
+                                }
                                 String  userInfoBeanStr = JSON.toJSONString(userInfoBean);
                                 SharedPreferenceUtil.getInstance(MainActivity.this).putData("UserInfo", userInfoBeanStr);
 

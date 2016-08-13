@@ -117,6 +117,13 @@ public class PwdResetActivity extends BaseAppCompatActivity implements View.OnCl
                     return;
                 }
 
+                if(new_pwd_edt.getText().toString().length() < 6){
+
+                    showToast("密码至少为6位数");
+
+                    return;
+                }
+
                 submit();
                 break;
 

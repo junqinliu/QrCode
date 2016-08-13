@@ -179,7 +179,7 @@ public class OwnerComplainActivity extends BaseAppCompatActivity implements  Swi
 
                                 } else {
 
-                                    showToast("暂无设备维修");
+                                    //showToast("暂无设备维修");
                                 }
 
                             } else {

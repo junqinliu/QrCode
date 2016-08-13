@@ -199,11 +199,11 @@ public class CardFragmet extends BaseFragment implements  SwipeRefreshLayout.OnR
                                 if (roomCardBeanListTemp != null && roomCardBeanListTemp.size() > 0) {
 
                                     //过滤小区
-                                    for(int i = 0; i<roomCardBeanListTemp.size();i++){
-                                        if(roomCardBeanListTemp.get(i).getBuildmodel().equals("2")){
-                                            roomCardBeanListTemp.remove(i);
-                                        }
-                                    }
+//                                    for(int i = 0; i<roomCardBeanListTemp.size();i++){
+//                                        if(roomCardBeanListTemp.get(i).getBuildmodel().equals("2")){
+//                                            roomCardBeanListTemp.remove(i);
+//                                        }
+//                                    }
                                     roomCardBeanList.addAll(roomCardBeanListTemp);
                                     cardAdapter.initDate();
                                     if(roomCardBean != null){

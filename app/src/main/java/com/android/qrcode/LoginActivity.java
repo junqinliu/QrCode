@@ -77,7 +77,7 @@ public class LoginActivity extends BaseAppCompatActivity implements View.OnClick
                     finish();
                 } else if ("PROPERTY".equals(userInfoBean.getAuthority())){
                     intent1 = new Intent(LoginActivity.this, MainActivity.class);
-                  //  intent1.putExtra("phone",ed_account.getText().toString());
+                    intent1.putExtra("phone",userInfoBean.getPhone());
                     startActivity(intent1);
                     finish();
                 }
