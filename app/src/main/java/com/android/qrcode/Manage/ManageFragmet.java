@@ -71,7 +71,7 @@ public class  ManageFragmet extends BaseFragment implements View.OnClickListener
             case R.id.tenement_manage_layout:
                 startActivity(new Intent(getActivity(),TenementManageActivity.class));
                 break;
-            //微卡管理
+            //设备配置
             case R.id.car_manage_layout:
                 startActivity(new Intent(getActivity(),CardManageActivity.class));
                 break;

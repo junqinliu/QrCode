@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.mylibrary.model.CardInfoBean;
@@ -59,7 +60,18 @@ public class DeviceRepairAdapter extends BaseAdapter {
         holder.messge_detail.setText(list.get(i).getTitle());
         holder.name.setText(list.get(i).getUsername());
         holder.submit_time.setText("时间："+list.get(i).getTime());
-        holder.link_num.setText("业主电话："+list.get(i).getUserphone());
+        holder.link_num.setText("电话："+list.get(i).getPropertyphone());
+
+        /**
+         * 设备报修 与 业主投诉 公共的adapter
+         */
+        if("REPAIR".equals(list.get(i).getPropertytype())){
+            holder.address_layout.setVisibility(View.VISIBLE);
+            holder.link_address.setText("地址："+list.get(i).getPropertyaddress());
+        }else{
+            holder.address_layout.setVisibility(View.GONE);
+        }
+
 
         return convertView;
     }
@@ -74,6 +86,10 @@ public class DeviceRepairAdapter extends BaseAdapter {
         TextView submit_time;
         @Bind(R.id.link_num)
         TextView link_num;
+        @Bind(R.id.link_address)
+        TextView link_address;
+        @Bind(R.id.address_layout)
+        LinearLayout address_layout;
 
         ViewHolder(View view) {
             ButterKnife.bind(this, view);

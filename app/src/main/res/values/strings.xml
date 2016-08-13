@@ -33,7 +33,7 @@
     <!--Manage-->
     <string name="owner_manage_str">业主管理</string>
     <string name="tenement_manage_str">物业管理</string>
-    <string name="car_manage_str">微卡管理</string>
+    <string name="car_manage_str">设备配置</string>
     <string name="owner_apply_manage_str">业主认证申请管理</string>
     <string name="house_manage_str">楼栋管理</string>
     <string name="add_owner_str">添加业主</string>

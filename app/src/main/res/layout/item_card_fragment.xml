@@ -70,24 +70,30 @@
             <CheckBox
 
                 android:id="@+id/toggle_btn"
+                android:layout_toLeftOf="@+id/right_img"
+                android:layout_marginRight="@dimen/dp12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_gravity="right|center_vertical"
+                android:layout_gravity="center_vertical"
                 android:background="@android:color/transparent"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:button="@drawable/ios_check_btn"
                 android:checked="false" />
-            <!--<TextView
-                android:id="@+id/messageNum"
-                style="@style/text_black_title"
+
+            <ImageView
+
+                android:id="@+id/right_img"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:text="@string/app_name"/>
-    -->
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/manage_margin_right"
+                android:src="@mipmap/right">
+
+            </ImageView>
+
         </RelativeLayout>
     </LinearLayout>
 

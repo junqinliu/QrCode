@@ -94,7 +94,7 @@ public class CardAdapter extends BaseAdapter {
 
                         if (j == tempPosition) {
 
-                           // Toast.makeText(context,"你设置快捷房卡"+list.get(j).getName(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context,"您设置快捷房卡"+list.get(j).getName(),Toast.LENGTH_SHORT).show();
                             String  roomCardBeanstr = JSON.toJSONString(list.get(j));
                             SharedPreferenceUtil.getInstance(context).putData("RoomCardBean", roomCardBeanstr);
 
