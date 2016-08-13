@@ -203,9 +203,9 @@ public class OpenDoorLimitActivity extends BaseAppCompatActivity implements Swip
                                 if (openDoorLimitListTemp != null && openDoorLimitListTemp.size() > 0) {
 
                                     //过滤小区
-                                    for(int i = 0; i<openDoorLimitList.size();i++){
-                                        if(openDoorLimitList.get(i).getModel().equals("1")){
-                                            openDoorLimitList.remove(i);
+                                    for(int i = 0; i<openDoorLimitListTemp.size();i++){
+                                        if(openDoorLimitListTemp.get(i).getModel().equals("2")){
+                                            openDoorLimitListTemp.remove(i);
                                         }
                                     }
 
