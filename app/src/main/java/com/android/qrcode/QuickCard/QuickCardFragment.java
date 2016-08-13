@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.view.View;
 import android.widget.TextView;
@@ -47,12 +48,16 @@ public class QuickCardFragment extends BaseFragment implements View.OnClickListe
     SquareImageView binaryCode;
     @Bind(R.id.build_name_quick)
     TextView build_name_quick;
+    @Bind(R.id.time_count_txt)
+     TextView time_count_txt;
 
     List<RoomCardBean> roomCardBeanListTemp = new ArrayList<>();
     RoomCardBean roomCardBean;
     int pageNumber = 0;
     int pageSize = 10;
     String phone;
+
+    TimeCount time;
 
 
     public QuickCardFragment() {
@@ -78,6 +83,8 @@ public class QuickCardFragment extends BaseFragment implements View.OnClickListe
 
         Bundle bundle = getArguments();
         phone = bundle.getString("phone");
+
+        time = new TimeCount(60000, 1000);//构造CountDownTimer对象
 
     }
 
@@ -313,6 +320,8 @@ public class QuickCardFragment extends BaseFragment implements View.OnClickListe
                                 JSONObject jsonObject1 = new JSONObject(jsonObject.getString("data"));
                                 binaryCode.setImageBitmap(Utils.createQRImage(getActivity(), jsonObject1.getString("secret"), 500, 500));
                                 String  localUrl = ImageOpera.savePicToSdcard(Utils.createQRImage(getActivity(), jsonObject1.getString("secret"), 500, 500), getOutputMediaFile(), "MicroCode.png");
+                                time.start();
+
                             } else {
 
                                 showToast("请求接口失败，请联系管理员");
@@ -385,7 +394,10 @@ public class QuickCardFragment extends BaseFragment implements View.OnClickListe
 
 
                                 UserInfoBean userInfoBean = JSON.parseObject(jsonObject.getJSONObject("data").toString(),UserInfoBean.class);
-                                userInfoBean.setPhone(phone);
+                                if(!TextUtil.isEmpty(phone)){
+
+                                    userInfoBean.setPhone(phone);
+                                }
                                 String  userInfoBeanStr = JSON.toJSONString(userInfoBean);
                                 SharedPreferenceUtil.getInstance(getActivity()).putData("UserInfo", userInfoBeanStr);
 
@@ -444,6 +456,34 @@ public class QuickCardFragment extends BaseFragment implements View.OnClickListe
         });
 
     }
+
+
+    /* 定义一个倒计时的内部类 */
+    class TimeCount extends CountDownTimer {
+        public TimeCount(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);//参数依次为总时长,和计时的时间间隔
+        }
+
+        @Override
+        public void onFinish() {//计时完毕时触发
+
+            if(binaryCode != null && time_count_txt != null ) {
+                binaryCode.setClickable(true);
+                time_count_txt.setText("扫描二维码开门(" + "0" + ")");
+            }
+        }
+        @Override
+        public void onTick(long millisUntilFinished){//计时过程显示
+
+            if(binaryCode != null && time_count_txt != null ){
+
+                time_count_txt.setText("扫描二维码开门("+ --millisUntilFinished / 1000 + ")");
+                binaryCode.setClickable(false);
+            }
+        }
+    }
+
+
 
 
     /**
