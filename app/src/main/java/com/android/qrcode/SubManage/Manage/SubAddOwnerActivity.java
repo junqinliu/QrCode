@@ -133,6 +133,7 @@ public class SubAddOwnerActivity extends BaseAppCompatActivity implements View.O
                 }
                 if(!ValidateUtil.isMobile(phone_num_txt.getText().toString())){
                     showToast("请填写正确的手机号");
+                    return;
                 }
 
                 createManage();

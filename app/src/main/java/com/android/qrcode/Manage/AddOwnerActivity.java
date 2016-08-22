@@ -19,6 +19,7 @@ import com.android.qrcode.R;
 import com.android.utils.HttpUtil;
 import com.android.utils.NetUtil;
 import com.android.utils.TextUtil;
+import com.android.utils.ValidateUtil;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import org.json.JSONException;
@@ -127,6 +128,11 @@ public class AddOwnerActivity extends BaseAppCompatActivity implements View.OnCl
                 if(TextUtil.isEmpty(name_txt.getText().toString())||TextUtil.isEmpty(phone_num_txt.getText().toString())){
 
                     showToast("请完善信息");
+                    return;
+                }
+
+                if(!ValidateUtil.isMobile(phone_num_txt.getText().toString())){
+                    showToast("请填写正确的手机号");
                     return;
                 }
 

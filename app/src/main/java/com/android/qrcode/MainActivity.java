@@ -486,7 +486,7 @@ public class MainActivity extends BaseAppCompatActivity implements
                     if(!TextUtil.isEmpty(SharedPreferenceUtil.getInstance(this).getSharedPreferences().getString("UserInfo", ""))){
 
                         UserInfoBean userInfoBean = JSON.parseObject(SharedPreferenceUtil.getInstance(this).getSharedPreferences().getString("UserInfo", ""), UserInfoBean.class);
-                        if(!"Pass".equals(userInfoBean.getAduitstatus())){
+                        if(!"PASS".equals(userInfoBean.getAduitstatus())){
 
                             showToast("还未审核通过");
                             return;

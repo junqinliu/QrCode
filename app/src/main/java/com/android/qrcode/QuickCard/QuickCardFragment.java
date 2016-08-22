@@ -150,7 +150,7 @@ public class QuickCardFragment extends BaseFragment implements View.OnClickListe
                 if(!TextUtil.isEmpty(SharedPreferenceUtil.getInstance(getActivity()).getSharedPreferences().getString("UserInfo", ""))){
 
                     UserInfoBean userInfoBean = JSON.parseObject(SharedPreferenceUtil.getInstance(getActivity()).getSharedPreferences().getString("UserInfo", ""), UserInfoBean.class);
-                    if(!"Pass".equals(userInfoBean.getAduitstatus())){
+                    if(!"PASS".equals(userInfoBean.getAduitstatus())){
                         showToast("还未通过审核");
                         return;
                     }
