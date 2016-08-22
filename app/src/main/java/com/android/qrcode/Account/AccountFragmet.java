@@ -91,8 +91,8 @@ public class AccountFragmet extends BaseFragment implements View.OnClickListener
             UserInfoBean userInfoBean = JSON.parseObject(SharedPreferenceUtil.getInstance(getActivity()).getSharedPreferences().getString("UserInfo", ""), UserInfoBean.class);
 
             user_name.setText(userInfoBean.getName());
-            user_phone.setText("手机号码     "+userInfoBean.getPhone() == null ? "":userInfoBean.getPhone());
-            post_message.setText("管辖小区    " + userInfoBean.getHousename());
+            user_phone.setText("手机号码     "+(userInfoBean.getPhone() == null ? "":userInfoBean.getPhone()));
+            post_message.setText("管辖小区    " + (userInfoBean.getHousename() == null ? "" :userInfoBean.getHousename()));
 
         }else{
 

@@ -7,8 +7,8 @@ public class OwnerApplyManageBean {
 
     private String username;
     private String time;
-    private String houseid;
-    private String housename;
+    private String buildid;
+    private String buildname;
     private String userid;
     private String userphone;
 
@@ -28,22 +28,6 @@ public class OwnerApplyManageBean {
         this.time = time;
     }
 
-    public String getHouseid() {
-        return houseid;
-    }
-
-    public void setHouseid(String houseid) {
-        this.houseid = houseid;
-    }
-
-    public String getHousename() {
-        return housename;
-    }
-
-    public void setHousename(String housename) {
-        this.housename = housename;
-    }
-
     public String getUserid() {
         return userid;
     }
@@ -58,5 +42,21 @@ public class OwnerApplyManageBean {
 
     public void setUserphone(String userphone) {
         this.userphone = userphone;
+    }
+
+    public String getBuildid() {
+        return buildid;
+    }
+
+    public void setBuildid(String buildid) {
+        this.buildid = buildid;
+    }
+
+    public String getBuildname() {
+        return buildname;
+    }
+
+    public void setBuildname(String buildname) {
+        this.buildname = buildname;
     }
 }

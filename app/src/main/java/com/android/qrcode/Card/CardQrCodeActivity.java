@@ -1,6 +1,7 @@
 package com.android.qrcode.Card;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
@@ -86,7 +87,7 @@ public class CardQrCodeActivity extends BaseAppCompatActivity implements View.On
     @Override
     public void initData() {
 
-        time = new TimeCount(60000, 1000);//构造CountDownTimer对象
+        time = new TimeCount(30000, 1000);//构造CountDownTimer对象
         secret = getIntent().getStringExtra("secret");
         buildname = getIntent().getStringExtra("buildname");
         buildid = getIntent().getStringExtra("buildid");
@@ -274,6 +275,7 @@ public class CardQrCodeActivity extends BaseAppCompatActivity implements View.On
             if(binaryCode != null && time_count_txt != null ) {
                 binaryCode.setClickable(true);
                 time_count_txt.setText("扫描二维码开门(" + "0" + ")");
+                binaryCode.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.default_qrcode));
             }
         }
         @Override

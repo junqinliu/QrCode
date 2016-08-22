@@ -265,20 +265,23 @@ public class MainActivity extends BaseAppCompatActivity implements
 
             case 0:
 
+                changeQuickIconAndTextColor();
+                toolbar_title.setText(R.string.manage_title);
+                add_img.setVisibility(View.GONE);
+                flag = Page.MANAGE;
+
                 if ("PASS".equals(userInfoBean.getAduitstatus())) {
 
-                    changeQuickIconAndTextColor();
-                    toolbar_title.setText(R.string.manage_title);
-                    add_img.setVisibility(View.GONE);
-                    flag = Page.MANAGE;
+
 
                 } else if ("AUDITING".equals(userInfoBean.getAduitstatus())) {
 
-                    showToast("您所申请的权限正在审核。。。");
+                    showToast("还未通过审核");
 
                 } else {
                     //跳到权限申请界面
                     startActivity(new Intent(this, ApplyActivity.class));
+
                 }
 
 
@@ -286,20 +289,23 @@ public class MainActivity extends BaseAppCompatActivity implements
                 break;
             case 1:
 
+                changeQuickIconAndTextColor();
+                toolbar_title.setText(R.string.card_title);
+                add_img.setVisibility(View.GONE);
+                flag = Page.CARD;
+
+
                 if ("PASS".equals(userInfoBean.getAduitstatus())) {
 
-                    changeQuickIconAndTextColor();
-                    toolbar_title.setText(R.string.card_title);
-                    add_img.setVisibility(View.GONE);
-                    flag = Page.CARD;
 
                 } else if ("AUDITING".equals(userInfoBean.getAduitstatus())) {
 
-                    showToast("您所申请的权限正在审核。。。");
+                    showToast("还未通过审核");
 
                 } else {
                     //跳到权限申请界面
                     startActivity(new Intent(this, ApplyActivity.class));
+
                 }
 
 
@@ -307,62 +313,66 @@ public class MainActivity extends BaseAppCompatActivity implements
                 break;
             case 2:
 
+                toolbar_title.setText(R.string.quick_title);
+                quick_img.setImageDrawable(this.getResources().getDrawable(R.mipmap.owner_manage));
+                quick_tx.setTextColor(this.getResources().getColor(R.color.black_text));
+
+                add_img.setVisibility(View.VISIBLE);
+                add_img.setOnClickListener(this);
+                flag = Page.QUICKCARD;
+
                 if ("PASS".equals(userInfoBean.getAduitstatus())) {
 
-                    toolbar_title.setText(R.string.quick_title);
-                    quick_img.setImageDrawable(this.getResources().getDrawable(R.mipmap.owner_manage));
-                    quick_tx.setTextColor(this.getResources().getColor(R.color.black_text));
-
-                    add_img.setVisibility(View.VISIBLE);
-                    add_img.setOnClickListener(this);
-                    flag = Page.QUICKCARD;
 
                 } else if ("AUDITING".equals(userInfoBean.getAduitstatus())) {
 
-                    showToast("您所申请的权限正在审核。。。");
+                    showToast("还未通过审核");
 
                 } else {
                     //跳到权限申请界面
                     startActivity(new Intent(this, ApplyActivity.class));
+
                 }
 
 
                 break;
             case 3:
 
-                if ("PASS".equals(userInfoBean.getAduitstatus())) {
+                changeQuickIconAndTextColor();
+                toolbar_title.setText(R.string.account_title);
+                add_img.setVisibility(View.GONE);
+                flag = Page.ACCOUNT;
 
-                    changeQuickIconAndTextColor();
-                    toolbar_title.setText(R.string.account_title);
-                    add_img.setVisibility(View.GONE);
-                    flag = Page.ACCOUNT;
+                if ("PASS".equals(userInfoBean.getAduitstatus())) {
 
                 } else if ("AUDITING".equals(userInfoBean.getAduitstatus())) {
 
-                    showToast("您所申请的权限正在审核。。。");
+                    showToast("还未通过审核");
 
                 } else {
                     //跳到权限申请界面
                     startActivity(new Intent(this, ApplyActivity.class));
+
                 }
 
                 break;
             case 4:
 
-                if ("PASS".equals(userInfoBean.getAduitstatus())) {
+                changeQuickIconAndTextColor();
+                toolbar_title.setText(R.string.setting_title);
+                add_img.setVisibility(View.GONE);
+                flag = Page.SETTING;
 
-                    changeQuickIconAndTextColor();
-                    toolbar_title.setText(R.string.setting_title);
-                    add_img.setVisibility(View.GONE);
-                    flag = Page.SETTING;
+                if ("PASS".equals(userInfoBean.getAduitstatus())) {
 
                 } else if ("AUDITING".equals(userInfoBean.getAduitstatus())) {
 
-                    showToast("您所申请的权限正在审核。。。");
+                    showToast("还未通过审核");
 
                 } else {
                     //跳到权限申请界面
                     startActivity(new Intent(this, ApplyActivity.class));
+
                 }
 
                 break;
@@ -471,6 +481,19 @@ public class MainActivity extends BaseAppCompatActivity implements
 
                 //分享按钮
                 case R.id.add_img:
+
+
+                    if(!TextUtil.isEmpty(SharedPreferenceUtil.getInstance(this).getSharedPreferences().getString("UserInfo", ""))){
+
+                        UserInfoBean userInfoBean = JSON.parseObject(SharedPreferenceUtil.getInstance(this).getSharedPreferences().getString("UserInfo", ""), UserInfoBean.class);
+                        if(!"Pass".equals(userInfoBean.getAduitstatus())){
+
+                            showToast("还未审核通过");
+                            return;
+                        }
+
+                    }
+
 
                     OnekeyShare oks = new OnekeyShare();
                     //关闭sso授权

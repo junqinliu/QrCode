@@ -1,6 +1,7 @@
 package com.android.qrcode.Manage;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.widget.Toolbar;
@@ -62,7 +63,7 @@ public class CardQrCodeCertificatActivity extends BaseAppCompatActivity implemen
         toolBar.setNavigationIcon(R.mipmap.back);
         add_img.setImageResource(R.mipmap.submit);
         add_img.setVisibility(View.VISIBLE);
-        time = new TimeCount(60000, 1000);//构造CountDownTimer对象
+        time = new TimeCount(30000, 1000);//构造CountDownTimer对象
     }
 
     @Override
@@ -214,6 +215,7 @@ public class CardQrCodeCertificatActivity extends BaseAppCompatActivity implemen
                 binaryCode.setClickable(true);
                 add_img.setClickable(true);
                 time_count_txt.setText("扫描二维码授权(" + "0" + ")");
+                binaryCode.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.default_qrcode));
             }
         }
         @Override

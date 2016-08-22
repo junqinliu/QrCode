@@ -223,7 +223,7 @@ public class OwnerApplyManageActivity extends BaseAppCompatActivity implements  
 
                                 } else {
 
-                                    showToast("目前还没有审核列表");
+                                   // showToast("目前还没有审核列表");
                                 }
 
                             } else {

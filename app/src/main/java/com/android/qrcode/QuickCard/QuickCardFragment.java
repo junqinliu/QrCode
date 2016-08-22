@@ -84,7 +84,7 @@ public class QuickCardFragment extends BaseFragment implements View.OnClickListe
         Bundle bundle = getArguments();
         phone = bundle.getString("phone");
 
-        time = new TimeCount(60000, 1000);//构造CountDownTimer对象
+        time = new TimeCount(30000, 1000);//构造CountDownTimer对象
 
     }
 
@@ -104,17 +104,7 @@ public class QuickCardFragment extends BaseFragment implements View.OnClickListe
         super.setUserVisibleHint(isVisibleToUser);
         if(isVisibleToUser){
 
-            /**
-             * 给按钮添加音效
-             */
-            try{
 
-                VoiceUtil.getInstance(getActivity()).startVoice();
-
-            }catch (Exception e){
-
-                e.printStackTrace();
-            }
 
             //实时获取最新的选中快捷房卡
             if(!"".equals(SharedPreferenceUtil.getInstance(getActivity()).getSharedPreferences().getString("RoomCardBean", ""))){
@@ -156,14 +146,15 @@ public class QuickCardFragment extends BaseFragment implements View.OnClickListe
             //点击二维码实时获取最新的二维码
             case R.id.binaryCode:
 
-                //给按钮添加音效
-                try{
 
-                    VoiceUtil.getInstance(getActivity()).startVoice();
+                if(!TextUtil.isEmpty(SharedPreferenceUtil.getInstance(getActivity()).getSharedPreferences().getString("UserInfo", ""))){
 
-                }catch (Exception e){
+                    UserInfoBean userInfoBean = JSON.parseObject(SharedPreferenceUtil.getInstance(getActivity()).getSharedPreferences().getString("UserInfo", ""), UserInfoBean.class);
+                    if(!"Pass".equals(userInfoBean.getAduitstatus())){
+                        showToast("还未通过审核");
+                        return;
+                    }
 
-                    e.printStackTrace();
                 }
 
 
@@ -322,6 +313,16 @@ public class QuickCardFragment extends BaseFragment implements View.OnClickListe
                                 String  localUrl = ImageOpera.savePicToSdcard(Utils.createQRImage(getActivity(), jsonObject1.getString("secret"), 500, 500), getOutputMediaFile(), "MicroCode.png");
                                 time.start();
 
+                                //给按钮添加音效
+                                try{
+
+                                    VoiceUtil.getInstance(getActivity()).startVoice();
+
+                                }catch (Exception e){
+
+                                    e.printStackTrace();
+                                }
+
                             } else {
 
                                 showToast("请求接口失败，请联系管理员");
@@ -470,6 +471,7 @@ public class QuickCardFragment extends BaseFragment implements View.OnClickListe
             if(binaryCode != null && time_count_txt != null ) {
                 binaryCode.setClickable(true);
                 time_count_txt.setText("扫描二维码开门(" + "0" + ")");
+                binaryCode.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.default_qrcode));
             }
         }
         @Override

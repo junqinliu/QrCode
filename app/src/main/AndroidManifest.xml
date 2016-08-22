@@ -251,6 +251,12 @@
         <activity
             android:name=".SubManage.Manage.SubAddCommunityActivity"
             android:theme="@style/AppThemeToolbar">
+        </activity>
+        <activity
+            android:name=".SubManage.Manage.SubOwnerApplyManageActivity"
+            android:theme="@style/AppThemeToolbar">
+
+
 
         </activity>
         <activity

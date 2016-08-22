@@ -71,7 +71,7 @@ public class SubManageFragmet extends BaseFragment implements View.OnClickListen
                 break;
             //认证管理
             case R.id.owner_apply_manage_layout:
-                startActivity(new Intent(getActivity(),OwnerApplyManageActivity.class));
+                startActivity(new Intent(getActivity(),SubOwnerApplyManageActivity.class));
                 break;
             //数据统计
             case R.id.house_manage_layout:

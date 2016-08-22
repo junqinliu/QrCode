@@ -26,8 +26,6 @@
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:layout_marginLeft="@dimen/activity_horizontal_margin"
-             android:text="小区1号楼门禁损坏，请找人来维修"
-             android:textColor="@color/gray_text"
              android:id="@+id/apply_user_name" />
 
      </LinearLayout>
