@@ -34,7 +34,7 @@ public class AppContext extends Application {
         crashHandler.init(getApplicationContext());
 
         //SMMSDK初始化
-        SMSSDK.initSDK(this, "146d57ebbef52", "8a6b993fb9b85a0998a51729374ea4c1");
+        SMSSDK.initSDK(this, "164e213c26efa", "9b52eb8ddf2420df1c2176b79db60ec1");
         //社会化分享初始化
         ShareSDK.initSDK(this);
 

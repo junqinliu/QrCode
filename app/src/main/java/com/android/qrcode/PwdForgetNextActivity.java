@@ -82,7 +82,7 @@ public class PwdForgetNextActivity extends BaseAppCompatActivity implements View
       switch (view.getId()){
 
         //注册按钮
-        case R.id.btn_login:
+        case R.id.btn_finsh:
 
             if(TextUtil.isEmpty(mphone.getText().toString())){
 
