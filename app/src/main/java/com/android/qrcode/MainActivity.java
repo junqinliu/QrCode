@@ -498,8 +498,8 @@ public class MainActivity extends BaseAppCompatActivity implements
                     OnekeyShare oks = new OnekeyShare();
                     //关闭sso授权
                     oks.disableSSOWhenAuthorize();
-                    oks.setTitle("微卡");
-                    oks.setText("微卡");
+                  //  oks.setTitle("微卡");
+                  //  oks.setText("微卡");
                     // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
                     if(!TextUtil.isEmpty(getOutputMediaFile()+"MicroCode.png")){
                         oks.setImagePath(getOutputMediaFile()+"MicroCode.png");//确保SDcard下面存在此张图片
