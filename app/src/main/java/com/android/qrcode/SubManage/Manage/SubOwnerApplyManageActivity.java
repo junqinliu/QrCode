@@ -12,11 +12,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
-import com.android.adapter.OwnerApplyManageAdapter;
 import com.android.adapter.SubOwnerApplyManageAdapter;
 import com.android.base.BaseAppCompatActivity;
 import com.android.constant.Constants;
-import com.android.mylibrary.model.OwnerApplyManageBean;
 import com.android.mylibrary.model.SubOwnerApplyManageBean;
 import com.android.qrcode.R;
 import com.android.utils.HttpUtil;

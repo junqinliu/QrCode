@@ -82,7 +82,7 @@ public class OwnerDetailActivity extends BaseAppCompatActivity implements View.O
 
         username.setText("姓名：   "+sortModel.getPhoneNum());
 
-        if("0".equals(sortModel.getSex())){
+        if("1".equals(sortModel.getSex())){
 
             sex.setText("性   别：   "+"男");
         }else{

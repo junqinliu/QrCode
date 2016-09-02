@@ -64,6 +64,7 @@ public class OwnerApplyManageActivity extends BaseAppCompatActivity implements  
     int pageNumber = 0;
     int pageSize = 10;
     String audituserid;
+    String cardid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,7 +138,8 @@ public class OwnerApplyManageActivity extends BaseAppCompatActivity implements  
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-        audituserid = ownerApplyManageBeanList.get(i).getUserid();
+       // audituserid = ownerApplyManageBeanList.get(i).getUserid();
+        cardid = ownerApplyManageBeanList.get(i).getCardid();
         new AlertDialog.Builder(OwnerApplyManageActivity.this, AlertDialog.THEME_HOLO_LIGHT).setTitle("提示")
                 .setMessage("是否认证？")
                 .setNegativeButton("拒绝", refuseListener)
@@ -182,7 +184,7 @@ public class OwnerApplyManageActivity extends BaseAppCompatActivity implements  
         params.put("pageSize", pageSize);
         params.put("pageNumber", pageNumber);
 
-        HttpUtil.get(Constants.HOST + Constants.isROOT, params, new AsyncHttpResponseHandler() {
+        HttpUtil.get(Constants.HOST + Constants.isROOTXIAOQU, params, new AsyncHttpResponseHandler() {
             @Override
             public void onStart() {
                 super.onStart();
@@ -208,9 +210,10 @@ public class OwnerApplyManageActivity extends BaseAppCompatActivity implements  
 
                                 pageNumber = pageNumber + 1;
                                 ownerApplyManageBeanListTemp.clear();
-                                JSONObject gg = new JSONObject(jsonObject.getString("data"));
+                                JSONObject data = new JSONObject(jsonObject.getString("data"));
+                                JSONObject gg = new JSONObject(data.getString("items"));
 
-                                ownerApplyManageBeanListTemp = JSON.parseArray(gg.getJSONArray("items").toString(), OwnerApplyManageBean.class);
+                                ownerApplyManageBeanListTemp = JSON.parseArray(gg.getJSONArray("auditing").toString(), OwnerApplyManageBean.class);
                                 if (ownerApplyManageBeanListTemp != null && ownerApplyManageBeanListTemp.size() > 0) {
 
                                     ownerApplyManageBeanList.addAll(ownerApplyManageBeanListTemp);
@@ -277,7 +280,7 @@ public class OwnerApplyManageActivity extends BaseAppCompatActivity implements  
 
        JSONObject jsonObject = new JSONObject();
        try {
-           jsonObject.put("audituserid",audituserid);
+           jsonObject.put("cardid",cardid);
            jsonObject.put("auditstatus",auditstatus);
        } catch (JSONException e) {
            e.printStackTrace();
@@ -290,7 +293,7 @@ public class OwnerApplyManageActivity extends BaseAppCompatActivity implements  
            e.printStackTrace();
        }
 
-       HttpUtil.post(OwnerApplyManageActivity.this, Constants.HOST + Constants.ROOT, entity, "application/json", new AsyncHttpResponseHandler() {
+       HttpUtil.post(OwnerApplyManageActivity.this, Constants.HOST + Constants.ROOTXIAOQU, entity, "application/json", new AsyncHttpResponseHandler() {
            @Override
            public void onStart() {
                super.onStart();

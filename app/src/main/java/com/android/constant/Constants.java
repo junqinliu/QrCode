@@ -88,12 +88,20 @@ public class Constants {
     public static final String AddBuild = "/v0.1/place/build";
 
     /**
-     * 待审核列表
+     * 待审核列表(小区端)
+     */
+    public static final String isROOTXIAOQU = "/v0.1/user/audit/property";
+    /**
+     * 待审核列表(二级代理商)
      */
     public static final String isROOT = "/v0.1/user/audit";
 
     /**
-     * 审核
+     * 审核(小区端)
+     */
+    public static final String ROOTXIAOQU = "/v0.1/user/audit/property";
+    /**
+     * 审核(二级代理商)
      */
     public static final String ROOT = "/v0.1/user/audit";
 

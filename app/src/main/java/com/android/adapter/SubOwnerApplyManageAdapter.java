@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.android.mylibrary.model.OwnerApplyManageBean;
 import com.android.mylibrary.model.SubOwnerApplyManageBean;
 import com.android.qrcode.R;
 

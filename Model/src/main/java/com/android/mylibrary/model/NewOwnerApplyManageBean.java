@@ -3,7 +3,7 @@ package com.android.mylibrary.model;
 /**
  * Created by liujunqin on 2016/6/18.
  */
-public class OwnerApplyManageBean {
+public class NewOwnerApplyManageBean {
 
     private String username;
     private String userid;
